@@ -10,7 +10,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		4F3AFF401DC2C79E006FF6B0 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3AFF3E1DC2C79E006FF6B0 /* InitialViewController.m */; };
-		9B154E56ECA590684B374220 /* libPods-MC1Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A088E6AA6C5AA26C0E186760 /* libPods-MC1Demo.a */; };
+		94B12DAF27D25CEB323BB527 /* libPods-MC1Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 287D3D011370F4A1C506DC57 /* libPods-MC1Demo.a */; };
 		B7168FBE1FACC7EB00A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168FBD1FACC7EB00A48DB5 /* LaunchScreen.storyboard */; };
 		B77BD8AF2113632C0036B284 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B77BD8AE2113632C0036B284 /* bootconfig.plist */; };
 		CEA8CA061F071C3300448B51 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEA8CA051F071C3300448B51 /* Images.xcassets */; };
@@ -18,17 +18,17 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		0D8CDE8158AC70656CC3EE20 /* Pods-MC1Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC1Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MC1Demo/Pods-MC1Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MC1Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MC1Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MC1Demo/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MC1Demo/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MC1Demo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MC1Demo/main.m; sourceTree = "<group>"; };
+		287D3D011370F4A1C506DC57 /* libPods-MC1Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MC1Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		330F991EE81908D00FBF9584 /* Pods-MC1Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC1Demo.release.xcconfig"; path = "Target Support Files/Pods-MC1Demo/Pods-MC1Demo.release.xcconfig"; sourceTree = "<group>"; };
 		4F3AFF3D1DC2C79E006FF6B0 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = MC1Demo/InitialViewController.h; sourceTree = "<group>"; };
 		4F3AFF3E1DC2C79E006FF6B0 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = MC1Demo/InitialViewController.m; sourceTree = "<group>"; };
 		4FF12F8E1DCA93E2004D9EF9 /* MC1Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MC1Demo.entitlements; path = MC1Demo/MC1Demo.entitlements; sourceTree = "<group>"; };
-		A088E6AA6C5AA26C0E186760 /* libPods-MC1Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MC1Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE79D28E6E57F5B77FA24716 /* Pods-MC1Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC1Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MC1Demo/Pods-MC1Demo.release.xcconfig"; sourceTree = "<group>"; };
+		81171126E91A19A972C1D072 /* Pods-MC1Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC1Demo.debug.xcconfig"; path = "Target Support Files/Pods-MC1Demo/Pods-MC1Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		B7168FBD1FACC7EB00A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "../mobile_sdk/SalesforceMobileSDK-iOS/shared/resources/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		B77BD8AE2113632C0036B284 /* bootconfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = bootconfig.plist; path = MC1Demo/bootconfig.plist; sourceTree = "<group>"; };
 		CEA8CA051F071C3300448B51 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "../mobile_sdk/SalesforceMobileSDK-iOS/shared/resources/Images.xcassets"; sourceTree = "<group>"; };
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B154E56ECA590684B374220 /* libPods-MC1Demo.a in Frameworks */,
+				94B12DAF27D25CEB323BB527 /* libPods-MC1Demo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,13 +80,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6473DB45A273CC31E19C4F9A /* Pods */ = {
+		60E334DC8F934F4B4CCA9939 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0D8CDE8158AC70656CC3EE20 /* Pods-MC1Demo.debug.xcconfig */,
-				AE79D28E6E57F5B77FA24716 /* Pods-MC1Demo.release.xcconfig */,
+				287D3D011370F4A1C506DC57 /* libPods-MC1Demo.a */,
 			);
-			name = Pods;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		83CBB9F61A601CBA00E9B192 = {
@@ -94,8 +93,8 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* MC1Demo */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				6473DB45A273CC31E19C4F9A /* Pods */,
-				C73512AABD4BDBC0734E686B /* Frameworks */,
+				DEF8A5E183F3F47136DB76D8 /* Pods */,
+				60E334DC8F934F4B4CCA9939 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -109,12 +108,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C73512AABD4BDBC0734E686B /* Frameworks */ = {
+		DEF8A5E183F3F47136DB76D8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A088E6AA6C5AA26C0E186760 /* libPods-MC1Demo.a */,
+				81171126E91A19A972C1D072 /* Pods-MC1Demo.debug.xcconfig */,
+				330F991EE81908D00FBF9584 /* Pods-MC1Demo.release.xcconfig */,
 			);
-			name = Frameworks;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,13 +124,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MC1Demo" */;
 			buildPhases = (
-				0D1647048E9655B7745B0762 /* [CP] Check Pods Manifest.lock */,
+				F4E66DEF323D49A93032017F /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				B891CA51A709510414527DB8 /* [CP] Embed Pods Frameworks */,
-				5913213DF7990ECB39442662 /* [CP] Copy Pods Resources */,
+				119A2025CC9EB7BEB86232D0 /* [CP] Embed Pods Frameworks */,
+				698F882DFBB5CC6E62C9A1BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,25 +206,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		0D1647048E9655B7745B0762 /* [CP] Check Pods Manifest.lock */ = {
+		119A2025CC9EB7BEB86232D0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MC1Demo-checkManifestLockResult.txt",
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5913213DF7990ECB39442662 /* [CP] Copy Pods Resources */ = {
+		698F882DFBB5CC6E62C9A1BB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -241,21 +240,26 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B891CA51A709510414527DB8 /* [CP] Embed Pods Frameworks */ = {
+		F4E66DEF323D49A93032017F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MC1Demo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MC1Demo/Pods-MC1Demo-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -276,7 +280,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D8CDE8158AC70656CC3EE20 /* Pods-MC1Demo.debug.xcconfig */;
+			baseConfigurationReference = 81171126E91A19A972C1D072 /* Pods-MC1Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -290,10 +294,13 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = MC1Demo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MC1demo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -301,16 +308,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pepsicoconsumer.mc1demo;
 				PRODUCT_NAME = MC1Demo;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE79D28E6E57F5B77FA24716 /* Pods-MC1Demo.release.xcconfig */;
+			baseConfigurationReference = 330F991EE81908D00FBF9584 /* Pods-MC1Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -323,10 +333,13 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = MC1Demo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MC1demo;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -334,8 +347,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pepsicoconsumer.mc1demo;
 				PRODUCT_NAME = MC1Demo;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
