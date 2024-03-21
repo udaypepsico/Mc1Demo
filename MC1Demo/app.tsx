@@ -29,15 +29,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ContactListScreen from './src/screens/ContactListScreen';
-
-const Stack = createStackNavigator();
+import SalesOrderStack from './src/screens/SalesOrderStack';
 
 export const App = function() {
     return (
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Mobile SDK Sample App" component={ContactListScreen} />
-          </Stack.Navigator>
+          <SalesOrderStack/>
         </NavigationContainer>
     );
 }
