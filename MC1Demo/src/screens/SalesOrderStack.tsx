@@ -9,7 +9,7 @@ const SalesOrderStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name = "MyDay" component={MyDayScreen} options={{presentation:'card'}}/>
-      <Stack.Screen name = "Products" component={ProductStack} options={{presentation:'card'}}/>
+      <Stack.Screen name = "ProductsTab" component={ProductStack} options={{presentation:'card'}}/>
     </Stack.Navigator>
   );
 };

@@ -30,11 +30,63 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ContactListScreen from './src/screens/ContactListScreen';
 import SalesOrderStack from './src/screens/SalesOrderStack';
+import {
+  QueryClient,
+  QueryClientProvider,
+  focusManager,
+} from '@tanstack/react-query';
+import { useOnlineManager } from './src/hooks/useOnlineManager';
+import { useAppState } from './src/hooks/useAppState';
+import { AppStateStatus, Platform } from 'react-native';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
+import { PersistQueryClientProvider, PersistedClient } from '@tanstack/react-query-persist-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const App = function() {
-    return (
-        <NavigationContainer>
-          <SalesOrderStack/>
-        </NavigationContainer>
-    );
+// Create a client
+function onAppStateChange(status: AppStateStatus) {
+  // React Query already supports in web browser refetch on window focus by default
+  if (Platform.OS !== 'web') {
+    focusManager.setFocused(status === 'active');
+  }
 }
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 2 } },
+});
+
+const persister = createAsyncStoragePersister({
+  storage: AsyncStorage,
+  throttleTime: 3000,
+  serialize : 
+});
+
+export const App = () => {
+  useOnlineManager();
+
+  useAppState(onAppStateChange);
+
+  const Stack = createStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <PersistQueryClientProvider
+        persistOptions={{ persister }}
+        onSuccess={() =>
+          queryClient
+            .resumePausedMutations()
+            .then(() => queryClient.invalidateQueries())
+        }
+        client={queryClient}
+      >
+        {/* <SalesOrderStack /> */}
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="ContactList"
+            component={ContactListScreen}
+            options={{ presentation: 'card' }}
+          />
+        </Stack.Navigator>
+      </PersistQueryClientProvider>
+    </NavigationContainer>
+  );
+};

@@ -1,36 +1,31 @@
 import React, { memo, useEffect, useState } from 'react';
-import { State as StateType } from '../data/State';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { oauth, net } from 'react-native-force';
 import { Response } from '../data/Response';
+import { Record } from '../data/Record';
+import { NetworkMode, useQuery, useQueryClient } from '@tanstack/react-query';
+import { DotIndicator } from 'react-native-indicators';
+import { ErrorMessage } from '../components/ErrorMessage';
+import { authenticate, fetchData } from '../lib/api';
 
 const ContactListScreen = () => {
-  const [State, setState] = useState<StateType>({ data: [] });
-
-  useEffect(() => {
-    oauth.getAuthCredentials(
-      () => fetchData(), // already logged in
-      () => {
-        oauth.authenticate(
-          () => fetchData(),
-          (error) => console.log('Failed to authenticate:' + error)
-        );
-      }
-    );
+  const { isPending, error, data, isFetching } = useQuery<Record[],Error>({
+    queryKey: ['accounts'],
+    queryFn: () => authenticate(),
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
-  const fetchData = () => {
-    net.query(
-      'Select Id,Name,phone,description,IconURL__c,shippingstreet,shippingcity,shippingstate,shippingcountry,shippingpostalcode from Account',
-      (response: Response) => setState({ data: response.records }),
-      (error) => console.log('Failed to query:' + error)
-    );
-  };
+  if (isPending) return <DotIndicator color="red" />;
+
+  if (error) return <ErrorMessage message={error.message}></ErrorMessage>;
+
+  if (!data) return null;
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={State.data}
+        data={data}
         renderItem={({ item }) => <Text style={styles.item}>{item.Name}</Text>}
         keyExtractor={(item, index) => 'key_' + index}
       />
