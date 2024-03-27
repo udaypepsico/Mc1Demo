@@ -9,6 +9,9 @@ import { ErrorMessage } from '../components/ErrorMessage';
 import { authenticate, fetchData } from '../lib/api';
 
 const ContactListScreen = () => {
+
+  const queryClient = useQueryClient();
+
   const { isPending, error, data, isFetching } = useQuery<Record[],Error>({
     queryKey: ['accounts'],
     queryFn: () => authenticate(),

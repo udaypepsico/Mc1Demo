@@ -39,7 +39,10 @@ import { useOnlineManager } from './src/hooks/useOnlineManager';
 import { useAppState } from './src/hooks/useAppState';
 import { AppStateStatus, Platform } from 'react-native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import { PersistQueryClientProvider, PersistedClient } from '@tanstack/react-query-persist-client';
+import {
+  PersistQueryClientProvider,
+  PersistedClient,
+} from '@tanstack/react-query-persist-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Create a client
@@ -51,13 +54,18 @@ function onAppStateChange(status: AppStateStatus) {
 }
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 2 } },
+  defaultOptions: {
+    queries: {
+      gcTime:1000 * 60 * 60 * 24,
+      retry: 2,
+    },
+  },
 });
 
 const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
+  key: 'AuthorizationToken',
   throttleTime: 3000,
-  serialize : 
 });
 
 export const App = () => {
@@ -78,14 +86,14 @@ export const App = () => {
         }
         client={queryClient}
       >
-        {/* <SalesOrderStack /> */}
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <SalesOrderStack />
+        {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
             name="ContactList"
             component={ContactListScreen}
             options={{ presentation: 'card' }}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </PersistQueryClientProvider>
     </NavigationContainer>
   );
