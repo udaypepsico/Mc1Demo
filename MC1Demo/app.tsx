@@ -44,6 +44,9 @@ import {
   PersistedClient,
 } from '@tanstack/react-query-persist-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Provider } from 'react-native-paper';
+import { theme } from './src/core/theme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Create a client
 function onAppStateChange(status: AppStateStatus) {
@@ -56,7 +59,7 @@ function onAppStateChange(status: AppStateStatus) {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime:1000 * 60 * 60 * 24,
+      gcTime: 1000 * 60 * 60 * 24,
       retry: 2,
     },
   },
@@ -86,7 +89,11 @@ export const App = () => {
         }
         client={queryClient}
       >
-        <SalesOrderStack />
+        <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#fff' }}>
+          <Provider theme={theme}>
+            <SalesOrderStack />
+          </Provider>
+        </GestureHandlerRootView>
         {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
             name="ContactList"
