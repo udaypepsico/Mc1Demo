@@ -44,15 +44,12 @@ const CustomerItem = ({
     error,
     data: fileUrl
   } = useQuery<string, Error>({
-    refetchInterval:10,
-    queryKey: ['accountImage'],
+    queryKey: ['accountImage'+index],
     queryFn: () =>
       fetchImage(
         (queryClient.getQueryData(['credentials']) as Credentials).accessToken,
         customerRecord.IconURL__c
-      ),
-    staleTime: Infinity,
-    gcTime: Infinity,
+      )
   });
 
   return (
