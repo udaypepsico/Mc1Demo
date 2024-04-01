@@ -1,5 +1,6 @@
-import { Record } from "./Record"
+import { CustomerRecord, Record } from '../data/Record';
 
 export interface Response {
-    records: Record[]
-}
+    totalSize:number;
+    records?: CustomerRecord[];
+  }
