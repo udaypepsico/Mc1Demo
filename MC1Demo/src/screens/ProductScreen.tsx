@@ -2,69 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text, Image, SafeAreaView, ListRenderItem, FlatList, TextInput, Button } from 'react-native';
 
-import { products } from '../data/Products';
-
-export interface Product {
-    Id: number
-    imageSource: any
-    productWeight: string
-    productName: string
-    productCode: string
-    productId: string
-    productPrice: number
-    productSuggestedQuantity: number
-    productQuantity: number
-}
-
-const ProductItem = (props: Product) => {
-    const { productName, productId, productCode, productPrice, productQuantity, productWeight, productSuggestedQuantity, imageSource } = props;
-
-    const [text, onChangeText] = useState('Useless Text');
-    const [quantity, setQuantity] = useState(productQuantity);
-
-
-    const onChangeQuantity = (val: number) => {
-        console.log('changing', val);
-        if (quantity === 0 && val < 0) {
-            console.log('Value can not be less than zero');
-            return;
-        }
-        setQuantity(quantity + val);
-    }
-
-    return (
-        <View style={styles.item}>
-            <View style={styles.itemContainer}>
-                <Image style={styles.photo} source={imageSource} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.itemName}>{productName}</Text>
-                    <Text style={styles.itemDetail}>{productCode} | {productId}</Text>
-                    <Text>${productPrice} | {productWeight}</Text>
-                </View>
-            </View>
-            <View>
-                <View style={styles.quantityCotainer}>
-                    <Button title=' - ' onPress={() => onChangeQuantity(-1)} />
-                    <TextInput style={styles.inputQuantity}
-                        editable
-                        keyboardType='numeric'
-                        onChangeText={(num) => setQuantity(Number(num) < 0 ? 0 : Number(num))}
-                        defaultValue={String(quantity)}
-
-                    />
-                    <Button title=' + ' onPress={() => onChangeQuantity(1)} />
-                    <Text style={styles.totalText}>${(quantity * productPrice).toFixed(2)}</Text>
-                </View>
-                <Text style={styles.sugText}>Sug Qty {productSuggestedQuantity}</Text>
-            </View>
-        </View>
-    )
-}
+import { ProductsType, products } from '../data/Products';
+import ProductItem from '../components/ProductItem';
 
 
 
 const ProductScreen = () => {
-    const renderItem: ListRenderItem<Product> = useCallback(({ item }) => (
+    const renderItem: ListRenderItem<ProductsType> = useCallback(({ item }) => (
         <ProductItem
             Id={item.Id}
             productId={item.productId}

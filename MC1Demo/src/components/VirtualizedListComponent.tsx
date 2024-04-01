@@ -21,12 +21,14 @@ import { fetchData } from '../lib/api';
 const VirtualizedListComponent = ({
   selectedIndex,
   itemSelected,
-  onDeletePressed,
+  onCancelVisit,
+  onCheckInPressed,
   children,
 }: {
   selectedIndex: number;
   itemSelected: any;
-  onDeletePressed: any;
+  onCheckInPressed: any;
+  onCancelVisit:any;
   children: React.ReactNode;
 }) => {
   const queryClient = useQueryClient();
@@ -63,7 +65,8 @@ const VirtualizedListComponent = ({
             index={index}
             itemPress={itemSelected}
             selectedIndex={selectedIndex}
-            onDeletePressed={onDeletePressed}
+            onCancelVisit={onCancelVisit}
+            onCheckInPressed={onCheckInPressed}
           />
         </View>
       )}

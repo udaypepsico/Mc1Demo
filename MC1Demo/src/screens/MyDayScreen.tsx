@@ -42,6 +42,8 @@ const MyDayScreen = () => {
 
   const [dialogVisible, setDialogVisible] = useState(false);
 
+  const navigation = useNavigation();
+
   const {
     isPending: pending,
     error: credentialError,
@@ -117,7 +119,10 @@ const MyDayScreen = () => {
           <VirtualizedListComponent
             itemSelected={itemSelected}
             selectedIndex={selectedIndex}
-            onDeletePressed={(index: number) => {}}
+            onCheckInPressed={(index: number) => {
+              setDialogVisible(true);
+            }}
+            onCancelVisit={(index: number) => {}}
           >
             <View style={styles.topContainer}>
               <HeaderSection />
@@ -140,6 +145,10 @@ const MyDayScreen = () => {
           <DialogComponent
             visible={dialogVisible}
             hideDialog={() => {
+              setDialogVisible(false);
+            }}
+            navigate={() => {
+              navigation.navigate('ProductsTab');
               setDialogVisible(false);
             }}
           />

@@ -29,27 +29,29 @@ const CustomerItem = ({
   index,
   itemPress,
   selectedIndex,
-  onDeletePressed,
+  onCheckInPressed,
+  onCancelVisit
 }: {
   customerRecord: Record;
   index: number;
   itemPress: any;
   selectedIndex: number;
-  onDeletePressed: any;
+  onCheckInPressed: any;
+  onCancelVisit:any;
 }) => {
   const queryClient = useQueryClient();
 
   const {
     isPending,
     error,
-    data: fileUrl
+    data: fileUrl,
   } = useQuery<string, Error>({
-    queryKey: ['accountImage'+index],
+    queryKey: ['accountImage' + index],
     queryFn: () =>
       fetchImage(
         (queryClient.getQueryData(['credentials']) as Credentials).accessToken,
         customerRecord.IconURL__c
-      )
+      ),
   });
 
   return (
@@ -160,11 +162,20 @@ const CustomerItem = ({
       </View>
       <Card.Actions>
         <Button
+          icon="account-box-outline"
           onPress={() => {
-            onDeletePressed(index);
+            onCheckInPressed(index);
           }}
         >
-          Delete
+          Check In
+        </Button>
+        <Button
+          icon="cancel"
+          onPress={() => {
+            onCancelVisit(index);
+          }}
+        >
+          Cancel
         </Button>
       </Card.Actions>
     </Card>

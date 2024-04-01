@@ -5,24 +5,34 @@ import { Button, Dialog, Portal, Text } from 'react-native-paper';
 const DialogComponent = ({
   visible,
   hideDialog,
+  navigate
 }: {
   visible: boolean;
   hideDialog: any;
+  navigate:any;
 }) => {
-  const deleteAction = () => {
-    hideDialog();
+  const confirmedAction = () => {
+    navigate();
   };
 
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={hideDialog}>
-        <Dialog.Title>Delete Account</Dialog.Title>
+        <Dialog.Title>Confirm</Dialog.Title>
         <Dialog.Content>
-          <Text variant="bodyMedium">Are you sure to delete Account?</Text>
+          <Text variant="bodyMedium">Do you want to Check In?</Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={hideDialog}>Cancel</Button>
-          <Button onPress={deleteAction}>Delete</Button>
+          <Button
+            icon="check"
+            onPress={confirmedAction}
+            mode="outlined"
+          >
+            Confirm
+          </Button>
+          <Button icon="close" onPress={hideDialog} mode="outlined">
+            Cancel
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>
