@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native';
 
-const ProductItem = (props: ProductsType) => {
+const ProductItem = (props: any) => {
   const {
     productName,
     productId,
@@ -27,13 +27,12 @@ const ProductItem = (props: ProductsType) => {
 
   const onChangeQuantity = (val: number) => {
     console.log('changing', val);
-    if (quantity === 0 && val < 0) {
-      console.log('Value can not be less than zero');
-      return;
-    }
     setQuantity(quantity + val);
   };
 
+  if (quantity < 0 ) {
+    setQuantity(0);
+  }
   return (
     <View style={styles.item}>
       <View style={styles.itemContainer}>
@@ -50,7 +49,7 @@ const ProductItem = (props: ProductsType) => {
       </View>
       <View>
         <View style={styles.quantityCotainer}>
-          <Button title=" - " onPress={() => onChangeQuantity(-1)} />
+          <Button title=" - " onPress={() => onChangeQuantity(-productQuantity)} />
           <TextInput
             style={styles.inputQuantity}
             editable
@@ -60,7 +59,7 @@ const ProductItem = (props: ProductsType) => {
             }
             defaultValue={String(quantity)}
           />
-          <Button title=" + " onPress={() => onChangeQuantity(1)} />
+          <Button title=" + " onPress={() => onChangeQuantity(productQuantity)} />
           <Text style={styles.totalText}>
             ${(quantity * productPrice).toFixed(2)}
           </Text>

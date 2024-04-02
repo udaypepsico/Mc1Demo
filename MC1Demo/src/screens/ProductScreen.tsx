@@ -1,13 +1,22 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text, Image, SafeAreaView, ListRenderItem, FlatList, TextInput, Button } from 'react-native';
 
 import { ProductsType, products } from '../data/Products';
 import ProductItem from '../components/ProductItem';
+import { useTranslation } from 'react-i18next';
+import i18n from '../locales/i18n';
 
 
 
 const ProductScreen = () => {
+    useEffect(() => {
+        // i18n.changeLanguage('fr');
+    }, [])
+    const { t } = useTranslation();
+    const onProductSelectionChange = (item: any) => {
+        console.log(item);
+    }
     const renderItem: ListRenderItem<ProductsType> = useCallback(({ item }) => (
         <ProductItem
             Id={item.Id}
@@ -18,12 +27,29 @@ const ProductScreen = () => {
             productWeight={item.productWeight}
             productPrice={item.productPrice}
             productSuggestedQuantity={item.productSuggestedQuantity}
-            productQuantity={item.productQuantity} />
+            productQuantity={item.productQuantity} 
+            onProductSelectionChange={onProductSelectionChange}
+            />
     ), []);
 
+    const onChangeLanguage = () => {
+        if(i18n.language === 'en'){
+            i18n.changeLanguage('es');
+        }else if(i18n.language === 'es'){
+            i18n.changeLanguage('fr');
+        }else{
+            i18n.changeLanguage('en');
+        }
+    }
+    const onCheckout = () => {
+        console.log('checking out');
+    }
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.h4}>PRODUCT INFOs</Text>
+            <Text style={styles.h4}>{t('ProductInfo')}</Text>
+            <View style={{position: 'absolute', right: 10, top: 10}}>
+            <Button title=" A " onPress={() => onChangeLanguage()} />
+            </View>
             <View style={{ height: 2, backgroundColor: 'black' }} />
 
             <View style={styles.listContainer}>
@@ -32,6 +58,14 @@ const ProductScreen = () => {
                     renderItem={renderItem}
                     keyExtractor={(item) => item.Id.toString()}
                 />
+            </View>
+            <View style={{
+                alignItems: "center",
+                width: '100%',
+                padding: 5,
+                backgroundColor: '#331666',
+            }}>
+                <Button onPress={onCheckout} color={'#331666'} title={t('ProceedToCheckout')}></Button>
             </View>
         </SafeAreaView>
     );
