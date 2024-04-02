@@ -9,6 +9,14 @@ function delay(t: number) {
   });
 }
 
+export interface selectedDateStringType {
+  selectedDate: Date;
+}
+
+export interface selectedVisitType {
+  visitType: string;
+}
+
 export interface Credentials {
   refreshToken: string;
   accessToken: string;
@@ -18,7 +26,7 @@ export interface Credentials {
 export const getUserCredentials = async (): Promise<Credentials> => {
   const response = await getUserToken();
   return response;
-}
+};
 
 const getUserToken = () => {
   return new Promise<Credentials>((resolve, reject) => {
@@ -97,7 +105,16 @@ export const fetchImage = async (
     );
     return response.data;
   } catch (reason: any) {
-    console.log('error reason ' + reason);
     return reason;
   }
+};
+
+export const setSelectedDate = async (
+  selectedDate: Date
+): Promise<selectedDateStringType> => {
+  return { selectedDate: selectedDate };
+};
+
+export const getQueryVisitType = async (): Promise<selectedVisitType> => {
+  return { visitType: 'Today' };
 };

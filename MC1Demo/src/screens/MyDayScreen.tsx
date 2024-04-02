@@ -14,7 +14,15 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { Credentials, fetchData, getUserCredentials } from '../lib/api';
+import {
+  Credentials,
+  fetchData,
+  setSelectedDate,
+  getUserCredentials,
+  selectedDateStringType,
+  selectedVisitType,
+  getQueryVisitType,
+} from '../lib/api';
 import { Record } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
 import { ErrorMessage } from '../components/ErrorMessage';
@@ -28,7 +36,9 @@ import MeetingSection from '../components/MeetingSection';
 import StarMyDayComponent from '../components/StarMyDayComponent';
 import DateTimeComponent from '../components/DateTimeComponent';
 import DialogComponent from '../components/DialogComponent';
+import DateScrollContainer from '../components/DateScrollContainer';
 import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-control/segmented-control';
+import DateVisitComponent from '../components/DateVisitComponent';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -38,11 +48,19 @@ const results = [
 const MyDayScreen = () => {
   const [value, setValue] = useState(0);
 
+  const [visitType, setVisitType] = useState('Today');
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [dialogVisible, setDialogVisible] = useState(false);
 
+  const [dateScrollVisible, setDateScrollVisible] = useState(false);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const navigation = useNavigation();
+
+  const queryClient = useQueryClient();
 
   const {
     isPending: pending,
@@ -52,6 +70,18 @@ const MyDayScreen = () => {
   } = useQuery<Credentials, Error>({
     queryKey: ['credentials'],
     queryFn: () => getUserCredentials(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
+  const {
+    isPending,
+    error,
+    data: visitTypeData,
+    isFetching,
+  } = useQuery<selectedVisitType, Error>({
+    queryKey: ['visitType'],
+    queryFn: () => getQueryVisitType(),
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -75,17 +105,14 @@ const MyDayScreen = () => {
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ): void => {};
 
-  // Invalidate queries
 
-  // const queryClient = useQueryClient();
-
-  // const mutation = useMutation({
-  //   mutationFn: addTodo,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ['todos'] })
-  //     queryClient.invalidateQueries({ queryKey: ['reminders'] })
-  //   },
-  // })
+  const updateVisitType = (itemType: string) => {
+    if (itemType === 'Today') {
+      setSelectedDate(new Date());
+    }
+    setVisitType(itemType);
+    queryClient.setQueryData(['visitType'], { visitType: itemType });
+  };
 
   return (
     <>
@@ -125,21 +152,31 @@ const MyDayScreen = () => {
             onCancelVisit={(index: number) => {}}
           >
             <View style={styles.topContainer}>
-              <HeaderSection />
+              <HeaderSection updateVisitType={updateVisitType} />
               <SegmentedControlTab
                 segmentValueChanged={segmentValueChanged}
                 segmentedValues={['MY DAY', 'MY ROUTE']}
                 selectedIndex={value}
               />
-              <VisitSection />
+              {visitType === 'Today' ? (
+                <VisitSection />
+              ) : (
+                <DateScrollContainer
+                  type={visitType}
+                  updateSelectedDate={(datetimestring: string) => {
+                    setSelectedDate(new Date(Date.parse(datetimestring)));
+                  }}
+                />
+              )}
               <CasesSection />
             </View>
             <View style={styles.bottomContainer}>
-              <StarMyDayComponent
-                startMyDayButtonPressed={startMyDayButtonPressed}
-              />
-              <DateTimeComponent />
-              <MeetingSection />
+              {visitType === 'Past' ? (
+                <DateVisitComponent />
+              ) : (
+                <DateTimeComponent selectedDate={selectedDate} />
+              )}
+              {visitType === 'Today' && <MeetingSection />}
             </View>
           </VirtualizedListComponent>
           <DialogComponent

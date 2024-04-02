@@ -11,7 +11,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { theme } from '../core/theme';
-import { Credentials, fetchImage } from '../lib/api';
+import { Credentials, fetchImage, selectedVisitType } from '../lib/api';
 import { Record } from '../data/Record';
 
 import { Linking } from 'react-native';
@@ -30,14 +30,14 @@ const CustomerItem = ({
   itemPress,
   selectedIndex,
   onCheckInPressed,
-  onCancelVisit
+  onCancelVisit,
 }: {
   customerRecord: Record;
   index: number;
   itemPress: any;
   selectedIndex: number;
   onCheckInPressed: any;
-  onCancelVisit:any;
+  onCancelVisit: any;
 }) => {
   const queryClient = useQueryClient();
 
@@ -108,6 +108,19 @@ const CustomerItem = ({
                     : '')}
               </Text>
             </View>
+            {(queryClient.getQueryData(['visitType']) as selectedVisitType)
+              .visitType === 'Past' && (
+              <Button
+                mode="contained"
+                style={{
+                  backgroundColor: '#3FD571',
+                  alignSelf: 'flex-start',
+                  marginTop: 5,
+                }}
+              >
+                ORDER TAKEN
+              </Button>
+            )}
           </View>
           <View style={styles.phoneLocationContainer}>
             <View
@@ -137,47 +150,53 @@ const CustomerItem = ({
             </View>
           </View>
         </View>
-        <View style={styles.deliveryWorkOrdersContainer}>
-          <View style={styles.deliveryContainer}>
-            <MaterialCommunityIcons
-              name="truck-outline"
-              size={20}
-              color="grey"
-            />
-            <Text style={{ paddingLeft: 5, color: '#535659' }}>
-              Upcoming Delivery
-            </Text>
-          </View>
-          <View style={styles.workOrdersContianer}>
-            <Text style={{ paddingRight: 5, color: '#535659' }}>
-              Work Orders
-            </Text>
-            <View style={styles.circleOutline}>
-              <Text style={{ fontWeight: 'bold' }}>
-                {customerRecord.WorkOrders}
+        {(queryClient.getQueryData(['visitType']) as selectedVisitType)
+          .visitType !== 'Past' && (
+          <View style={styles.deliveryWorkOrdersContainer}>
+            <View style={styles.deliveryContainer}>
+              <MaterialCommunityIcons
+                name="truck-outline"
+                size={20}
+                color="grey"
+              />
+              <Text style={{ paddingLeft: 5, color: '#535659' }}>
+                Upcoming Delivery
               </Text>
             </View>
+            <View style={styles.workOrdersContianer}>
+              <Text style={{ paddingRight: 5, color: '#535659' }}>
+                Work Orders
+              </Text>
+              <View style={styles.circleOutline}>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {customerRecord.WorkOrders}
+                </Text>
+              </View>
+            </View>
           </View>
-        </View>
+        )}
       </View>
-      <Card.Actions>
-        <Button
-          icon="account-box-outline"
-          onPress={() => {
-            onCheckInPressed(index);
-          }}
-        >
-          Check In
-        </Button>
-        <Button
-          icon="cancel"
-          onPress={() => {
-            onCancelVisit(index);
-          }}
-        >
-          Cancel
-        </Button>
-      </Card.Actions>
+      {(queryClient.getQueryData(['visitType']) as selectedVisitType)
+        .visitType === 'Today' && (
+        <Card.Actions>
+          <Button
+            icon="account-box-outline"
+            onPress={() => {
+              onCheckInPressed(index);
+            }}
+          >
+            Check In
+          </Button>
+          <Button
+            icon="cancel"
+            onPress={() => {
+              onCancelVisit(index);
+            }}
+          >
+            Cancel
+          </Button>
+        </Card.Actions>
+      )}
     </Card>
   );
 };

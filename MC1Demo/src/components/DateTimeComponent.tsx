@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-const DateTimeComponent = () => {
+const DateTimeComponent = ({ selectedDate }: { selectedDate: Date }) => {
   const [deliveryDate, setDeliveryDate] = useState<Date>(new Date());
+
+  useEffect(() => {
+    setDeliveryDate(selectedDate);
+  }, [selectedDate]);
 
   return (
     <View style={styles.dateContainer}>
