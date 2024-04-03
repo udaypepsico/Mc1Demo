@@ -2,6 +2,8 @@ import { oauth, net } from 'react-native-force';
 import { Response } from '../data/Response';
 import { Record } from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
+import products from '../data/products.json';
+import { ProductsType } from '../data/Products';
 
 function delay(t: number) {
   return new Promise(function (resolve) {
@@ -82,8 +84,66 @@ const queryFetchPromise = () => {
   });
 };
 
-export async function fetchProducts(accountId: string) {
+export async function fetchFullProducts() {
+  console.log('fetchfullproducts');
+
   await delay(200 + Math.floor(Math.random() * 2000));
+
+  return products.map(
+    (product: {
+      Id: any;
+      imageSource: any;
+      productWeight: any;
+      productName: any;
+      productCode: any;
+      productId: any;
+      productPrice: any;
+      productSuggestedQuantity: any;
+      initialproductQuantity: any;
+    }) => ({
+      Id: product.Id,
+      imageSource: product.imageSource,
+      productWeight: product.productWeight,
+      productName: product.productName,
+      productCode: product.productCode,
+      productId: product.productId,
+      productPrice: product.productPrice,
+      productSuggestedQuantity: product.productSuggestedQuantity,
+      productQuantity: product.initialproductQuantity,
+    })
+  ) as Promise<ProductsType[]>;
+}
+
+export async function fetchProducts() {
+  console.log('fetchProducts');
+
+  await delay(200 + Math.floor(Math.random() * 2000));
+
+  return products
+    .slice(0, 5)
+    .map(
+      (product: {
+        Id: any;
+        imageSource: any;
+        productWeight: any;
+        productName: any;
+        productCode: any;
+        productId: any;
+        productPrice: any;
+        productSuggestedQuantity: any;
+        initialproductQuantity: any;
+      }) => ({
+        Id: product.Id,
+        imageSource: product.imageSource,
+        productWeight: product.productWeight,
+        productName: product.productName,
+        productCode: product.productCode,
+        productId: product.productId,
+        productPrice: product.productPrice,
+        productSuggestedQuantity: product.productSuggestedQuantity,
+        productQuantity: product.initialproductQuantity,
+      })
+    ) as Promise<ProductsType[]>;
 }
 
 export const fetchImage = async (
