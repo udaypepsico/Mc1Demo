@@ -1,7 +1,7 @@
 [
     {
         "Id": 1,
-        "imageSource": "pepsi_1_5LImage",
+        "imageSource": 0,
         "productWeight": "12oz",
         "productName": "Pepsi 1.5L",
         "productCode": "PEP124",
@@ -12,7 +12,7 @@
     },
     {
         "Id": 2,
-        "imageSource": "robinsons_500mlImage",
+        "imageSource": 2,
         "productWeight": "12oz",
         "productName": "Robinsons Real Fruit Raspberry and Apple 500 ml",
         "productCode": "PEP125",
@@ -23,7 +23,7 @@
     },
     {
         "Id": 3,
-        "imageSource": "pepsiMax_500mlImage",
+        "imageSource": 3,
         "productWeight": "12oz",
         "productName": "Pepsi Max 500 ml",
         "productCode": "PEP126",
@@ -34,7 +34,7 @@
     },
     {
         "Id": 4,
-        "imageSource": "Seven_Up_1_5LImage",
+        "imageSource": 4,
         "productWeight": "12oz",
         "productName": "7UP Zero 1.5L",
         "productCode": "PEP127",
@@ -45,7 +45,7 @@
     },
     {
         "Id": 5,
-        "imageSource": "Lipton_Peach_500mlImage",
+        "imageSource": 5,
         "productWeight": "12oz",
         "productName": "Lipton Peach 500ml",
         "productCode": "PEP128",
@@ -56,7 +56,7 @@
     },
     {
         "Id": 6,
-        "imageSource": "Tango_Orange_1_5LImage",
+        "imageSource": 6,
         "productWeight": "12oz",
         "productName": "Tango Orange 1.5L",
         "productCode": "PEP129",
@@ -67,7 +67,7 @@
     },
     {
         "Id": 7,
-        "imageSource": "pepsi_500mlImage",
+        "imageSource": 1,
         "productWeight": "12oz",
         "productName": "Pepsi 500ml",
         "productCode": "PEP130",
@@ -78,7 +78,7 @@
     },
     {
         "Id": 8,
-        "imageSource": "pepsiMax_cherry_1_5LImage",
+        "imageSource": 10,
         "productWeight": "12oz",
         "productName": "Pepsi Max Cherry 1.5L",
         "productCode": "PEP131",
@@ -89,7 +89,7 @@
     },
     {
         "Id": 9,
-        "imageSource": "Tango_Orange_500mlImage",
+        "imageSource": 7,
         "productWeight": "12oz",
         "productName": "Tango Orange 500ml",
         "productCode": "PEP132",
@@ -100,7 +100,7 @@
     },
     {
         "Id": 10,
-        "imageSource": "pepsiMax_cherry_500mlImage",
+        "imageSource": 11,
         "productWeight": "12oz",
         "productName": "Pepsi Max Cherry 500 ml",
         "productCode": "PEP133",
@@ -111,7 +111,7 @@
     },
     {
         "Id": 11,
-        "imageSource": "pepsiMax_1_5LImage",
+        "imageSource": 9,
         "productWeight": "12oz",
         "productName": "Pepsi Max 1.5L",
         "productCode": "PEP133",
@@ -122,7 +122,7 @@
     },
     {
         "Id": 12,
-        "imageSource": "Ballygowan_Water_500mlImage",
+        "imageSource": 8,
         "productWeight": "12oz",
         "productName": "Ballygowan Water 500ml",
         "productCode": "PEP133",

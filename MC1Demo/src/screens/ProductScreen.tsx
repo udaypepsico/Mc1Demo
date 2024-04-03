@@ -83,7 +83,6 @@ const ProductScreen = () => {
         <Button title=" A " onPress={() => onChangeLanguage()} />
       </View>
       <View style={{ height: 2, backgroundColor: 'black' }} />
-      <SearchSection />
       <View style={styles.listContainer}>
         <FlatList
           data={productsData}

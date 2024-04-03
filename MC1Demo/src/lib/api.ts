@@ -3,7 +3,7 @@ import { Response } from '../data/Response';
 import { Record } from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
 import products from '../data/products.json';
-import { ProductsType } from '../data/Products';
+import { ProductsType, imageArrays } from '../data/Products';
 
 function delay(t: number) {
   return new Promise(function (resolve) {
@@ -102,7 +102,7 @@ export async function fetchFullProducts() {
       initialproductQuantity: any;
     }) => ({
       Id: product.Id,
-      imageSource: product.imageSource,
+      imageSource: imageArrays[product.imageSource],
       productWeight: product.productWeight,
       productName: product.productName,
       productCode: product.productCode,
@@ -134,7 +134,7 @@ export async function fetchProducts() {
         initialproductQuantity: any;
       }) => ({
         Id: product.Id,
-        imageSource: product.imageSource,
+        imageSource: imageArrays[product.imageSource],
         productWeight: product.productWeight,
         productName: product.productName,
         productCode: product.productCode,

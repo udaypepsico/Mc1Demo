@@ -11,14 +11,29 @@ const pepsiMax_1_5LImage = require('../assets/img/Pepsi_Max_1.5L.png');
 const pepsiMax_cherry_1_5LImage = require('../assets/img/Pepsi_Max_Cherry_1.5L.png');
 const pepsiMax_cherry_500mlImage = require('../assets/img/Pepsi_Max_Cherry_500ml.png');
 
+export const imageArrays = [
+  pepsi_1_5LImage,
+  pepsi_500mlImage,
+  robinsons_500mlImage,
+  pepsiMax_500mlImage,
+  Seven_Up_1_5LImage,
+  Lipton_Peach_500mlImage,
+  Tango_Orange_1_5LImage,
+  Tango_Orange_500mlImage,
+  Ballygowan_Water_500mlImage,
+  pepsiMax_1_5LImage,
+  pepsiMax_cherry_1_5LImage,
+  pepsiMax_cherry_500mlImage,
+];
+
 export interface ProductsType {
-  Id: number
-  imageSource: any
-  productWeight: string
-  productName: string
-  productCode: string,
-  productId: string
-  productPrice: number
-  productSuggestedQuantity: number
-  productQuantity: number
+  Id: number;
+  imageSource: any;
+  productWeight: string;
+  productName: string;
+  productCode: string;
+  productId: string;
+  productPrice: number;
+  productSuggestedQuantity: number;
+  productQuantity: number;
 }

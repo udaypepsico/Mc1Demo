@@ -1,14 +1,8 @@
 import { memo, useState } from 'react';
 import { ProductsType } from '../data/Products';
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TextInput,
-  Button,
-} from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, Button } from 'react-native';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const ProductItem = (props: any) => {
   const {
@@ -25,12 +19,31 @@ const ProductItem = (props: any) => {
   const [text, onChangeText] = useState('Useless Text');
   const [quantity, setQuantity] = useState(productQuantity);
 
+  const queryClient = useQueryClient();
+
   const onChangeQuantity = (val: number) => {
-    console.log('changing', val);
+    
     setQuantity(quantity + val);
+
+    queryClient.setQueryData(
+      ['products', { Id: productId }],
+      (oldData: ProductsType) => ({
+        ...oldData,
+        productQuantity: quantity+val,
+      })
+    );
+
+    // console.log(
+    //   (
+    //     queryClient.getQueryData([
+    //       'products',
+    //       { Id: productId },
+    //     ]) as ProductsType
+    //   ).productQuantity
+    // );
   };
 
-  if (quantity < 0 ) {
+  if (quantity < 0) {
     setQuantity(0);
   }
   return (
@@ -49,7 +62,10 @@ const ProductItem = (props: any) => {
       </View>
       <View>
         <View style={styles.quantityCotainer}>
-          <Button title=" - " onPress={() => onChangeQuantity(-productQuantity)} />
+          <Button
+            title=" - "
+            onPress={() => onChangeQuantity(-productQuantity)}
+          />
           <TextInput
             style={styles.inputQuantity}
             editable
@@ -59,7 +75,10 @@ const ProductItem = (props: any) => {
             }
             defaultValue={String(quantity)}
           />
-          <Button title=" + " onPress={() => onChangeQuantity(productQuantity)} />
+          <Button
+            title=" + "
+            onPress={() => onChangeQuantity(productQuantity)}
+          />
           <Text style={styles.totalText}>
             ${(quantity * productPrice).toFixed(2)}
           </Text>
