@@ -17,7 +17,13 @@ const ProductStack = () => {
           backgroundColor: '#054997',
         }}
       >
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarIndicatorStyle:{backgroundColor: '#6A00C2'},
+            tabBarActiveTintColor:'#6A00C2',
+            tabBarInactiveTintColor:'black'
+          }}
+        >
           <Tab.Screen name="Products" component={ProductScreen} />
           <Tab.Screen
             name="ExchangeGoodProducts"

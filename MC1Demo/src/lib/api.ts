@@ -165,7 +165,7 @@ export const fetchImage = async (
     );
     return response.data;
   } catch (reason: any) {
-    return reason;
+    return '';
   }
 };
 

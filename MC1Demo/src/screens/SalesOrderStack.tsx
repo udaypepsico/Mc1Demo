@@ -7,9 +7,24 @@ const Stack = createStackNavigator();
 
 const SalesOrderStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name = "MyDay" component={MyDayScreen} options={{presentation:'card'}}/>
-      <Stack.Screen name = "ProductsTab" component={ProductStack} options={{presentation:'card'}}/>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MyDay"
+        component={MyDayScreen}
+        options={{ presentation: 'card', headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProductsTab"
+        component={ProductStack}
+        options={{
+          presentation: 'card',
+          headerShown: true,
+          title: '',
+          headerBackTitleVisible: false,
+          headerTintColor: "#6A00C2",
+          headerStyle: { height: 70 },
+        }}
+      />
     </Stack.Navigator>
   );
 };

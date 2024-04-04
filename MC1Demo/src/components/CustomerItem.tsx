@@ -69,14 +69,12 @@ const CustomerItem = ({
       <View style={styles.cellContentStyle}>
         <View style={styles.itemContainer}>
           <View style={styles.iconContainer}>
-            {isPending ? (
-              <ActivityIndicator color={'#000'} animating={true} size="small" />
-            ) : fileUrl && fileUrl.length === 0 ? (
-              <LeftNonImageContent icon="store" />
-            ) : (
+            {fileUrl && fileUrl.length > 0 ? (
               <LeftImageContent
                 source={{ uri: `data:image/png;base64, ${fileUrl}` }}
               />
+            ) : (
+              <LeftNonImageContent icon="store" />
             )}
           </View>
           <View style={styles.descriptionContainer}>
