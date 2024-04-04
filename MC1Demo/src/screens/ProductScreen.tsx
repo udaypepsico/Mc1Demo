@@ -7,7 +7,6 @@ import {
   Image,
   SafeAreaView,
   ListRenderItem,
-  FlatList,
   TextInput,
   Button,
 } from 'react-native';
@@ -15,11 +14,13 @@ import {
 import ProductItem from '../components/ProductItem';
 import { useTranslation } from 'react-i18next';
 import i18n from '../locales/i18n';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ProductsType } from '../data/Products';
 import { fetchProducts } from '../lib/api';
 import { DotIndicator } from 'react-native-indicators';
 import SearchSection from '../components/SearchSection';
+import { FlatList, Swipeable } from 'react-native-gesture-handler';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProductScreen = () => {
   const queryClient = useQueryClient();
@@ -36,27 +37,74 @@ const ProductScreen = () => {
     gcTime: Infinity,
   });
 
+  const deleteProducts = useMutation({
+    mutationKey: ['deleteproducts'],
+    onMutate: async (payload: ProductsType) => {
+      await queryClient.cancelQueries({ queryKey: ['products'] });
+
+      queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
+        return old && old.filter(obj=> obj.Id !== payload.Id);
+      });
+
+      const newproducts = queryClient.getQueryData(['products']);
+      return { newproducts };
+    },
+  });
+
   useEffect(() => {
     // i18n.changeLanguage('fr');
   }, []);
   const { t } = useTranslation();
+  const rightSwipeActions = () => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          borderRadius: 10,
+        }}
+      >
+        <MaterialIcons
+          name="delete-forever"
+          size={30}
+          color="white"
+          style={{ paddingHorizontal: 10 }}
+        />
+      </View>
+    );
+  };
+
   const onProductSelectionChange = (item: any) => {
     console.log(item);
   };
   const renderItem: ListRenderItem<ProductsType> = useCallback(
-    ({ item }) => (
-      <ProductItem
-        Id={item.Id}
-        productId={item.productId}
-        productName={item.productName}
-        productCode={item.productCode}
-        imageSource={item.imageSource}
-        productWeight={item.productWeight}
-        productPrice={item.productPrice}
-        productSuggestedQuantity={item.productSuggestedQuantity}
-        productQuantity={item.productQuantity}
-        onProductSelectionChange={onProductSelectionChange}
-      />
+    ({ item,index }) => (
+      <Swipeable
+        renderRightActions={rightSwipeActions}
+        rightThreshold={50}
+        onSwipeableOpen={(
+          direction: 'left' | 'right',
+          swipeable: Swipeable
+        ) => {
+          deleteProducts.mutate(item);
+          swipeable.close();
+        }}
+      >
+        <ProductItem
+          Id={item.Id}
+          productId={item.productId}
+          productName={item.productName}
+          productCode={item.productCode}
+          imageSource={item.imageSource}
+          productWeight={item.productWeight}
+          productPrice={item.productPrice}
+          productSuggestedQuantity={item.productSuggestedQuantity}
+          productQuantity={item.productQuantity}
+          onProductSelectionChange={onProductSelectionChange}
+        />
+      </Swipeable>
     ),
     []
   );
@@ -77,19 +125,24 @@ const ProductScreen = () => {
   if (pending || isFetching) return <DotIndicator color="red" />;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.h4}>{t('ProductInfo')}</Text>
-      <View style={{ position: 'absolute', right: 10, top: 10 }}>
+      <View style={{ position: 'absolute', right: 5 }}>
         <Button title=" A " onPress={() => onChangeLanguage()} />
       </View>
-      <View style={{ height: 2, backgroundColor: 'black' }} />
-      <View style={styles.listContainer}>
-        <FlatList
-          data={productsData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.Id.toString()}
-        />
-      </View>
+      <SearchSection />
+      <FlatList
+        style={styles.listContainer}
+        data={productsData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.Id.toString()}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+        ListEmptyComponent={
+          <View style={styles.emptyListView}>
+            <Text>No Customer Record Found</Text>
+          </View>
+        }
+      />
       <View
         style={{
           alignItems: 'center',
@@ -104,15 +157,13 @@ const ProductScreen = () => {
           title={t('ProceedToCheckout')}
         ></Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   h4: {
     fontSize: 16,
@@ -143,6 +194,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
+    marginHorizontal: 10,
+    marginTop: 10,
   },
   photo: {
     width: 30,
@@ -184,6 +237,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     padding: 5,
+  },
+  emptyListView: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

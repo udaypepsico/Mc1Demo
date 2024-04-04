@@ -1,7 +1,13 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { memo } from 'react';
-import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  ListRenderItem,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ProductsType } from '../data/Products';
 import { fetchFullProducts } from '../lib/api';
@@ -29,8 +35,8 @@ const SearchSection = () => {
   const renderItem: ListRenderItem<ProductsType> = useCallback(
     ({ item }) => (
       <ProductDisplayItem
-        productName={item.productName}
-        imageSource={item.imageSource}
+        product={item}
+        closeSearchList={()=>{setSearchQuery('')}}
       />
     ),
     []
@@ -50,13 +56,13 @@ const SearchSection = () => {
               .split(' ')
               .some((item) => item.startsWith(searchQuery.toLowerCase()));
           })
-      : productsData;
+      : [];
 
     setProductDisplayResult(productDisplayResult);
   }, [searchQuery]);
 
   return (
-    <View>
+    <View style={{ zIndex: 1 }}>
       <View style={styles.productSearchContainer}>
         <Searchbar
           placeholder="Search Products"
@@ -100,14 +106,13 @@ const SearchSection = () => {
           />
         </View>
       </View>
-      <View>
-        <FlatList
-          data={productDisplayResult}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.Id.toString()}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
-        />
-      </View>
+      <FlatList
+        data={productDisplayResult}
+        style={styles.listContainer}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.Id.toString()}
+        ItemSeparatorComponent={() => <View style={{ height: 5 }}></View>}
+      />
     </View>
   );
 };
@@ -117,6 +122,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     height: 40,
+  },
+  listContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 10,
+    width: Dimensions.get('window').width-50,
   },
 });
 

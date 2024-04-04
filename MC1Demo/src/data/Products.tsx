@@ -28,7 +28,7 @@ export const imageArrays = [
 
 export interface ProductsType {
   Id: number;
-  imageSource: any;
+  imageSource: number;
   productWeight: string;
   productName: string;
   productCode: string;

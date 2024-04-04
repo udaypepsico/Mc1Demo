@@ -3,6 +3,7 @@ import { ProductsType } from '../data/Products';
 import React from 'react';
 import { StyleSheet, View, Text, Image, TextInput, Button } from 'react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const ProductItem = (props: any) => {
   const {
@@ -21,17 +22,29 @@ const ProductItem = (props: any) => {
 
   const queryClient = useQueryClient();
 
-  const onChangeQuantity = (val: number) => {
-    
-    setQuantity(quantity + val);
+  const updateProducts = useMutation({
+    mutationKey: ['updateproducts'],
+    onMutate: async (payload: number) => {
+      await queryClient.cancelQueries({ queryKey: ['products'] });
 
-    queryClient.setQueryData(
-      ['products', { Id: productId }],
-      (oldData: ProductsType) => ({
-        ...oldData,
-        productQuantity: quantity+val,
-      })
-    );
+      queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
+        return (
+          old &&
+          old.map((obj) =>
+            obj.productId === productId ? { ...obj, productQuantity: payload } : obj
+          )
+        );
+      });
+
+      const newproducts = queryClient.getQueryData(['products']);
+
+      return { newproducts };
+    },
+  });
+
+  const onChangeQuantity = (val: number) => {
+    setQuantity(quantity + val);
+    updateProducts.mutate(quantity + val);
 
     // console.log(
     //   (
@@ -60,10 +73,17 @@ const ProductItem = (props: any) => {
           </Text>
         </View>
       </View>
-      <View>
+      <View style={styles.itemQuantityContainer}>
         <View style={styles.quantityCotainer}>
-          <Button
-            title=" - "
+          <FontAwesome5
+            name="minus"
+            size={15}
+            color="white"
+            style={{
+              backgroundColor: '#17A1D9',
+              padding: 10,
+              alignSelf: 'center',
+            }}
             onPress={() => onChangeQuantity(-productQuantity)}
           />
           <TextInput
@@ -75,8 +95,15 @@ const ProductItem = (props: any) => {
             }
             defaultValue={String(quantity)}
           />
-          <Button
-            title=" + "
+          <FontAwesome5
+            name="plus"
+            size={15}
+            color="white"
+            style={{
+              backgroundColor: '#17A1D9',
+              padding: 10,
+              alignSelf: 'center',
+            }}
             onPress={() => onChangeQuantity(productQuantity)}
           />
           <Text style={styles.totalText}>
@@ -90,11 +117,6 @@ const ProductItem = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   h4: {
     fontSize: 16,
     fontWeight: '700',
@@ -106,13 +128,14 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     padding: 10,
-    margin: 2,
     backgroundColor: '#FFF',
     borderBottomColor: '#ccc',
     borderBottomWidth: 0.5,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    flex: 1,
   },
   itemContainer: {
+    flex: 1,
     flexDirection: 'row',
   },
   header: {
@@ -122,14 +145,12 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     backgroundColor: '#ff0000',
   },
-  listContainer: {
-    flex: 1,
-  },
   photo: {
     width: 30,
     height: 80,
   },
   textContainer: {
+    flex: 1,
     marginLeft: 10,
   },
   itemName: {
@@ -140,10 +161,13 @@ const styles = StyleSheet.create({
   itemDetail: {
     fontSize: 16,
   },
+  itemQuantityContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 5,
+  },
   quantityCotainer: {
     flexDirection: 'row',
-    height: 36,
-    margin: 5,
   },
   inputQuantity: {
     borderWidth: 1,
@@ -151,20 +175,22 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     minWidth: 50,
     textAlign: 'center',
+    marginHorizontal: 5,
   },
   increamentBtn: {
     padding: 10,
   },
   sugText: {
-    marginLeft: 30,
+    textAlign: 'left',
+    paddingTop: 10,
   },
   totalText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
     color: '#000',
-    marginLeft: 5,
-    marginRight: 5,
-    padding: 5,
+    flex: 1,
+    textAlign: 'right',
+    alignSelf: 'center',
   },
 });
 

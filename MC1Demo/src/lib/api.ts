@@ -91,15 +91,15 @@ export async function fetchFullProducts() {
 
   return products.map(
     (product: {
-      Id: any;
-      imageSource: any;
-      productWeight: any;
-      productName: any;
-      productCode: any;
-      productId: any;
-      productPrice: any;
-      productSuggestedQuantity: any;
-      initialproductQuantity: any;
+      Id: number;
+      imageSource: number;
+      productWeight: number;
+      productName: string;
+      productCode: string;
+      productId: string;
+      productPrice: number;
+      productSuggestedQuantity: number;
+      initialproductQuantity: number;
     }) => ({
       Id: product.Id,
       imageSource: imageArrays[product.imageSource],
