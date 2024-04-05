@@ -76,6 +76,20 @@ const CustomerItem = ({
             ) : (
               <LeftNonImageContent icon="store" />
             )}
+            {(queryClient.getQueryData(['visitType']) as selectedVisitType)
+              .visitType === 'Past' && (
+              <Avatar.Icon
+                icon="check"
+                size={30}
+                color="white"
+                style={{
+                  marginTop: -12.5,
+                  zIndex: 2,
+                  alignSelf: 'flex-end',
+                  backgroundColor: '#3FD571',
+                }}
+              />
+            )}
           </View>
           <View style={styles.descriptionContainer}>
             <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>

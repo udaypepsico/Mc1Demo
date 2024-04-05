@@ -94,14 +94,14 @@ const MyDayScreen = () => {
   });
 
   const {
-    isPending:datePending,
-    error:dateError,
+    isPending: datePending,
+    error: dateError,
     data: selectedDateData,
-    isFetching:dateFetching,
+    isFetching: dateFetching,
   } = useQuery<selectedDate, Error>({
     queryKey: ['selectedDate'],
     queryFn: () => getSelectedDate(),
-    initialData:{selectedDate:new Date()},
+    initialData: { selectedDate: new Date() },
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -128,12 +128,15 @@ const MyDayScreen = () => {
   const updateVisitType = (itemType: string) => {
     if (itemType === 'Today') {
       setSelectedDate(new Date());
-      queryClient.setQueryData(['selectedDate'], { selectedDate:new Date()});
+      queryClient.setQueryData(['selectedDate'], { selectedDate: new Date() });
     }
-    if(itemType === 'Future') {
-      const dateformatString = generateDateTime(itemType,1)[0].DateFormatString;
+    if (itemType === 'Future') {
+      const dateformatString = generateDateTime(itemType, 1)[0]
+        .DateFormatString;
       setSelectedDate(new Date(Date.parse(dateformatString!)));
-      queryClient.setQueryData(['selectedDate'], { selectedDate:new Date(Date.parse(dateformatString!)) });
+      queryClient.setQueryData(['selectedDate'], {
+        selectedDate: new Date(Date.parse(dateformatString!)),
+      });
     }
     setSelectedIndexVisit({ ...selectedIndexVisit, visitType: itemType });
     queryClient.setQueryData(['visitType'], { visitType: itemType });
@@ -193,7 +196,7 @@ const MyDayScreen = () => {
                   }}
                 />
               )}
-              <CasesSection />
+              {selectedIndexVisit.visitType !== 'Future' && <CasesSection />}
             </View>
             <View style={styles.bottomContainer}>
               {selectedIndexVisit.visitType === 'Past' ? (
@@ -201,9 +204,7 @@ const MyDayScreen = () => {
               ) : (
                 <DateTimeComponent selectedDate={selectedDate} />
               )}
-              {selectedIndexVisit.visitType === 'Today' && (
-                <MeetingSection />
-              )}
+              {selectedIndexVisit.visitType === 'Today' && <MeetingSection />}
             </View>
           </VirtualizedListComponent>
           <DialogComponent

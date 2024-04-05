@@ -19,6 +19,10 @@ export interface selectedVisitType {
   visitType: string;
 }
 
+export interface selectedDate {
+  selectedDate: Date;
+}
+
 export interface Credentials {
   refreshToken: string;
   accessToken: string;
@@ -177,4 +181,8 @@ export const setSelectedDate = async (
 
 export const getQueryVisitType = async (): Promise<selectedVisitType> => {
   return { visitType: 'Today' };
+};
+
+export const getSelectedDate = async (): Promise<selectedDate> => {
+  return { selectedDate: new Date() };
 };

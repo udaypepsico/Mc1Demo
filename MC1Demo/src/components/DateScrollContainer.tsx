@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 5,
     marginHorizontal:5,
+    marginBottom:10,
     justifyContent: 'space-between',
     borderRadius:5,
     alignContent:'center'
