@@ -22,6 +22,8 @@ import {
   selectedDateStringType,
   selectedVisitType,
   getQueryVisitType,
+  getSelectedDate,
+  selectedDate,
 } from '../lib/api';
 import { Record } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
@@ -39,18 +41,23 @@ import DialogComponent from '../components/DialogComponent';
 import DateScrollContainer from '../components/DateScrollContainer';
 import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-control/segmented-control';
 import DateVisitComponent from '../components/DateVisitComponent';
+import { generateDateTime } from '../core/utils';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
   23, 24, 25, 26, 27, 28, 29, 30,
 ];
 
+export interface selectedIndexVisitType {
+  selectedIndex: number;
+  visitType: string;
+}
+
 const MyDayScreen = () => {
   const [value, setValue] = useState(0);
 
-  const [visitType, setVisitType] = useState('Today');
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndexVisit, setSelectedIndexVisit] =
+    useState<selectedIndexVisitType>({ selectedIndex: 0, visitType: 'Today' });
 
   const [dialogVisible, setDialogVisible] = useState(false);
 
@@ -86,6 +93,19 @@ const MyDayScreen = () => {
     gcTime: Infinity,
   });
 
+  const {
+    isPending:datePending,
+    error:dateError,
+    data: selectedDateData,
+    isFetching:dateFetching,
+  } = useQuery<selectedDate, Error>({
+    queryKey: ['selectedDate'],
+    queryFn: () => getSelectedDate(),
+    initialData:{selectedDate:new Date()},
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
   if (credentialError)
     return <ErrorMessage message={credentialError.message}></ErrorMessage>;
 
@@ -97,7 +117,7 @@ const MyDayScreen = () => {
   }
 
   function itemSelected(id: number) {
-    setSelectedIndex(id);
+    setSelectedIndexVisit({ ...selectedIndexVisit, selectedIndex: id });
     // navigation.navigate('ProductListScreen');
   }
 
@@ -105,12 +125,17 @@ const MyDayScreen = () => {
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ): void => {};
 
-
   const updateVisitType = (itemType: string) => {
     if (itemType === 'Today') {
       setSelectedDate(new Date());
+      queryClient.setQueryData(['selectedDate'], { selectedDate:new Date()});
     }
-    setVisitType(itemType);
+    if(itemType === 'Future') {
+      const dateformatString = generateDateTime(itemType,1)[0].DateFormatString;
+      setSelectedDate(new Date(Date.parse(dateformatString!)));
+      queryClient.setQueryData(['selectedDate'], { selectedDate:new Date(Date.parse(dateformatString!)) });
+    }
+    setSelectedIndexVisit({ ...selectedIndexVisit, visitType: itemType });
     queryClient.setQueryData(['visitType'], { visitType: itemType });
   };
 
@@ -145,7 +170,7 @@ const MyDayScreen = () => {
           </Svg>
           <VirtualizedListComponent
             itemSelected={itemSelected}
-            selectedIndex={selectedIndex}
+            selectedIndexVisit={selectedIndexVisit}
             onCheckInPressed={(index: number) => {
               setDialogVisible(true);
             }}
@@ -158,11 +183,11 @@ const MyDayScreen = () => {
                 segmentedValues={['MY DAY', 'MY ROUTE']}
                 selectedIndex={value}
               />
-              {visitType === 'Today' ? (
+              {selectedIndexVisit.visitType === 'Today' ? (
                 <VisitSection />
               ) : (
                 <DateScrollContainer
-                  type={visitType}
+                  type={selectedIndexVisit.visitType}
                   updateSelectedDate={(datetimestring: string) => {
                     setSelectedDate(new Date(Date.parse(datetimestring)));
                   }}
@@ -171,12 +196,14 @@ const MyDayScreen = () => {
               <CasesSection />
             </View>
             <View style={styles.bottomContainer}>
-              {visitType === 'Past' ? (
+              {selectedIndexVisit.visitType === 'Past' ? (
                 <DateVisitComponent />
               ) : (
                 <DateTimeComponent selectedDate={selectedDate} />
               )}
-              {visitType === 'Today' && <MeetingSection />}
+              {selectedIndexVisit.visitType === 'Today' && (
+                <MeetingSection />
+              )}
             </View>
           </VirtualizedListComponent>
           <DialogComponent

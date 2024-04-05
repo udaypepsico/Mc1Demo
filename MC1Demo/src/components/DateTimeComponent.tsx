@@ -1,19 +1,24 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { selectedDate } from '../lib/api';
 
 const DateTimeComponent = ({ selectedDate }: { selectedDate: Date }) => {
-  const [deliveryDate, setDeliveryDate] = useState<Date>(new Date());
+
+  const queryClient = useQueryClient();
+
+  const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
 
   useEffect(() => {
-    setDeliveryDate(selectedDate);
+
   }, [selectedDate]);
 
   return (
     <View style={styles.dateContainer}>
       <Text style={styles.dateText}>
-        {deliveryDate.toLocaleDateString('en-us', {
+        {dateOfDelivery && dateOfDelivery.toLocaleDateString('en-us', {
           weekday: 'short',
           year: 'numeric',
           month: 'short',

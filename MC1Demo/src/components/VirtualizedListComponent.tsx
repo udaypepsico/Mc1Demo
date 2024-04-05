@@ -1,6 +1,7 @@
-import React, { Ref, useImperativeHandle, useRef } from 'react';
+import React, { Ref, useCallback, useImperativeHandle, useRef } from 'react';
 import { memo } from 'react';
 import {
+  ListRenderItem,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
@@ -17,18 +18,19 @@ import {
 } from '@tanstack/react-query';
 import { DotIndicator } from 'react-native-indicators';
 import { fetchData } from '../lib/api';
+import { selectedIndexVisitType } from '../screens/MyDayScreen';
 
 const VirtualizedListComponent = ({
-  selectedIndex,
+  selectedIndexVisit,
   itemSelected,
   onCancelVisit,
   onCheckInPressed,
-  children,
+  children
 }: {
-  selectedIndex: number;
+  selectedIndexVisit: selectedIndexVisitType;
   itemSelected: any;
   onCheckInPressed: any;
-  onCancelVisit:any;
+  onCancelVisit: any;
   children: React.ReactNode;
 }) => {
   const queryClient = useQueryClient();
@@ -46,33 +48,38 @@ const VirtualizedListComponent = ({
     }
   };
 
+  const renderItem: ListRenderItem<Record> = useCallback(
+    ({ item, index }: { item: Record; index: number }) => (
+      <View
+        style={{
+          paddingHorizontal: 10,
+          backgroundColor: '#F1F5F7',
+          padding: 10,
+        }}
+      >
+        <CustomerItem
+          customerRecord={item}
+          index={index}
+          itemPress={itemSelected}
+          selectedIndex={selectedIndexVisit.selectedIndex}
+          onCancelVisit={onCancelVisit}
+          onCheckInPressed={onCheckInPressed}
+        />
+      </View>
+    ),
+    [selectedIndexVisit]
+  );
+
   return isPending || isFetching ? (
     <DotIndicator color="red" />
   ) : (
     <FlatList
       data={data}
       style={styles.listContainer}
-      renderItem={({ item, index }: { item: Record; index: number }) => (
-        <View
-          style={{
-            paddingHorizontal: 10,
-            backgroundColor: '#F1F5F7',
-            padding: 10,
-          }}
-        >
-          <CustomerItem
-            customerRecord={item}
-            index={index}
-            itemPress={itemSelected}
-            selectedIndex={selectedIndex}
-            onCancelVisit={onCancelVisit}
-            onCheckInPressed={onCheckInPressed}
-          />
-        </View>
-      )}
+      renderItem={renderItem}
       ListFooterComponent={() => <View style={{ height: 30 }}></View>}
       keyExtractor={(item, index) => 'key_' + item.Id}
-      extraData={selectedIndex}
+      extraData={selectedIndexVisit}
       ListEmptyComponent={
         <View style={styles.emptyListView}>
           <Text>No Customer Record Found</Text>

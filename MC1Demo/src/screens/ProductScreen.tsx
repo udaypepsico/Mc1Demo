@@ -137,6 +137,7 @@ const ProductScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.Id.toString()}
         ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+        maxToRenderPerBatch={5}
         ListEmptyComponent={
           <View style={styles.emptyListView}>
             <Text>No Customer Record Found</Text>

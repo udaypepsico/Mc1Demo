@@ -26,6 +26,7 @@ const DateScrollContainer = ({ type,updateSelectedDate }: { type: string;updateS
               key={'_key ' + itemType.WeekDay + itemType.DateString}
               onPress={() => {
                 setSelectedItem(index);
+                queryClient.setQueryData(['selectedDate'], { selectedDate:new Date(Date.parse(itemType.DateFormatString!)) });
                 updateSelectedDate(itemType.DateFormatString);
               }}
             >

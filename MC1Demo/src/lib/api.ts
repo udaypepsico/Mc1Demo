@@ -92,7 +92,7 @@ export async function fetchFullProducts() {
   return products.map(
     (product: {
       Id: number;
-      imageSource: number;
+      imageSource: any;
       productWeight: number;
       productName: string;
       productCode: string;
