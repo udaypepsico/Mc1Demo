@@ -3,7 +3,7 @@ export interface Record {
   Id: string;
   Name: string;
   Description: string;
-  IconURL__c: string;
+  PhotoUrl: string;
   Phone: string;
   ShippingCity: string;
   ShippingCountry: string;
@@ -15,7 +15,7 @@ export interface Record {
   Iconbase64: string;
 }
 
-interface Attribute {
+export interface Attribute {
   type: string;
   url: string;
 }

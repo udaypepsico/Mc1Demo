@@ -1,5 +1,5 @@
 import { oauth, net } from 'react-native-force';
-import { Response } from '../data/Response';
+import { ProductsResponse, Response } from '../data/Response';
 import { Record } from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
 import products from '../data/products.json';
@@ -69,7 +69,6 @@ const getUserToken = () => {
 };
 
 export const fetchData = async (): Promise<Record[]> => {
-  await delay(200 + Math.floor(Math.random() * 2000));
   const response = await queryFetchPromise();
   return response;
 };
@@ -77,9 +76,9 @@ export const fetchData = async (): Promise<Record[]> => {
 const queryFetchPromise = () => {
   return new Promise<Record[]>((resolve, reject) => {
     net.query(
-      'Select Id,Name,phone,description,IconURL__c,shippingstreet,shippingcity,shippingstate,shippingcountry,shippingpostalcode from Account',
+      'Select Id,Name,Phone,Description,PhotoUrl,ShippingStreet,ShippingCity,ShippingState,ShippingCountry,ShippingPostalcode from Account',
       (response: Response) => {
-        resolve(response.records);
+        resolve(response.records!);
       },
       (error) => {
         reject(error);
@@ -91,7 +90,8 @@ const queryFetchPromise = () => {
 export async function fetchFullProducts() {
   console.log('fetchfullproducts');
 
-  await delay(200 + Math.floor(Math.random() * 2000));
+  const response = await queryFetchProducts();
+  return response;
 
   return products.map(
     (product: {
@@ -118,11 +118,23 @@ export async function fetchFullProducts() {
   ) as Promise<ProductsType[]>;
 }
 
+const queryFetchProducts = () => {
+  return new Promise<ProductsType[]>((resolve, reject) => {
+    net.query(
+      'SELECT Id, Name, ProductCode, Pack__c, Description,  Family,DisplayUrl,StockKeepingUnit, \
+      Brand_Group__c,Brand_Value__c,Brand__c FROM Product2',
+      (result: ProductsResponse) => {
+        resolve(result.records!);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+};
+
 export async function fetchProducts() {
   console.log('fetchProducts');
-
-  await delay(200 + Math.floor(Math.random() * 2000));
-
   return products
     .slice(0, 5)
     .map(

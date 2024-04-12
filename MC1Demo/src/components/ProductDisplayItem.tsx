@@ -36,8 +36,8 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
 
   return (
     <View style={styles.item}>
-      <Image style={styles.photo} source={product.imageSource} />
-      <Text style={styles.itemName}>{product.productName}</Text>
+      <Image style={styles.photo} source={{uri:product.DisplayUrl}} />
+      <Text style={styles.itemName}>{product.Name}</Text>
       <Button
         mode="contained"
         onPress={() => {

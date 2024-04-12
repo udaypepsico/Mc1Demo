@@ -46,12 +46,12 @@ const SearchSection = () => {
     const productDisplayResult = !(searchQuery.trim().length === 0)
       ? searchQuery.split(' ').length > 1
         ? productsData!.filter((obj) => {
-            return obj.productName
+            return obj.Name!
               .toLowerCase()
               .startsWith(searchQuery.toLowerCase());
           })
         : productsData!.filter((obj) => {
-            return obj.productName
+            return obj.Name!
               .toLowerCase()
               .split(' ')
               .some((item) => item.startsWith(searchQuery.toLowerCase()));
