@@ -9,6 +9,7 @@ import {
   ListRenderItem,
   TextInput,
   Button,
+  Pressable,
 } from 'react-native';
 
 import ProductItem from '../components/ProductItem';
@@ -23,6 +24,7 @@ import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProductScreen = () => {
+  const [tabIndex, setTabIndex] = useState(0);
   const queryClient = useQueryClient();
 
   const {
@@ -43,7 +45,7 @@ const ProductScreen = () => {
       await queryClient.cancelQueries({ queryKey: ['products'] });
 
       queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
-        return old && old.filter(obj=> obj.Id !== payload.Id);
+        return old && old.filter(obj => obj.Id !== payload.Id);
       });
 
       const newproducts = queryClient.getQueryData(['products']);
@@ -80,7 +82,7 @@ const ProductScreen = () => {
     console.log(item);
   };
   const renderItem: ListRenderItem<ProductsType> = useCallback(
-    ({ item,index }) => (
+    ({ item, index }) => (
       <Swipeable
         renderRightActions={rightSwipeActions}
         rightThreshold={50}
@@ -118,12 +120,13 @@ const ProductScreen = () => {
       i18n.changeLanguage('en');
     }
   };
-  const onCheckout = () => {
-    console.log('checking out');
-  };
 
   if (pending || isFetching) return <DotIndicator color="red" />;
 
+  const onTabChange = (index: number) => {
+    console.log('Changed', index);
+    setTabIndex(index);
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.h4}>{t('ProductInfo')}</Text>
@@ -144,20 +147,6 @@ const ProductScreen = () => {
           </View>
         }
       />
-      <View
-        style={{
-          alignItems: 'center',
-          width: '100%',
-          padding: 5,
-          backgroundColor: '#331666',
-        }}
-      >
-        <Button
-          onPress={onCheckout}
-          color={'#331666'}
-          title={t('ProceedToCheckout')}
-        ></Button>
-      </View>
     </View>
   );
 };
@@ -196,7 +185,7 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     marginHorizontal: 10,
-    marginTop: 10,
+    marginTop: 30,
   },
   photo: {
     width: 30,

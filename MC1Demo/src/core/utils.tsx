@@ -3,7 +3,7 @@ export interface DateContainerType {
   DateString: string;
   DateFormatString?: string;
 }
-
+export const increamentalValue = 10;
 export const emailValidator = (email: string) => {
   const re = /\S+@\S+\.\S+/;
 
