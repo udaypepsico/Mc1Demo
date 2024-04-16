@@ -12,8 +12,10 @@ import { IconButton, Searchbar } from 'react-native-paper';
 import { ProductsType } from '../data/Products';
 import { fetchFullProducts } from '../lib/api';
 import ProductDisplayItem from './ProductDisplayItem';
+import { useTranslation } from 'react-i18next';
 
 const SearchSection = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [productDisplayResult, setProductDisplayResult] = useState<
@@ -65,7 +67,7 @@ const SearchSection = () => {
     <View style={{ zIndex: 1 }}>
       <View style={styles.productSearchContainer}>
         <Searchbar
-          placeholder="Search Products"
+          placeholder={t("Search Products")}
           onChangeText={(query) => setSearchQuery(query)}
           value={searchQuery}
           iconColor="#414141"

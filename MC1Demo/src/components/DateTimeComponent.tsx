@@ -9,7 +9,8 @@ const DateTimeComponent = ({ selectedDate }: { selectedDate: Date }) => {
 
   const queryClient = useQueryClient();
 
-  const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
+  const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate) && 
+                          (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
 
   useEffect(() => {
 

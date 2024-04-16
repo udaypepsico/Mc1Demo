@@ -1,22 +1,25 @@
 import React from "react";
 import { memo } from "react"
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 
 
 const CasesSection = () => {
+    const {t} = useTranslation();
+
     return ( <View style={styles.casesContainer}>
         <View style={styles.plannedCasesContainer}>
-          <Text style={styles.textHeader}>Planned Cases</Text>
+          <Text style={styles.textHeader}>{t("Planned Cases")}</Text>
           <Text style={styles.textSmallValue}>821 cs</Text>
         </View>
         <View style={styles.casesSoldContainer}>
-          <Text style={styles.textHeader}>Cases Sold</Text>
+          <Text style={styles.textHeader}>{t("Cases Sold")}</Text>
           <Text style={styles.textSmallValue}>100 cs</Text>
         </View>
         <View style={styles.returnsContainer}>
-          <Text style={styles.textHeader}>Returns</Text>
+          <Text style={styles.textHeader}>{t("Returns")}</Text>
           <Text style={styles.textSmallValue}>0</Text>
         </View>
       </View>)
@@ -27,7 +30,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         margin: 20,
-        marginBottom:30
+        marginBottom:30,
+        overflow:'scroll',
+
       },
       plannedCasesContainer: {
         height: '100%',

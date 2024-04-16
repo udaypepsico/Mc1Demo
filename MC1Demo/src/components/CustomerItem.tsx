@@ -17,6 +17,7 @@ import { Record } from '../data/Record';
 import { Linking } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const LeftImageContent = (props: any) => <Avatar.Image {...props} size={50} />;
 
@@ -40,6 +41,8 @@ const CustomerItem = ({
   onCancelVisit: any;
 }) => {
   const queryClient = useQueryClient();
+
+  const { t } = useTranslation();
 
   const {
     isPending,
@@ -79,20 +82,21 @@ const CustomerItem = ({
               //   uri: customerRecord.PhotoUrl,
               // }} />
             )}
-            {(queryClient.getQueryData(['visitType']) as selectedVisitType)
-              .visitType === 'Past' && (
-              <Avatar.Icon
-                icon="check"
-                size={30}
-                color="white"
-                style={{
-                  marginTop: -12.5,
-                  zIndex: 2,
-                  alignSelf: 'flex-end',
-                  backgroundColor: '#3FD571',
-                }}
-              />
-            )}
+            {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
+              (queryClient.getQueryData(['visitType']) as selectedVisitType)
+                .visitType === 'Past' && (
+                <Avatar.Icon
+                  icon="check"
+                  size={30}
+                  color="white"
+                  style={{
+                    marginTop: -12.5,
+                    zIndex: 2,
+                    alignSelf: 'flex-end',
+                    backgroundColor: '#3FD571',
+                  }}
+                />
+              )}
           </View>
           <View style={styles.descriptionContainer}>
             <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
@@ -123,19 +127,20 @@ const CustomerItem = ({
                     : '')}
               </Text>
             </View>
-            {(queryClient.getQueryData(['visitType']) as selectedVisitType)
-              .visitType === 'Past' && (
-              <Button
-                mode="contained"
-                style={{
-                  backgroundColor: '#3FD571',
-                  alignSelf: 'flex-start',
-                  marginTop: 5,
-                }}
-              >
-                ORDER TAKEN
-              </Button>
-            )}
+            {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
+              (queryClient.getQueryData(['visitType']) as selectedVisitType)
+                .visitType === 'Past' && (
+                <Button
+                  mode="contained"
+                  style={{
+                    backgroundColor: '#3FD571',
+                    alignSelf: 'flex-start',
+                    marginTop: 5,
+                  }}
+                >
+                  {t("ORDER TAKEN")}
+                </Button>
+              )}
           </View>
           <View style={styles.phoneLocationContainer}>
             <View
@@ -165,53 +170,55 @@ const CustomerItem = ({
             </View>
           </View>
         </View>
-        {(queryClient.getQueryData(['visitType']) as selectedVisitType)
-          .visitType !== 'Past' && (
-          <View style={styles.deliveryWorkOrdersContainer}>
-            <View style={styles.deliveryContainer}>
-              <MaterialCommunityIcons
-                name="truck-outline"
-                size={20}
-                color="grey"
-              />
-              <Text style={{ paddingLeft: 5, color: '#535659' }}>
-                Upcoming Delivery
-              </Text>
-            </View>
-            <View style={styles.workOrdersContianer}>
-              <Text style={{ paddingRight: 5, color: '#535659' }}>
-                Work Orders
-              </Text>
-              <View style={styles.circleOutline}>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {customerRecord.WorkOrders}
+        {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
+          (queryClient.getQueryData(['visitType']) as selectedVisitType)
+            .visitType !== 'Past' && (
+            <View style={styles.deliveryWorkOrdersContainer}>
+              <View style={styles.deliveryContainer}>
+                <MaterialCommunityIcons
+                  name="truck-outline"
+                  size={20}
+                  color="grey"
+                />
+                <Text style={{ paddingLeft: 5, color: '#535659' }}>
+                  {t("Upcoming Delivery")}
                 </Text>
               </View>
+              <View style={styles.workOrdersContianer}>
+                <Text style={{ paddingRight: 5, color: '#535659' }}>
+                  {t("Work Orders")}
+                </Text>
+                <View style={styles.circleOutline}>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    {customerRecord.WorkOrders}
+                  </Text>
+                </View>
+              </View>
             </View>
-          </View>
-        )}
+          )}
       </View>
-      {(queryClient.getQueryData(['visitType']) as selectedVisitType)
-        .visitType === 'Today' && (
-        <Card.Actions>
-          <Button
-            icon="account-box-outline"
-            onPress={() => {
-              onCheckInPressed(index);
-            }}
-          >
-            Check In
-          </Button>
-          <Button
-            icon="cancel"
-            onPress={() => {
-              onCancelVisit(index);
-            }}
-          >
-            Cancel
-          </Button>
-        </Card.Actions>
-      )}
+      {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
+        (queryClient.getQueryData(['visitType']) as selectedVisitType)
+          .visitType === 'Today' && (
+          <Card.Actions>
+            <Button
+              icon="account-box-outline"
+              onPress={() => {
+                onCheckInPressed(index);
+              }}
+            >
+              {t("CheckIn")}
+            </Button>
+            <Button
+              icon="cancel"
+              onPress={() => {
+                onCancelVisit(index);
+              }}
+            >
+              {t("Cancel")}
+            </Button>
+          </Card.Actions>
+        )}
     </Card>
   );
 };

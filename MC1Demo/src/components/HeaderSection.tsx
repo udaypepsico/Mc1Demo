@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -7,6 +8,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 const HeaderSection = ({ updateVisitType }: { updateVisitType: any }) => {
   const [selectedItem, setSelectedItem] = useState('Today');
   const VisitType = ['Past', 'Today', 'Future'];
+  const {t} = useTranslation();
 
   return (
     <View style={styles.topHeader}>
@@ -28,7 +30,7 @@ const HeaderSection = ({ updateVisitType }: { updateVisitType: any }) => {
                     { color: selectedItem === itemType ? 'white' : '#17A3DA' },
                   ]}
                 >
-                  {itemType}
+                  {t(itemType)}
                 </Text>
               )}
             </Pressable>

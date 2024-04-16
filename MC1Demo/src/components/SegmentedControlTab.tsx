@@ -15,6 +15,7 @@ const SegmentedControlTab = ({
   selectedIndex:number;
   segmentedValues:string[];
 }) => {
+  
   return (
     <SegmentedControl
       style={styles.segmentedControls}

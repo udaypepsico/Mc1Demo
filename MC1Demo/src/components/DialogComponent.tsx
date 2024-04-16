@@ -1,5 +1,6 @@
 import React from 'react';
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
 const DialogComponent = ({
@@ -15,12 +16,14 @@ const DialogComponent = ({
     navigate();
   };
 
+  const {t} = useTranslation();
+
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={hideDialog}>
-        <Dialog.Title>Confirm</Dialog.Title>
+        <Dialog.Title>{t("Confirm")}</Dialog.Title>
         <Dialog.Content>
-          <Text variant="bodyMedium">Do you want to Check In?</Text>
+          <Text variant="bodyMedium">{t("CheckInAskMessage")}</Text>
         </Dialog.Content>
         <Dialog.Actions>
           <Button
@@ -28,10 +31,10 @@ const DialogComponent = ({
             onPress={confirmedAction}
             mode="outlined"
           >
-            Confirm
+            {t("Confirm")}
           </Button>
           <Button icon="close" onPress={hideDialog} mode="outlined">
-            Cancel
+            {t("Cancel")}
           </Button>
         </Dialog.Actions>
       </Dialog>

@@ -42,6 +42,7 @@ import DateScrollContainer from '../components/DateScrollContainer';
 import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-control/segmented-control';
 import DateVisitComponent from '../components/DateVisitComponent';
 import { generateDateTime } from '../core/utils';
+import { useTranslation } from 'react-i18next';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -54,6 +55,7 @@ export interface selectedIndexVisitType {
 }
 
 const MyDayScreen = () => {
+  const { t } = useTranslation();
   const [value, setValue] = useState(0);
 
   const [selectedIndexVisit, setSelectedIndexVisit] =
@@ -183,7 +185,7 @@ const MyDayScreen = () => {
               <HeaderSection updateVisitType={updateVisitType} />
               <SegmentedControlTab
                 segmentValueChanged={segmentValueChanged}
-                segmentedValues={['MY DAY', 'MY ROUTE']}
+                segmentedValues={[t("My Day"), t("My Route")]}
                 selectedIndex={value}
               />
               {selectedIndexVisit.visitType === 'Today' ? (

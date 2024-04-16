@@ -27,8 +27,6 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import ContactListScreen from './src/screens/ContactListScreen';
 import SalesOrderStack from './src/screens/SalesOrderStack';
 import {
   QueryClient,
@@ -47,6 +45,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider } from 'react-native-paper';
 import { theme } from './src/core/theme';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import './src/locales/i18n';
 
 // Create a client
 function onAppStateChange(status: AppStateStatus) {
@@ -75,8 +74,6 @@ export const App = () => {
   useOnlineManager();
 
   useAppState(onAppStateChange);
-
-  const Stack = createStackNavigator();
 
   return (
     <NavigationContainer>

@@ -24,6 +24,9 @@ import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProductScreen = () => {
+    
+  const { t } = useTranslation();
+
   const [tabIndex, setTabIndex] = useState(0);
   const queryClient = useQueryClient();
 
@@ -53,10 +56,6 @@ const ProductScreen = () => {
     },
   });
 
-  useEffect(() => {
-    // i18n.changeLanguage('fr');
-  }, []);
-  const { t } = useTranslation();
   const rightSwipeActions = () => {
     return (
       <View
@@ -111,16 +110,6 @@ const ProductScreen = () => {
     []
   );
 
-  const onChangeLanguage = () => {
-    if (i18n.language === 'en') {
-      i18n.changeLanguage('es');
-    } else if (i18n.language === 'es') {
-      i18n.changeLanguage('fr');
-    } else {
-      i18n.changeLanguage('en');
-    }
-  };
-
   if (pending || isFetching) return <DotIndicator color="red" />;
 
   const onTabChange = (index: number) => {
@@ -130,9 +119,6 @@ const ProductScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.h4}>{t('ProductInfo')}</Text>
-      <View style={{ position: 'absolute', right: 5 }}>
-        <Button title=" A " onPress={() => onChangeLanguage()} />
-      </View>
       <SearchSection />
       <FlatList
         style={styles.listContainer}
@@ -159,6 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     margin: 10,
+    alignSelf:'center'
   },
   centerItem: {
     alignItems: 'center',

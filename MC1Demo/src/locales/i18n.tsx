@@ -13,7 +13,7 @@ i18n
             fr: { translation: fr },
             es: { translation: es },
         },
-        lng: 'fr',
+        lng: 'es',
         interpolation: {
             escapeValue: false, // This ensures raw HTML in translations (if needed)
         },

@@ -4,11 +4,13 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { DateContainerType, generateDateTime } from '../core/utils';
 import { Text } from 'react-native-paper';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const DateScrollContainer = ({ type,updateSelectedDate }: { type: string;updateSelectedDate:any }) => {
   const [selectedItem, setSelectedItem] = useState(0);
   const dateComponent: DateContainerType[] = generateDateTime(type, 30);
   const queryClient = useQueryClient();
+  const {t} = useTranslation();
   
   return (
     <View>
@@ -31,7 +33,7 @@ const DateScrollContainer = ({ type,updateSelectedDate }: { type: string;updateS
               }}
             >
               <Text style={{ color: 'white', fontSize: 10,fontWeight:'bold',paddingHorizontal:5 }}>
-                {itemType.WeekDay}
+                {t(itemType.WeekDay)}
               </Text>
               <Text style={{ color: 'white', fontSize: 10,fontWeight:'bold',paddingHorizontal:5 }}>
                 {itemType.DateString}
