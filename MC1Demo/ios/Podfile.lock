@@ -13,7 +13,7 @@ PODS:
     - SQLCipher
   - fmt (6.2.1)
   - glog (0.3.5)
-  - hermes-engine (0.70.14)
+  - hermes-engine (0.70.6)
   - libevent (2.1.12)
   - MobileSync (11.1.0):
     - MobileSync/MobileSync (= 11.1.0)
@@ -541,9 +541,9 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  hermes-engine: af3982923f6d1af884ece80592bd40be2c62e064
+  hermes-engine: 9ddc050f64651f0ad4f998ea0f4d39075fd92649
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  MobileSync: 5e1d4beed5d931ca89dd664045bb2dbb70098be6
+  MobileSync: 3efc3981d2ecd48d9372192732327d0d6e869111
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 6f42727926c2ef4836fc23169586f3d8d7f5a6e4
   RCTTypeSafety: de9b538a8f20ae8c780bf38935f37f303b083fc8
@@ -582,14 +582,14 @@ SPEC CHECKSUMS:
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
   RNSVG: 6d07f8f8f246c85e3e16e0bcfc0d047db0c48496
   RNVectorIcons: bc7ee28cadf39c77a49232a14738dfce690f66cd
-  SalesforceAnalytics: 8b0339546d55605d976fde9d5419e6910a49830e
+  SalesforceAnalytics: 2ffc39532f8251a9f995c38fff33ae058d0d04c2
   SalesforceReact: e761f317772d718591c769b8f98be4129c66843b
-  SalesforceSDKCommon: f1fe99977a862927757141a1084245925026a142
-  SalesforceSDKCore: 8d142fd46b2a9f912e774f69e70b672b9be8aeea
-  SmartStore: 2473b23822b8722828e3a04a286dd610deca30f3
+  SalesforceSDKCommon: cafb14b635aaaee4434db1e01742013c67d2573f
+  SalesforceSDKCore: facf41651af628d4451205df22d4303162fb6abe
+  SmartStore: cc9c1b6067a3dda0e71e665fcb03707ec8835373
   SQLCipher: 838309284f29953a28ad2e81d87d55ea6b7c74fd
   Yoga: 56413d530d1808044600320ced5baa883acedc44
 
 PODFILE CHECKSUM: 91dbda99dcc53e21a5dd0d1b63f994fe64cc3644
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.12.1
