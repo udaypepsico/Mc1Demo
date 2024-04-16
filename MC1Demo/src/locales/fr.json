@@ -52,5 +52,6 @@
     "Work Orders":"Bons de travail",
     "ORDER TAKEN":"COMMANDE PRISE",
     "Day Started at":"Journée commencée à",
-    "CheckInAskMessage":"Voulez-vous vous enregistrer ?"
+    "CheckInAskMessage":"Voulez-vous vous enregistrer ?",
+    "Team Meeting":"Réunion d'équipe"
 }

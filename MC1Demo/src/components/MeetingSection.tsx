@@ -5,9 +5,11 @@ import { IconButton, Text } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Linking } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const MeetingSection = () => {
   const [meetingDate, setMeetingDate] = useState<Date>(new Date());
+  const { t } = useTranslation();
 
   return (
     <View style={styles.meetingContainer}>
@@ -30,7 +32,7 @@ const MeetingSection = () => {
                 day: 'numeric',
               })}
             </Text>
-            <Text style={styles.teamMeetingText}>Team Meeting</Text>
+            <Text style={styles.teamMeetingText}>{t('Team Meeting')}</Text>
           </View>
         </View>
         <IconButton

@@ -52,5 +52,6 @@
     "Work Orders":"Work Orders",
     "ORDER TAKEN":"ORDER TAKEN",
     "Day Started at":"Day Started at",
-    "CheckInAskMessage":"Do you want to Check In ?"
+    "CheckInAskMessage":"Do you want to Check In ?",
+    "Team Meeting":"Team Meeting"
 }
