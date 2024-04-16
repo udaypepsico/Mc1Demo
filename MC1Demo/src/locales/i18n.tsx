@@ -4,6 +4,7 @@ import en from "../locales/en.json"
 import fr from "../locales/fr.json";
 import es from "../locales/es.json";
 
+
 i18n
     .use(initReactI18next)
     .init({

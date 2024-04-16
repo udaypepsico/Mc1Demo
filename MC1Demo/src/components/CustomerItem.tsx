@@ -50,7 +50,7 @@ const CustomerItem = ({
     queryFn: () =>
       fetchImage(
         (queryClient.getQueryData(['credentials']) as Credentials).accessToken,
-        customerRecord.IconURL__c
+        customerRecord.PhotoUrl
       ),
   });
 
@@ -75,6 +75,9 @@ const CustomerItem = ({
               />
             ) : (
               <LeftNonImageContent icon="store" />
+              // <LeftImageContent source={{
+              //   uri: customerRecord.PhotoUrl,
+              // }} />
             )}
             {(queryClient.getQueryData(['visitType']) as selectedVisitType)
               .visitType === 'Past' && (

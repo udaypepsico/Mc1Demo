@@ -1,3 +1,5 @@
+import { Attribute } from "./Record";
+
 const pepsi_1_5LImage = require('../assets/img/Pepsi_1.5L.png');
 const pepsi_500mlImage = require('../assets/img/Pepsi_500ml.png');
 const robinsons_500mlImage = require('../assets/img/Robinsons_Real_Fruit_Raspberry_and_Apple_500ml.png');
@@ -27,13 +29,24 @@ export const imageArrays = [
 ];
 
 export interface ProductsType {
-  Id: number;
-  imageSource: any;
-  productWeight: string;
-  productName: string;
-  productCode: string;
-  productId: string;
-  productPrice: number;
-  productSuggestedQuantity: number;
-  productQuantity: number;
+  Id: string;
+  imageSource?: any;
+  productWeight?: string;
+  productName?: string;
+  productCode?: string;
+  productId?: string;
+  productPrice?: number;
+  productSuggestedQuantity?: number;
+  productQuantity?: number;
+  Name?:string;
+  ProductCode?:string;
+  Pack__c?:string;
+  Description?:string;
+  Family?:string;
+  DisplayUrl?:string;
+  StockKeepingUnit?:string;
+  Brand_Group__c?:string;
+  Brand_Value__c?:string;
+  Brand__c?:string;
+  attributes?: Attribute;
 }

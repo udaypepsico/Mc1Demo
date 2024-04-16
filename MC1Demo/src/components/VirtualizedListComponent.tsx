@@ -87,6 +87,7 @@ const VirtualizedListComponent = ({
       }
       ListHeaderComponent={<>{children}</>}
       initialNumToRender={10}
+      maxToRenderPerBatch={5}
       getItemLayout={(data, index) => ({
         length: 200,
         offset: (100 + 15) * index,

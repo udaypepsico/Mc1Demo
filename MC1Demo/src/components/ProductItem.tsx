@@ -1,9 +1,10 @@
 import { memo, useState } from 'react';
-import { ProductsType } from '../data/Products';
+import { ProductsType, imageArrays } from '../data/Products';
 import React from 'react';
 import { StyleSheet, View, Text, Image, TextInput, Button } from 'react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { increamentalValue } from '../core/utils';
 
 const ProductItem = (props: any) => {
   const {
@@ -17,16 +18,12 @@ const ProductItem = (props: any) => {
     imageSource,
   } = props;
 
-  const [text, onChangeText] = useState('Useless Text');
-  const [quantity, setQuantity] = useState(productQuantity);
-
   const queryClient = useQueryClient();
-
+  
   const updateProducts = useMutation({
     mutationKey: ['updateproducts'],
     onMutate: async (payload: number) => {
       await queryClient.cancelQueries({ queryKey: ['products'] });
-
       queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
         return (
           old &&
@@ -43,26 +40,17 @@ const ProductItem = (props: any) => {
   });
 
   const onChangeQuantity = (val: number) => {
-    setQuantity(quantity + val);
-    updateProducts.mutate(quantity + val);
-
-    // console.log(
-    //   (
-    //     queryClient.getQueryData([
-    //       'products',
-    //       { Id: productId },
-    //     ]) as ProductsType
-    //   ).productQuantity
-    // );
+    const updatedQuantity = productQuantity + val;
+    if(updatedQuantity > 0)
+        updateProducts.mutate(updatedQuantity);
+    else
+        updateProducts.mutate(0);
   };
 
-  if (quantity < 0) {
-    setQuantity(0);
-  }
   return (
     <View style={styles.item}>
       <View style={styles.itemContainer}>
-        <Image style={styles.photo} source={imageSource} />
+        <Image style={styles.photo} source={imageArrays[imageSource]} />
         <View style={styles.textContainer}>
           <Text style={styles.itemName}>{productName}</Text>
           <Text style={styles.itemDetail}>
@@ -84,16 +72,18 @@ const ProductItem = (props: any) => {
               padding: 10,
               alignSelf: 'center',
             }}
-            onPress={() => onChangeQuantity(-productQuantity)}
+            onPress={() => {
+              onChangeQuantity(-increamentalValue);
+            }}
           />
           <TextInput
             style={styles.inputQuantity}
             editable
             keyboardType="numeric"
             onChangeText={(num) =>
-              setQuantity(Number(num) < 0 ? 0 : Number(num))
+              updateProducts.mutate((Number(num) < 0 || !num) ? 0 : Number(num))
             }
-            defaultValue={String(quantity)}
+            defaultValue={String(productQuantity)}
           />
           <FontAwesome5
             name="plus"
@@ -104,10 +94,12 @@ const ProductItem = (props: any) => {
               padding: 10,
               alignSelf: 'center',
             }}
-            onPress={() => onChangeQuantity(productQuantity)}
+            onPress={() => {
+              onChangeQuantity(increamentalValue);
+            }}
           />
           <Text style={styles.totalText}>
-            ${(quantity * productPrice).toFixed(2)}
+            ${(productQuantity * productPrice).toFixed(2)}
           </Text>
         </View>
         <Text style={styles.sugText}>Sug Qty {productSuggestedQuantity}</Text>
