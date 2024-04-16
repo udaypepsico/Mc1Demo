@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { ProductsType } from '../data/Products';
@@ -9,11 +9,20 @@ import { useTranslation } from 'react-i18next';
 
 const SummaryScreen = () => {
   const { t } = useTranslation();
-  const queryClient = useQueryClient();
 
-  const productsData = queryClient.getQueryData(['products']) as ProductsType[];
+  const {
+    isPending: pending,
+    error: productFetchError,
+    data: productsData,
+    isFetching,
+  } = useQuery<ProductsType[], Error>({
+    queryKey: ['products'],
+    queryFn: () => fetchProducts(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
 
-  console.log('Summary', productsData);
+
   let totalPrice = 0;
   let totalPieces = 0;
   const bxbChange = 0;
@@ -25,7 +34,7 @@ const SummaryScreen = () => {
   const iva = 0;
 
   productsData?.forEach((p: any) => {
-    console.log(p.productPrice, p.productQuantity);
+
     totalPrice += p.productPrice * p.productQuantity;
     totalPieces += p.productQuantity;
   })
