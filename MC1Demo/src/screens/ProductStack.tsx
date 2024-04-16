@@ -21,9 +21,10 @@ const ProductStack = () => {
       >
         <Tab.Navigator
           screenOptions={{
+            tabBarLabelStyle:{fontSize:12,fontWeight:'800'},
             tabBarIndicatorStyle: { backgroundColor: '#6A00C2' },
             tabBarActiveTintColor: '#6A00C2',
-            tabBarInactiveTintColor: 'black'
+            tabBarInactiveTintColor: 'black',
           }}
         >
           <Tab.Screen name={t("Products")} component={ProductScreen} />
