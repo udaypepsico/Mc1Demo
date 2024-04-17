@@ -1,10 +1,12 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { memo } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchProducts } from '../lib/api';
 import { useTranslation } from 'react-i18next';
+import ExpandableListItem from '../components/ExpandableListItem';
+import { Button } from 'react-native-paper';
 
 
 const SummaryScreen = () => {
@@ -34,7 +36,6 @@ const SummaryScreen = () => {
   const iva = 0;
 
   productsData?.forEach((p: any) => {
-
     totalPrice += p.productPrice * p.productQuantity;
     totalPieces += p.productQuantity;
   })
@@ -42,69 +43,124 @@ const SummaryScreen = () => {
   const total = totalPrice + bxbChange + mxbChange + exchange;
   const subTotal = total - gifts - discount - ieps - iva;
 
-  const renderItem = ({ item }: any) => (
-    <View >
-      <View style={styles.itemHeading}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.rightArrow}>⌃</Text>
+  const SummaryList = () => (
+    <View style={styles.table}>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Product')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${totalPrice.toFixed(2)}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('BxBChange')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${bxbChange}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('MxBChange')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${mxbChange}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Exchange')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${exchange}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Total')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${total.toFixed(2)}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('GiftProducts')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${gifts}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Discounts')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${discount}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>IEPS</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${ieps}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>IVA</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${iva}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Subtotal')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${subTotal.toFixed(2)}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('Pieces')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${totalPieces}</Text>
+      </View>
+    </View>
+  );
+  console.log(productsData);
+  const ProductList = () => (
+    <View style={styles.table}>
+      {
+        productsData.map((p: any) => {
+          return (
+            <View style={styles.row}><Text style={styles.cell}>{p.productName}</Text>
+              <Text style={[styles.cell, styles.rightAlign]}>${p.productPrice.toFixed(2)}</Text>
+            </View>
+          )
+
+        })
+
+      }
+    </View>
+  );
+  const BxBList = () => (
+    <View style={styles.table}>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('BxBChange')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${totalPrice.toFixed(2)}</Text>
+      </View>
+
+    </View>
+  );
+  const MxBList = () => (
+    <View style={styles.table}>
+      <View style={styles.row}>
+        <Text style={styles.cell}>{t('MxBChange')}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>${totalPrice.toFixed(2)}</Text>
       </View>
 
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.itemHeading}>
-        <Text style={styles.itemName}>{t('Total')}</Text>
-        <Text style={styles.rightArrow}>⌃</Text>
-      </View>
-      <View style={styles.table}>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Product')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${totalPrice.toFixed(2)}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('BxBChange')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${bxbChange}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('MxBChange')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${mxbChange}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Exchange')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${exchange}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Total')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${total.toFixed(2)}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('GiftProducts')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${gifts}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Discounts')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${discount}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>IEPS</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${ieps}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>IVA</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${iva}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Subtotal')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${subTotal.toFixed(2)}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.cell}>{t('Pieces')}</Text>
-          <Text style={[styles.cell, styles.rightAlign]}>${totalPieces}</Text>
-        </View>
-      </View>
-    </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <ExpandableListItem
+            clickedChildren={<Text style={styles.itemName}>{t('Total')}</Text>}
+            expandedChildren={
+              <SummaryList />
+            }
+          />
+          <ExpandableListItem
+            clickedChildren={<Text style={styles.itemName}>{t('Products')}</Text>}
+            expandedChildren={
+              <ProductList />
+            }
+          />
+          <ExpandableListItem
+            clickedChildren={<Text style={styles.itemName}>{t('BxBChange')}</Text>}
+            expandedChildren={
+              <BxBList />
+            }
+          />
+          <ExpandableListItem
+            clickedChildren={<Text style={styles.itemName}>{t('MxBChange')}</Text>}
+            expandedChildren={
+              <MxBList />
+            }
+          />
+          <ExpandableListItem
+            clickedChildren={<Text style={styles.itemName}>{t('Print')} {t('Ticket')}</Text>}
+            expandedChildren={
+              <Button>PRINT</Button>
+            }
+          />
+        </ScrollView>
+      </SafeAreaView>
   );
 };
 

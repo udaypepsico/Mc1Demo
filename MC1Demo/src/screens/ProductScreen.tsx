@@ -171,8 +171,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    marginHorizontal: 10,
-    marginTop: 30,
+    margin: 10,
   },
   photo: {
     width: 30,

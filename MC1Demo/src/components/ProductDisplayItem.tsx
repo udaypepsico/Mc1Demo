@@ -33,10 +33,11 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
       return { newproducts };
     }
   });
+  const productIcon = product.DisplayUrl ? product.DisplayUrl : 'https://cdn.iconscout.com/icon/free/png-256/free-pepsi-3442215-2875978.png';
 
   return (
     <View style={styles.item}>
-      <Image style={styles.photo} source={{uri:product.DisplayUrl}} />
+      <Image style={styles.photo} source={{uri: productIcon}} />
       <Text style={styles.itemName}>{product.Name}</Text>
       <Button
         mode="contained"
@@ -63,8 +64,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   photo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   },
   itemName: {
     fontSize: 16,

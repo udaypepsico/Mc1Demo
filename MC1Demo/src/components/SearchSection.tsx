@@ -13,10 +13,10 @@ import { ProductsType } from '../data/Products';
 import { fetchFullProducts } from '../lib/api';
 import ProductDisplayItem from './ProductDisplayItem';
 import { useTranslation } from 'react-i18next';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const SearchSection = () => {
   const { t } = useTranslation();
-  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [productDisplayResult, setProductDisplayResult] = useState<
     ProductsType[] | undefined
@@ -38,7 +38,7 @@ const SearchSection = () => {
     ({ item }) => (
       <ProductDisplayItem
         product={item}
-        closeSearchList={()=>{setSearchQuery('')}}
+        closeSearchList={() => { setSearchQuery('') }}
       />
     ),
     []
@@ -48,16 +48,16 @@ const SearchSection = () => {
     const productDisplayResult = !(searchQuery.trim().length === 0)
       ? searchQuery.split(' ').length > 1
         ? productsData!.filter((obj) => {
-            return obj.Name!
-              .toLowerCase()
-              .startsWith(searchQuery.toLowerCase());
-          })
+          return obj.Name!
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase());
+        })
         : productsData!.filter((obj) => {
-            return obj.Name!
-              .toLowerCase()
-              .split(' ')
-              .some((item) => item.startsWith(searchQuery.toLowerCase()));
-          })
+          return obj.Name!
+            .toLowerCase()
+            .split(' ')
+            .some((item) => item.startsWith(searchQuery.toLowerCase()));
+        })
       : [];
 
     setProductDisplayResult(productDisplayResult);
@@ -108,13 +108,13 @@ const SearchSection = () => {
           />
         </View>
       </View>
-      <FlatList
-        data={productDisplayResult}
-        style={styles.listContainer}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.Id.toString()}
-        ItemSeparatorComponent={() => <View style={{ height: 5 }}></View>}
-      />
+
+        <FlatList
+          data={productDisplayResult}
+          style={styles.listContainer}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.Id.toString()}
+        />
     </View>
   );
 };
@@ -122,14 +122,16 @@ const SearchSection = () => {
 const styles = StyleSheet.create({
   productSearchContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
     height: 40,
   },
   listContainer: {
     position: 'absolute',
-    top: 50,
-    left: 10,
-    width: Dimensions.get('window').width-50,
+    top: 60,
+    padding: 5,
+    width: Dimensions.get('window').width,
+    maxHeight: Dimensions.get('window').height-260,
+    backgroundColor: '#CCCCCC'
   },
 });
 
