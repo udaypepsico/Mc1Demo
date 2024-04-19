@@ -134,23 +134,6 @@ const queryFetchProducts = () => {
   });
 };
 
-const queryFetchVisits = () => {
-  return new Promise<ProductsType[]>((resolve, reject) => {
-    net.query(
-      'SELECT Id, AccountId, Account.Name, ActualVisitStartTime, ActualVisitEndTime FROM Visit',
-      (result: any) => {
-        resolve(result.records!);
-      },
-      (error) => {
-        reject(error);
-      }
-    );
-  });
-};
-export async function fetchVisits() {
-  const response = await queryFetchVisits();
-  return response;
-}
 export async function fetchProducts() {
   console.log('fetchProducts');
   return products

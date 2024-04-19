@@ -2,7 +2,7 @@ import SegmentedControl, {
   NativeSegmentedControlIOSChangeEvent,
 } from '@react-native-segmented-control/segmented-control';
 import React, { memo } from 'react';
-import { NativeSyntheticEvent, StyleSheet } from 'react-native';
+import { NativeSyntheticEvent, Platform, StyleSheet } from 'react-native';
 
 const SegmentedControlTab = ({
   segmentValueChanged,
@@ -12,15 +12,15 @@ const SegmentedControlTab = ({
   segmentValueChanged: (
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ) => void;
-  selectedIndex:number;
-  segmentedValues:string[];
+  selectedIndex: number;
+  segmentedValues: string[];
 }) => {
-  
   return (
     <SegmentedControl
       style={styles.segmentedControls}
       values={segmentedValues}
       selectedIndex={selectedIndex}
+      onValueChange={(value:string)=>console.log(value)}
       onChange={segmentValueChanged}
       fontStyle={{
         color: '#17A3DA',
@@ -35,6 +35,7 @@ const SegmentedControlTab = ({
       tintColor="#17A3DA"
       backgroundColor="white"
       tabStyle={styles.segmentedButton}
+      renderToHardwareTextureAndroid={true}
     />
   );
 };
@@ -46,11 +47,12 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     marginVertical: 20,
     marginHorizontal: 10,
-    padding: 20,
+    padding: Platform.OS === 'ios' ? 20 : 0,
+    height : 50
     //backgroundColor:'white'
   },
   segmentedButton: {
-    borderRadius: 10,
+    //borderRadius: 10
   },
   segmentedButtonText: {
     fontSize: 10,

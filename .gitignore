@@ -49,3 +49,4 @@ MC1Demo/android/java_pid49673.hprof
 MC1Demo/mobile_sdk/SalesforceMobileSDK-Android
 MC1Demo/mobile_sdk/SalesforceMobileSDK-iOS
 /MC1Demo/mobile_sdk
+*.hprof

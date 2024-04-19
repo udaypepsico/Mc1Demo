@@ -23,9 +23,7 @@ import {
   selectedVisitType,
   getQueryVisitType,
   getSelectedDate,
-  selectedDate,
-  fetchVisits,
-  fetchFullProducts,
+  selectedDate
 } from '../lib/api';
 import { Record, Visits } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
@@ -140,7 +138,10 @@ const MyDayScreen = () => {
 
   const segmentValueChanged = (
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
-  ): void => { };
+  ): void => {
+
+    setValue(value^1);
+  };
 
   const updateVisitType = (itemType: string) => {
     if (itemType === 'Today') {
