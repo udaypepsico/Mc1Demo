@@ -91,7 +91,7 @@ const SummaryScreen = () => {
       </View>
     </View>
   );
-  console.log(productsData);
+  
   const ProductList = () => (
     <View style={styles.table}>
       {

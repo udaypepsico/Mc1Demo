@@ -24,6 +24,8 @@ import {
   getQueryVisitType,
   getSelectedDate,
   selectedDate,
+  fetchVisits,
+  fetchFullProducts,
 } from '../lib/api';
 import { Record } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
@@ -43,6 +45,7 @@ import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-co
 import DateVisitComponent from '../components/DateVisitComponent';
 import { generateDateTime } from '../core/utils';
 import { useTranslation } from 'react-i18next';
+import { ProductsType } from '../data/Products';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -108,6 +111,18 @@ const MyDayScreen = () => {
     gcTime: Infinity,
   });
 
+  const {
+    isPending: visitPending,
+    error: visitError,
+    data: visitData,
+    isFetching: visitFetching,
+  } = useQuery<ProductsType[], Error>({
+    queryKey: ['visits'],
+    queryFn: () => fetchVisits(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
   if (credentialError)
     return <ErrorMessage message={credentialError.message}></ErrorMessage>;
 
@@ -125,7 +140,7 @@ const MyDayScreen = () => {
 
   const segmentValueChanged = (
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
-  ): void => {};
+  ): void => { };
 
   const updateVisitType = (itemType: string) => {
     if (itemType === 'Today') {
@@ -179,7 +194,7 @@ const MyDayScreen = () => {
             onCheckInPressed={(index: number) => {
               setDialogVisible(true);
             }}
-            onCancelVisit={(index: number) => {}}
+            onCancelVisit={(index: number) => { }}
           >
             <View style={styles.topContainer}>
               <HeaderSection updateVisitType={updateVisitType} />
@@ -189,7 +204,7 @@ const MyDayScreen = () => {
                 selectedIndex={value}
               />
               {selectedIndexVisit.visitType === 'Today' ? (
-                <VisitSection />
+                <VisitSection totalVisits={visitData?.length} completedVisits={0} />
               ) : (
                 <DateScrollContainer
                   type={selectedIndexVisit.visitType}

@@ -29,6 +29,14 @@ export interface Credentials {
   instanceUrl: string;
 }
 
+export interface Visits {
+  Id: string;
+  AccountId?: any;
+  AccountName?: string;
+  ActualVisitStartTime?: string;
+  ActualVisitEndTime?: string;
+}
+
 export const getUserCredentials = async (): Promise<Credentials> => {
   const response = await getUserToken();
   return response;
@@ -119,7 +127,7 @@ export async function fetchFullProducts() {
 }
 
 const queryFetchProducts = () => {
-  return new Promise<ProductsType[]>((resolve, reject) => {
+  return new Promise<Visits[]>((resolve, reject) => {
     net.query(
       'SELECT Id, Name, ProductCode, Pack__c, Description,  Family,DisplayUrl,StockKeepingUnit, \
       Brand_Group__c,Brand_Value__c,Brand__c FROM Product2',
@@ -133,6 +141,23 @@ const queryFetchProducts = () => {
   });
 };
 
+const queryFetchVisits = () => {
+  return new Promise<ProductsType[]>((resolve, reject) => {
+    net.query(
+      'SELECT Id, AccountId, Account.Name, ActualVisitStartTime, ActualVisitEndTime FROM Visit',
+      (result: any) => {
+        resolve(result.records!);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+};
+export async function fetchVisits() {
+  const response = await queryFetchVisits();
+  return response;
+}
 export async function fetchProducts() {
   console.log('fetchProducts');
   return products

@@ -4,22 +4,24 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-const VisitSection = () => {
+const VisitSection = (props: any) => {
+  const {totalVisits, completedVisits} = props;
   const { t } = useTranslation();
+  const remainingVisits = totalVisits - completedVisits;
   
   return (
     <View style={styles.visitContainer}>
       <View style={styles.totalVisitContainer}>
         <Text style={styles.textHeader}>{t("Total Visits")}</Text>
-        <Text style={styles.textValue}>6</Text>
+        <Text style={styles.textValue}>{totalVisits}</Text>
       </View>
       <View style={styles.completedVisitContainer}>
         <Text style={styles.textHeader}>{t("Completed")}</Text>
-        <Text style={styles.textValue}>1</Text>
+        <Text style={styles.textValue}>{completedVisits}</Text>
       </View>
       <View style={styles.remainingVisitContainer}>
         <Text style={styles.textHeader}>{t("Remaining")}</Text>
-        <Text style={styles.textValue}>5</Text>
+        <Text style={styles.textValue}>{remainingVisits}</Text>
       </View>
     </View>
   );

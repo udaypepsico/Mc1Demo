@@ -13,7 +13,6 @@ import { ProductsType } from '../data/Products';
 import { fetchFullProducts } from '../lib/api';
 import ProductDisplayItem from './ProductDisplayItem';
 import { useTranslation } from 'react-i18next';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const SearchSection = () => {
   const { t } = useTranslation();
@@ -70,24 +69,10 @@ const SearchSection = () => {
           placeholder={t("Search Products")}
           onChangeText={(query) => setSearchQuery(query)}
           value={searchQuery}
-          iconColor="#414141"
-          style={{
-            flex: 1,
-            backgroundColor: '#F2F4F7',
-            borderRadius: 10,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            height: '100%',
-            fontStyle: 'normal',
-          }}
+          style={styles.searchBar}
           maxLength={20}
           returnKeyType="search"
-          inputStyle={{
-            fontSize: 14,
-            fontWeight: 'normal',
-            paddingBottom: 20,
-            color: 'black',
-          }}
+          inputStyle={styles.searchInputText}
         />
         <View>
           <IconButton
@@ -109,12 +94,12 @@ const SearchSection = () => {
         </View>
       </View>
 
-        <FlatList
-          data={productDisplayResult}
-          style={styles.listContainer}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.Id.toString()}
-        />
+      <FlatList
+        data={productDisplayResult}
+        style={styles.listContainer}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.Id.toString()}
+      />
     </View>
   );
 };
@@ -130,9 +115,24 @@ const styles = StyleSheet.create({
     top: 60,
     padding: 5,
     width: Dimensions.get('window').width,
-    maxHeight: Dimensions.get('window').height-260,
+    maxHeight: Dimensions.get('window').height - 260,
     backgroundColor: '#CCCCCC'
   },
+  searchBar: {
+    flex: 1,
+    backgroundColor: '#F2F4F7',
+    borderRadius: 10,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    height: '100%',
+    fontStyle: 'normal',
+  },
+  searchInputText: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    paddingBottom: 20,
+    color: 'black',
+  }
 });
 
 export default memo(SearchSection);

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { memo } from 'react';
 import {
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   Text,
   Button,
   FlatList,
-  Pressable,
 } from 'react-native';
 import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,8 +13,10 @@ import { fetchProducts } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import { Button as PaperButton } from 'react-native-paper';
 import ExpandableListItem from '../components/ExpandableListItem';
+import ProductExchangeDialog from '../components/ProductExchangeDialog';
 
 const BxBExchange = () => {
+  const [showDialog, setShowDialog] = useState(false);
   const { t } = useTranslation();
   const {
     isPending: pending,
@@ -50,12 +51,29 @@ const BxBExchange = () => {
   const ieps = 0;
   const iva = 0;
 
+  const productItem = {
+    productId: '11',
+    productCode: 'PEP Pro',
+    productName: 'PepsiCo',
+    itemDetail: 'PepsiCo Brnad products',
+    productPrice: 14.5,
+    productWeight: 10,
+    productQuantity: 100,
+    productSuggestedQuantity: 10,
+  }
+  const productExchangeHandler = (id: any) => {
+    console.log('Changing', id);
+    setShowDialog(true);
+  }
+  const hideDialog = () => {
+    setShowDialog(false);
+  }
   const renderItem = ({ item }) => (
     <View>
       <ExpandableListItem
         clickedChildren={<Text style={styles.itemName}>{item.name}</Text>}
         expandedChildren={
-          <PaperButton mode="contained" style={styles.buttonBox}>
+          <PaperButton mode="contained" style={styles.buttonBox} onPress={() => productExchangeHandler(item.id)} >
             {item.action}
           </PaperButton>
         }
@@ -74,6 +92,7 @@ const BxBExchange = () => {
         keyExtractor={(item) => item.id.toString()}
         ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
       />
+      <ProductExchangeDialog product={productItem} visible={showDialog} hideDialog={hideDialog} />
     </View>
   );
 };
