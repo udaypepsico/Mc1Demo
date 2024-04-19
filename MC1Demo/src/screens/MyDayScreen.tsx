@@ -27,7 +27,7 @@ import {
   fetchVisits,
   fetchFullProducts,
 } from '../lib/api';
-import { Record } from '../data/Record';
+import { Record, Visits } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
 import { ErrorMessage } from '../components/ErrorMessage';
 import Svg, { Circle } from 'react-native-svg';
@@ -116,9 +116,9 @@ const MyDayScreen = () => {
     error: visitError,
     data: visitData,
     isFetching: visitFetching,
-  } = useQuery<ProductsType[], Error>({
+  } = useQuery<Visits[], Error>({
     queryKey: ['visits'],
-    queryFn: () => fetchVisits(),
+    queryFn: () => fetchData(),
     staleTime: Infinity,
     gcTime: Infinity,
   });

@@ -1,6 +1,6 @@
 import { oauth, net } from 'react-native-force';
-import { ProductsResponse, Response } from '../data/Response';
-import { Record } from '../data/Record';
+import { ProductsResponse, Response, VisitResponse } from '../data/Response';
+import { Record, Visits } from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
 import products from '../data/products.json';
 import { ProductsType, imageArrays } from '../data/Products';
@@ -27,14 +27,6 @@ export interface Credentials {
   refreshToken: string;
   accessToken: string;
   instanceUrl: string;
-}
-
-export interface Visits {
-  Id: string;
-  AccountId?: any;
-  AccountName?: string;
-  ActualVisitStartTime?: string;
-  ActualVisitEndTime?: string;
 }
 
 export const getUserCredentials = async (): Promise<Credentials> => {
@@ -76,16 +68,17 @@ const getUserToken = () => {
   });
 };
 
-export const fetchData = async (): Promise<Record[]> => {
+export const fetchData = async (): Promise<Visits[]> => {
   const response = await queryFetchPromise();
   return response;
 };
 
 const queryFetchPromise = () => {
-  return new Promise<Record[]>((resolve, reject) => {
+  return new Promise<Visits[]>((resolve, reject) => {
     net.query(
-      'Select Id,Name,Phone,Description,PhotoUrl,ShippingStreet,ShippingCity,ShippingState,ShippingCountry,ShippingPostalcode from Account',
-      (response: Response) => {
+      'SELECT Id, AccountId, Account.Name, Account.PhotoUrl, Account.Phone, Account.Description, \
+      Account.ShippingCity, Account.ShippingCountry, Account.ShippingPostalCode, Account.ShippingState, Account.ShippingStreet, ActualVisitStartTime, ActualVisitEndTime FROM Visit',
+      (response: VisitResponse) => {
         resolve(response.records!);
       },
       (error) => {

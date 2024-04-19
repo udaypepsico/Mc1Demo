@@ -12,7 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { theme } from '../core/theme';
 import { Credentials, fetchImage, selectedVisitType } from '../lib/api';
-import { Record } from '../data/Record';
+import { Record, Visits } from '../data/Record';
 
 import { Linking } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -33,7 +33,7 @@ const CustomerItem = ({
   onCheckInPressed,
   onCancelVisit,
 }: {
-  customerRecord: Record;
+  customerRecord: Visits;
   index: number;
   itemPress: any;
   selectedIndex: number;
@@ -53,7 +53,7 @@ const CustomerItem = ({
     queryFn: () =>
       fetchImage(
         (queryClient.getQueryData(['credentials']) as Credentials).accessToken,
-        customerRecord.PhotoUrl
+        customerRecord.Account!.PhotoUrl
       ),
   });
 
@@ -100,30 +100,30 @@ const CustomerItem = ({
           </View>
           <View style={styles.descriptionContainer}>
             <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
-              {customerRecord.Name}
+              {customerRecord.Account!.Name}
             </Text>
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
-              {'#' + customerRecord.Phone}
+              {'#' + customerRecord.Account!.Phone}
             </Text>
             <Text lineBreakMode="middle" style={{ color: '#878787' }}>
-              {customerRecord.Description}
+              {customerRecord.Account!.Description}
             </Text>
             <View style={styles.addressContainer}>
               <Text lineBreakMode="middle" style={{ color: '#878787' }}>
-                {(customerRecord.ShippingStreet
-                  ? customerRecord.ShippingStreet + ' '
+                {(customerRecord.Account!.ShippingStreet
+                  ? customerRecord.Account!.ShippingStreet + ' '
                   : '') +
-                  (customerRecord.ShippingCity
-                    ? customerRecord.ShippingCity + ' '
+                  (customerRecord.Account!.ShippingCity
+                    ? customerRecord.Account!.ShippingCity + ' '
                     : '') +
-                  (customerRecord.ShippingState
-                    ? customerRecord.ShippingState + ' '
+                  (customerRecord.Account!.ShippingState
+                    ? customerRecord.Account!.ShippingState + ' '
                     : '') +
-                  (customerRecord.ShippingCountry
-                    ? customerRecord.ShippingCountry + ' '
+                  (customerRecord.Account!.ShippingCountry
+                    ? customerRecord.Account!.ShippingCountry + ' '
                     : '') +
-                  (customerRecord.ShippingPostalCode
-                    ? customerRecord.ShippingPostalCode + ' '
+                  (customerRecord.Account!.ShippingPostalCode
+                    ? customerRecord.Account!.ShippingPostalCode + ' '
                     : '')}
               </Text>
             </View>
@@ -155,7 +155,7 @@ const CustomerItem = ({
                 size={25}
                 color="#17A3DA"
                 onPress={() => {
-                  Linking.openURL(`tel:${customerRecord.Phone}`);
+                  Linking.openURL(`tel:${customerRecord.Account!.Phone}`);
                 }}
               />
             </View>
@@ -190,7 +190,7 @@ const CustomerItem = ({
                 </Text>
                 <View style={styles.circleOutline}>
                   <Text style={{ fontWeight: 'bold' }}>
-                    {customerRecord.WorkOrders}
+                    {0}
                   </Text>
                 </View>
               </View>

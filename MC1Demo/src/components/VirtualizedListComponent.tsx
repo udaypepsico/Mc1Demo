@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { Record } from '../data/Record';
+import { Visits } from '../data/Record';
 import { Text } from 'react-native-paper';
 import CustomerItem from './CustomerItem';
 import {
@@ -35,8 +35,8 @@ const VirtualizedListComponent = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const { isPending, error, data, isFetching } = useQuery<Record[], Error>({
-    queryKey: ['accounts'],
+  const { isPending, error, data, isFetching } = useQuery<Visits[], Error>({
+    queryKey: ['visits'],
     queryFn: () => fetchData(),
     staleTime: Infinity,
     gcTime: Infinity,
@@ -44,12 +44,12 @@ const VirtualizedListComponent = ({
 
   const onScrolled = async (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (event.nativeEvent.contentOffset.y < -100) {
-      queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      queryClient.invalidateQueries({ queryKey: ['visits'] });
     }
   };
 
-  const renderItem: ListRenderItem<Record> = useCallback(
-    ({ item, index }: { item: Record; index: number }) => (
+  const renderItem: ListRenderItem<Visits> = useCallback(
+    ({ item, index }: { item: Visits; index: number }) => (
       <View
         style={{
           paddingHorizontal: 10,

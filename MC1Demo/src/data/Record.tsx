@@ -19,3 +19,25 @@ export interface Attribute {
   type: string;
   url: string;
 }
+export interface Account {
+  attributes?: Attribute;
+  ShippingCity: string;
+  Phone: string;
+  ShippingState: string;
+  Name: string;
+  ShippingStreet: string;
+  ShippingPostalCode: string;
+  PhotoUrl: string;
+  ShippingCountry: string;
+  Description: string;
+
+}
+export interface Visits {
+  Id: string;
+  AccountId?: any;
+  Account?: Account;
+  ActualVisitStartTime?: string;
+  ActualVisitEndTime?: string;
+  attributes?: Attribute;
+}
+
