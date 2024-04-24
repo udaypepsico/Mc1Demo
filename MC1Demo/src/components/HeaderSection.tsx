@@ -1,12 +1,15 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import Octicons from 'react-native-vector-icons/Octicons';
+import { selectedVisitType } from '../lib/api';
 
-const HeaderSection = ({ updateVisitType }: { updateVisitType: any }) => {
-  const [selectedItem, setSelectedItem] = useState('Today');
+const HeaderSection = ({ updateVisitType,selectedVisitType }: { updateVisitType: any;selectedVisitType:selectedVisitType }) => {
+  //const [selectedItem, setSelectedItem] = useState('Today');
+  const queryClient = useQueryClient();
   const VisitType = ['Past', 'Today', 'Future'];
   const {t} = useTranslation();
 
@@ -18,7 +21,7 @@ const HeaderSection = ({ updateVisitType }: { updateVisitType: any }) => {
             <Pressable
               key={'_key ' + itemType}
               onPress={() => {
-                setSelectedItem(itemType);
+                //setSelectedItem(itemType);
                 updateVisitType(itemType);
               }}
             >
@@ -27,7 +30,7 @@ const HeaderSection = ({ updateVisitType }: { updateVisitType: any }) => {
                   variant="titleLarge"
                   style={[
                     styles.topTextStyle,
-                    { color: selectedItem === itemType ? 'white' : '#17A3DA' },
+                    { color: selectedVisitType.visitType === itemType ? 'white' : '#17A3DA' },
                   ]}
                 >
                   {t(itemType)}

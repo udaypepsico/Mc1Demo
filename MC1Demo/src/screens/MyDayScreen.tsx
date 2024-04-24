@@ -87,13 +87,14 @@ const MyDayScreen = () => {
   const {
     isPending,
     error,
-    data: visitTypeData,
+    data: selectedVisitTypeData,
     isFetching,
   } = useQuery<selectedVisitType, Error>({
     queryKey: ['visitType'],
     queryFn: () => getQueryVisitType(),
     staleTime: Infinity,
     gcTime: Infinity,
+    initialData:{visitType:'Today'}
   });
 
   const {
@@ -198,7 +199,7 @@ const MyDayScreen = () => {
             onCancelVisit={(index: number) => { }}
           >
             <View style={styles.topContainer}>
-              <HeaderSection updateVisitType={updateVisitType} />
+              <HeaderSection updateVisitType={updateVisitType} selectedVisitType = {selectedVisitTypeData} />
               <SegmentedControlTab
                 segmentValueChanged={segmentValueChanged}
                 segmentedValues={[t("My Day"), t("My Route")]}
