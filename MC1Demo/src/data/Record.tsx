@@ -41,3 +41,35 @@ export interface Visits {
   attributes?: Attribute;
 }
 
+export interface Opportunity {
+  CloseDate: any;
+  Account: Account;
+  AccountId: string;
+  Id: string;
+  TotalOpportunityQuantity: any;
+  LeadSource: any;
+  Type: any;
+  Probability: any;
+  Name: string;
+  NextStep: string;
+  Description: string;
+  ExpectedRevenue: any;
+  StageName: string;
+  Amount: any;
+  attributes?: Attribute;
+}
+
+export interface OpportunityLineItem {
+  Quantity: any;
+  ListPrice: any;
+  Id: string;
+  Product2Id: string;
+  attributes: Attribute;
+  ProductCode: string;
+  TotalPrice: any;
+  Name: string;
+  Product2: Attribute;
+  OpportunityId: string;
+  UnitPrice: any;
+  Description: string;
+}

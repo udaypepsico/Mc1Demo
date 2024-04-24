@@ -53,7 +53,7 @@ export const generateDateTime = (
       let value: DateContainerType = {
         WeekDay: weekday[priorDate.getDay()],
         DateString: priorDate.getMonth() + 1 + '/' + priorDate.getDate(),
-        DateFormatString: priorDate.getFullYear()+'/'+priorDate.getMonth()+1+'/'+priorDate.getDate()
+        DateFormatString: priorDate.getFullYear() + '/' + priorDate.getMonth() + 1 + '/' + priorDate.getDate()
       };
       arrayValue.push(value);
     }
@@ -69,7 +69,7 @@ export const generateDateTime = (
       let value: DateContainerType = {
         WeekDay: weekday[priorDate.getDay()],
         DateString: priorDate.getMonth() + 1 + '/' + priorDate.getDate(),
-        DateFormatString: priorDate.getFullYear()+'-'+(priorDate.getMonth()+1)+'-'+priorDate.getDate()
+        DateFormatString: priorDate.getFullYear() + '-' + (priorDate.getMonth() + 1) + '-' + priorDate.getDate()
       };
       arrayValue.push(value);
     }
@@ -77,3 +77,8 @@ export const generateDateTime = (
     return arrayValue;
   }
 };
+
+export interface RouteParams {
+  key: string;
+  params: { accountId: string };
+}

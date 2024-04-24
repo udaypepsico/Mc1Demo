@@ -17,7 +17,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { DotIndicator } from 'react-native-indicators';
-import { fetchData } from '../lib/api';
+import { fetchVisitData } from '../lib/api';
 import { selectedIndexVisitType } from '../screens/MyDayScreen';
 
 const VirtualizedListComponent = ({
@@ -37,7 +37,7 @@ const VirtualizedListComponent = ({
 
   const { isPending, error, data, isFetching } = useQuery<Visits[], Error>({
     queryKey: ['visits'],
-    queryFn: () => fetchData(),
+    queryFn: () => fetchVisitData(),
     staleTime: Infinity,
     gcTime: Infinity,
   });

@@ -103,7 +103,7 @@ const CustomerItem = ({
               {customerRecord.Account!.Name}
             </Text>
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
-              {'#' + customerRecord.Account!.Phone}
+              {customerRecord.Account!.Phone?'#'+customerRecord.Account?.Phone:''}
             </Text>
             <Text lineBreakMode="middle" style={{ color: '#878787' }}>
               {customerRecord.Account!.Description}
@@ -204,7 +204,7 @@ const CustomerItem = ({
             <Button
               icon="account-box-outline"
               onPress={() => {
-                onCheckInPressed(index);
+                onCheckInPressed(index, customerRecord.AccountId);
               }}
             >
               {t("CheckIn")}

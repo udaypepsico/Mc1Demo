@@ -1,4 +1,4 @@
-import { Record, Visits } from '../data/Record';
+import { Opportunity, OpportunityLineItem, Record, Visits } from '../data/Record';
 import { ProductsType } from './Products';
 
 export interface Response {
@@ -12,4 +12,12 @@ export interface VisitResponse {
 export interface ProductsResponse {
   totalSize: number;
   records?:ProductsType[];
+}
+export interface OpportunityResponse {
+  totalSize: number;
+  records?:Opportunity[];
+}
+export interface OpportunityLineItemResponse {
+  totalSize: number;
+  records?:OpportunityLineItem[];
 }

@@ -17,41 +17,46 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../locales/i18n';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ProductsType } from '../data/Products';
-import { fetchProducts } from '../lib/api';
+import { getSelectedOpportunityItems } from '../lib/api';
 import { DotIndicator } from 'react-native-indicators';
 import SearchSection from '../components/SearchSection';
 import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Opportunity, OpportunityLineItem } from '../data/Record';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const ProductScreen = () => {
-    
+  const { params } = useRoute();
+  const accountId = params.accountId;
   const { t } = useTranslation();
-
-  const [tabIndex, setTabIndex] = useState(0);
   const queryClient = useQueryClient();
-
+  console.log(accountId);
   const {
     isPending: pending,
     error: productFetchError,
-    data: productsData,
+    data: selectedOpportunityData,
     isFetching,
-  } = useQuery<ProductsType[], Error>({
-    queryKey: ['products'],
-    queryFn: () => fetchProducts(),
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['selectedOpportunityLineItem'],
+    queryFn: () => getSelectedOpportunityItems(accountId),
     staleTime: Infinity,
     gcTime: Infinity,
   });
 
+  useEffect(() => {
+    //console.log('accountId=', accountId);
+  }, []);
+
   const deleteProducts = useMutation({
     mutationKey: ['deleteproducts'],
     onMutate: async (payload: ProductsType) => {
-      await queryClient.cancelQueries({ queryKey: ['products'] });
+      await queryClient.cancelQueries({ queryKey: ['selectedOpportunityLineItem'] });
 
-      queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
+      queryClient.setQueryData<ProductsType[]>(['selectedOpportunityLineItem'], (old) => {
         return old && old.filter(obj => obj.Id !== payload.Id);
       });
 
-      const newproducts = queryClient.getQueryData(['products']);
+      const newproducts = queryClient.getQueryData(['selectedOpportunityLineItem']);
       return { newproducts };
     },
   });
@@ -80,7 +85,7 @@ const ProductScreen = () => {
   const onProductSelectionChange = (item: any) => {
     console.log(item);
   };
-  const renderItem: ListRenderItem<ProductsType> = useCallback(
+  const renderItem: ListRenderItem<OpportunityLineItem> = useCallback(
     ({ item, index }) => (
       <Swipeable
         renderRightActions={rightSwipeActions}
@@ -95,14 +100,14 @@ const ProductScreen = () => {
       >
         <ProductItem
           Id={item.Id}
-          productId={item.productId}
-          productName={item.productName}
-          productCode={item.productCode}
-          imageSource={item.imageSource}
-          productWeight={item.productWeight}
-          productPrice={item.productPrice}
-          productSuggestedQuantity={item.productSuggestedQuantity}
-          productQuantity={item.productQuantity}
+          productId={item.Product2Id}
+          productName={item.Name}
+          productCode={item.ProductCode}
+          imageSource={1}
+          productWeight={1}
+          productPrice={item.UnitPrice}
+          productSuggestedQuantity={item.ListPrice}
+          productQuantity={item.Quantity}
           onProductSelectionChange={onProductSelectionChange}
         />
       </Swipeable>
@@ -112,19 +117,15 @@ const ProductScreen = () => {
 
   if (pending || isFetching) return <DotIndicator color="red" />;
 
-  const onTabChange = (index: number) => {
-    console.log('Changed', index);
-    setTabIndex(index);
-  }
   return (
     <View style={styles.container}>
       <Text style={styles.h4}>{t('ProductInfo')}</Text>
       <SearchSection />
       <FlatList
         style={styles.listContainer}
-        data={productsData}
+        data={selectedOpportunityData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.Id.toString()}
+        keyExtractor={(item) => item.Id}
         ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
         maxToRenderPerBatch={5}
         ListEmptyComponent={
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     margin: 10,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   centerItem: {
     alignItems: 'center',

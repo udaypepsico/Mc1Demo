@@ -3,13 +3,17 @@ import { memo } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchProducts } from '../lib/api';
+import { fetchProducts, getSelectedOpportunityItems } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
 import { Button } from 'react-native-paper';
+import { OpportunityLineItem } from '../data/Record';
+import { useRoute } from '@react-navigation/native';
 
 
 const SummaryScreen = () => {
+  const { params } = useRoute();
+  const accountId = params?.accountId ? params.accountId : '01t3t000004gbw2AAA';
   const { t } = useTranslation();
 
   const {
@@ -17,9 +21,9 @@ const SummaryScreen = () => {
     error: productFetchError,
     data: productsData,
     isFetching,
-  } = useQuery<ProductsType[], Error>({
-    queryKey: ['products'],
-    queryFn: () => fetchProducts(),
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['selectedOpportunityLineItem'],
+    queryFn: () => getSelectedOpportunityItems(accountId),
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -35,9 +39,9 @@ const SummaryScreen = () => {
   const ieps = 0;
   const iva = 0;
 
-  productsData?.forEach((p: any) => {
-    totalPrice += p.productPrice * p.productQuantity;
-    totalPieces += p.productQuantity;
+  productsData?.forEach((p: OpportunityLineItem) => {
+    totalPrice += p.UnitPrice * p.Quantity;
+    totalPieces += p.Quantity;
   })
 
   const total = totalPrice + bxbChange + mxbChange + exchange;
@@ -91,11 +95,11 @@ const SummaryScreen = () => {
       </View>
     </View>
   );
-  
+
   const ProductList = () => (
     <View style={styles.table}>
       {
-        productsData.map((p: any) => {
+        productsData?.map((p: any) => {
           return (
             <View style={styles.row}><Text style={styles.cell}>{p.productName}</Text>
               <Text style={[styles.cell, styles.rightAlign]}>${p.productPrice.toFixed(2)}</Text>
@@ -127,40 +131,40 @@ const SummaryScreen = () => {
   );
 
   return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <ExpandableListItem
-            clickedChildren={<Text style={styles.itemName}>{t('Total')}</Text>}
-            expandedChildren={
-              <SummaryList />
-            }
-          />
-          <ExpandableListItem
-            clickedChildren={<Text style={styles.itemName}>{t('Products')}</Text>}
-            expandedChildren={
-              <ProductList />
-            }
-          />
-          <ExpandableListItem
-            clickedChildren={<Text style={styles.itemName}>{t('BxBChange')}</Text>}
-            expandedChildren={
-              <BxBList />
-            }
-          />
-          <ExpandableListItem
-            clickedChildren={<Text style={styles.itemName}>{t('MxBChange')}</Text>}
-            expandedChildren={
-              <MxBList />
-            }
-          />
-          <ExpandableListItem
-            clickedChildren={<Text style={styles.itemName}>{t('Print')} {t('Ticket')}</Text>}
-            expandedChildren={
-              <Button>PRINT</Button>
-            }
-          />
-        </ScrollView>
-      </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <ExpandableListItem
+          clickedChildren={<Text style={styles.itemName}>{t('Total')}</Text>}
+          expandedChildren={
+            <SummaryList />
+          }
+        />
+        <ExpandableListItem
+          clickedChildren={<Text style={styles.itemName}>{t('Products')}</Text>}
+          expandedChildren={
+            <ProductList />
+          }
+        />
+        <ExpandableListItem
+          clickedChildren={<Text style={styles.itemName}>{t('BxBChange')}</Text>}
+          expandedChildren={
+            <BxBList />
+          }
+        />
+        <ExpandableListItem
+          clickedChildren={<Text style={styles.itemName}>{t('MxBChange')}</Text>}
+          expandedChildren={
+            <MxBList />
+          }
+        />
+        <ExpandableListItem
+          clickedChildren={<Text style={styles.itemName}>{t('Print')} {t('Ticket')}</Text>}
+          expandedChildren={
+            <Button>PRINT</Button>
+          }
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

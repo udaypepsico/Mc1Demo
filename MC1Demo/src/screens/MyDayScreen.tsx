@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import ProductStack from './ProductStack';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import {
   QueryKey,
@@ -16,14 +15,14 @@ import {
 } from '@tanstack/react-query';
 import {
   Credentials,
-  fetchData,
   setSelectedDate,
   getUserCredentials,
   selectedDateStringType,
   selectedVisitType,
   getQueryVisitType,
   getSelectedDate,
-  selectedDate
+  selectedDate,
+  fetchVisitData
 } from '../lib/api';
 import { Record, Visits } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
@@ -41,9 +40,8 @@ import DialogComponent from '../components/DialogComponent';
 import DateScrollContainer from '../components/DateScrollContainer';
 import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-control/segmented-control';
 import DateVisitComponent from '../components/DateVisitComponent';
-import { generateDateTime } from '../core/utils';
+import { RouteParams, generateDateTime } from '../core/utils';
 import { useTranslation } from 'react-i18next';
-import { ProductsType } from '../data/Products';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -62,6 +60,7 @@ const MyDayScreen = () => {
   const [selectedIndexVisit, setSelectedIndexVisit] =
     useState<selectedIndexVisitType>({ selectedIndex: 0, visitType: 'Today' });
 
+  const [accountId, setAccountId] = useState();
   const [dialogVisible, setDialogVisible] = useState(false);
 
   const [dateScrollVisible, setDateScrollVisible] = useState(false);
@@ -116,7 +115,7 @@ const MyDayScreen = () => {
     isFetching: visitFetching,
   } = useQuery<Visits[], Error>({
     queryKey: ['visits'],
-    queryFn: () => fetchData(),
+    queryFn: () => fetchVisitData(),
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -140,7 +139,7 @@ const MyDayScreen = () => {
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ): void => {
 
-    setValue(value^1);
+    setValue(value ^ 1);
   };
 
   const updateVisitType = (itemType: string) => {
@@ -192,8 +191,9 @@ const MyDayScreen = () => {
           <VirtualizedListComponent
             itemSelected={itemSelected}
             selectedIndexVisit={selectedIndexVisit}
-            onCheckInPressed={(index: number) => {
+            onCheckInPressed={(index: number, id: any) => {
               setDialogVisible(true);
+              setAccountId(id);
             }}
             onCancelVisit={(index: number) => { }}
           >
@@ -231,7 +231,10 @@ const MyDayScreen = () => {
               setDialogVisible(false);
             }}
             navigate={() => {
-              navigation.navigate('ProductsTab');
+              navigation.navigate('ProductsTab', {
+                screen: t("Products"),
+                params: { accountId: accountId },
+              });
               setDialogVisible(false);
             }}
           />

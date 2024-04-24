@@ -1,6 +1,6 @@
 import { oauth, net } from 'react-native-force';
-import { ProductsResponse, Response, VisitResponse } from '../data/Response';
-import { Record, Visits } from '../data/Record';
+import { OpportunityLineItemResponse, OpportunityResponse, ProductsResponse, Response, VisitResponse } from '../data/Response';
+import { Opportunity, OpportunityLineItem, Record, Visits } from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
 import products from '../data/products.json';
 import { ProductsType, imageArrays } from '../data/Products';
@@ -68,12 +68,7 @@ const getUserToken = () => {
   });
 };
 
-export const fetchData = async (): Promise<Visits[]> => {
-  const response = await queryFetchPromise();
-  return response;
-};
-
-const queryFetchPromise = () => {
+export const fetchVisitData = async () => {
   return new Promise<Visits[]>((resolve, reject) => {
     net.query(
       'SELECT Id, AccountId, Account.Name, Account.PhotoUrl, Account.Phone, Account.Description, \
@@ -89,8 +84,6 @@ const queryFetchPromise = () => {
 };
 
 export async function fetchFullProducts() {
-  console.log('fetchfullproducts');
-
   const response = await queryFetchProducts();
   return response;
 
@@ -133,9 +126,48 @@ const queryFetchProducts = () => {
     );
   });
 };
+export const fetchOpportunity = async () => {
+  return new Promise<Opportunity[]>((resolve, reject) => {
+    net.query(
+      'SELECT Id, AccountId, Account.Name, Name, Description, StageName, Amount, Probability, ExpectedRevenue, TotalOpportunityQuantity, CloseDate, Type, NextStep, LeadSource FROM Opportunity',
+      (result: OpportunityResponse) => {
+        resolve(result.records!);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+};
+export const fetchOpportunityLineItem = async () => {
+  return new Promise<OpportunityLineItem[]>((resolve, reject) => {
+    net.query(
+      'SELECT Id, OpportunityId, Product2Id, Product2.Name, ProductCode, Name, Quantity, TotalPrice, UnitPrice, ListPrice, Description FROM OpportunityLineItem',
+      (result: OpportunityLineItemResponse) => {
+        resolve(result.records!);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+};
 
+export async function getSelectedOpportunityItems(accountId: any) {
+  const opportunityData = await fetchOpportunity();
+  const opportunityLineItemData = await fetchOpportunityLineItem();
+  const selectedOpportunity = opportunityData?.filter(item => item.AccountId == accountId);
+  let filterredLineItems: OpportunityLineItem[] = [];
+  selectedOpportunity?.map((item: any) => {
+    opportunityLineItemData?.map((item2) => {
+      if(item2.OpportunityId == item.Id){
+        filterredLineItems.push(item2);
+      }
+    });
+  });
+  return filterredLineItems;
+}
 export async function fetchProducts() {
-  console.log('fetchProducts');
   return products
     .slice(0, 5)
     .map(

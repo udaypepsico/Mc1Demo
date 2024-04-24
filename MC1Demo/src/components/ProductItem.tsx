@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, Image, TextInput, Button } from 'react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { increamentalValue } from '../core/utils';
+import { OpportunityLineItem } from '../data/Record';
 
 const ProductItem = (props: any) => {
   const {
@@ -19,21 +20,21 @@ const ProductItem = (props: any) => {
   } = props;
 
   const queryClient = useQueryClient();
-  
+
   const updateProducts = useMutation({
     mutationKey: ['updateproducts'],
     onMutate: async (payload: number) => {
-      await queryClient.cancelQueries({ queryKey: ['products'] });
-      queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
+      await queryClient.cancelQueries({ queryKey: ['selectedOpportunityLineItem'] });
+      queryClient.setQueryData<OpportunityLineItem[]>(['selectedOpportunityLineItem'], (old) => {
         return (
           old &&
           old.map((obj) =>
-            obj.productId === productId ? { ...obj, productQuantity: payload } : obj
+            obj.Product2Id === productId ? { ...obj, Quantity: payload } : obj
           )
         );
       });
 
-      const newproducts = queryClient.getQueryData(['products']);
+      const newproducts = queryClient.getQueryData(['selectedOpportunityLineItem']);
 
       return { newproducts };
     },
@@ -41,10 +42,10 @@ const ProductItem = (props: any) => {
 
   const onChangeQuantity = (val: number) => {
     const updatedQuantity = productQuantity + val;
-    if(updatedQuantity > 0)
-        updateProducts.mutate(updatedQuantity);
+    if (updatedQuantity > 0)
+      updateProducts.mutate(updatedQuantity);
     else
-        updateProducts.mutate(0);
+      updateProducts.mutate(0);
   };
 
   return (
