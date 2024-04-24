@@ -62,7 +62,6 @@ const BxBExchange = () => {
     productSuggestedQuantity: 10,
   }
   const productExchangeHandler = (id: any) => {
-    console.log('Changing', id);
     setShowDialog(true);
   }
   const hideDialog = () => {
