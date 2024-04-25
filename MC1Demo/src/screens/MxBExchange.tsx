@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { memo } from 'react';
 import {
   StyleSheet,
@@ -10,25 +10,46 @@ import {
 } from 'react-native';
 import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchProducts } from '../lib/api';
+import { fetchOpportunityLineItem } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import { Button as PaperButton } from 'react-native-paper';
 import ExpandableListItem from '../components/ExpandableListItem';
+import ProductExchangeDialog from '../components/ProductExchangeDialog';
+import { OpportunityLineItem } from '../data/Record';
 
 const MxBExchange = () => {
+  const [showDialog, setShowDialog] = useState(false);
   const { t } = useTranslation();
-
+  const {
+    isPending: pending,
+    error: productFetchError,
+    data: productsData,
+    isFetching,
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['selectedOpportunityLineItem'],
+    queryFn: () => fetchOpportunityLineItem(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
   const listData = [
     { id: 1, name: t('ProductsReceived'), action: t('AddReturn') },
     { id: 2, name: t('ProductsDelivered'), action: t('AddDelivery') },
   ];
-
-  const renderItem = ({ item }) => (
+  const exchangeItems = productsData?.filter((item, index) => {
+    return index < 2;
+  })
+  const productExchangeHandler = (id: any) => {
+    setShowDialog(true);
+  }
+  const hideDialog = () => {
+    setShowDialog(false);
+  }
+  const renderItem = ({ item }: any) => (
     <View>
       <ExpandableListItem
         clickedChildren={<Text style={styles.itemName}>{item.name}</Text>}
         expandedChildren={
-          <PaperButton mode="contained" style={styles.buttonBox}>
+          <PaperButton mode="contained" style={styles.buttonBox} onPress={() => productExchangeHandler(item.id)} >
             {item.action}
           </PaperButton>
         }
@@ -44,9 +65,8 @@ const MxBExchange = () => {
       <FlatList
         data={listData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
       />
+      <ProductExchangeDialog products={exchangeItems} visible={showDialog} hideDialog={hideDialog} />
     </View>
   );
 };

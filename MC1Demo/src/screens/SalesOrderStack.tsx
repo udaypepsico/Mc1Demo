@@ -3,12 +3,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import i18n from '../locales/i18n';
 import MyDayScreen from './MyDayScreen';
 import ProductStack from './ProductStack';
+import CheckoutScreen from './CheckoutScreen';
 
 const Stack = createStackNavigator();
 
 const SalesOrderStack = () => {
   useEffect(() => {
-    i18n.changeLanguage('en');
+    i18n.changeLanguage('es');
   }, [])
 
   return (
@@ -30,6 +31,7 @@ const SalesOrderStack = () => {
           headerStyle: { height: 70 },
         }}
       />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} />
     </Stack.Navigator>
   );
 };

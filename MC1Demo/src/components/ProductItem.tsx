@@ -100,7 +100,7 @@ const ProductItem = (props: any) => {
             }}
           />
           <Text style={styles.totalText}>
-            ${(productQuantity * productPrice).toFixed(2)}
+            ${(productQuantity * productPrice)}
           </Text>
         </View>
         <Text style={styles.sugText}>Sug Cant.{productSuggestedQuantity}</Text>

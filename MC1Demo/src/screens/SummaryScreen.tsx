@@ -5,12 +5,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchProducts, getSelectedOpportunityItems } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
 import { OpportunityLineItem } from '../data/Record';
+import { useNavigation } from '@react-navigation/native';
 
-const SummaryScreen = ({route}: Route) => {
+const SummaryScreen = ({ route, navigate }: Route) => {
   const { accountId } = route.params;
   const { t } = useTranslation();
+  const navigation = useNavigation();
   
   const {
     isPending: pending,
@@ -95,10 +97,10 @@ const SummaryScreen = ({route}: Route) => {
   const ProductList = () => (
     <View style={styles.table}>
       {
-        productsData?.map((p: any) => {
+        productsData?.map((p:OpportunityLineItem) => {
           return (
-            <View style={styles.row}><Text style={styles.cell}>{p.productName}</Text>
-              <Text style={[styles.cell, styles.rightAlign]}>${p.productPrice.toFixed(2)}</Text>
+            <View style={styles.row}><Text style={styles.cell}>{p.Name}</Text>
+              <Text style={[styles.cell, styles.rightAlign]}>${p.UnitPrice}</Text>
             </View>
           )
 
@@ -126,6 +128,10 @@ const SummaryScreen = ({route}: Route) => {
     </View>
   );
 
+  const checkhoutHander = () =>{
+    console.log('checkhoutHander');
+    navigation.navigate("Checkout");
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -160,6 +166,7 @@ const SummaryScreen = ({route}: Route) => {
           }
         />
       </ScrollView>
+      <Button style={styles.stickyBtn} mode='contained' onPress={checkhoutHander}>CHECKOUT</Button>
     </SafeAreaView>
   );
 };
@@ -202,6 +209,11 @@ const styles = StyleSheet.create({
   itemName: {
     color: '#fff',
   },
+  stickyBtn: {
+    padding: 5,
+    margin: 10,
+    borderRadius: 10,
+  }
 });
 
 export default memo(SummaryScreen);

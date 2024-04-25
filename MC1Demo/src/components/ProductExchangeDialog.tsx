@@ -6,9 +6,10 @@ import { Button, Modal, Portal, Text } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { increamentalValue } from '../core/utils';
+import { OpportunityLineItem } from '../data/Record';
 
 const ProductExchangeDialog = (props: any) => {
-  const { visible, hideDialog, navigate, product } = props;
+  const { visible, hideDialog, navigate, products } = props;
   const { t } = useTranslation();
 
   const confirmedAction = () => {
@@ -21,16 +22,17 @@ const ProductExchangeDialog = (props: any) => {
   const updateProducts = (num: any) => {
     console.log('updateProducts', num);
   };
-  const Product = () => (
+  const Product = ({ data }: any) =>
+  (
     <View style={styles.item}>
       <View style={styles.itemContainer}>
         <View style={styles.textContainer}>
-          <Text style={styles.itemName}>{product?.productName}</Text>
+          <Text style={styles.itemName}>{data?.Name}</Text>
           <Text style={styles.itemDetail}>
-            {product?.productCode} | {product?.productId}
+            {data?.ProductCode} | {data?.Product2Id}
           </Text>
           <Text>
-            ${product?.productPrice} | {product?.productWeight}
+            ${data?.UnitPrice}
           </Text>
         </View>
       </View>
@@ -54,7 +56,7 @@ const ProductExchangeDialog = (props: any) => {
             editable
             keyboardType="numeric"
             onChangeText={(num) => updateProducts(num)}
-            defaultValue={String(product?.productQuantity)}
+            defaultValue={String(data?.Quantity)}
           />
           <FontAwesome5
             name="plus"
@@ -70,11 +72,11 @@ const ProductExchangeDialog = (props: any) => {
             }}
           />
           <Text style={styles.totalText}>
-            ${(product?.productQuantity * product?.productPrice).toFixed(2)}
+            ${(data?.Quantity * data?.UnitPrice).toFixed(2)}
           </Text>
         </View>
         <Text style={styles.sugText}>
-          Sug Cant.{product?.productSuggestedQuantity}
+          Sug Qunt. 10
         </Text>
       </View>
     </View>
@@ -103,7 +105,11 @@ const ProductExchangeDialog = (props: any) => {
         <View style={styles.container}>
           <View>
             <Text>{t('CheckInAskMessage')}</Text>
-            <Product />
+            {
+              products.map((item: any) => {
+                return <Product data={item} />
+              })
+            }
           </View>
           <View style={styles.modelFooter}>
             <Button onPress={confirmedAction} mode="outlined">
@@ -125,18 +131,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    position:'absolute',
-    top:-200
+    position: 'absolute',
+    top: -200
   },
   modelHeader: {
     backgroundColor: '#2471A3',
     paddingLeft: 10,
-    paddingVertical:10,
+    paddingVertical: 10,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    justifyContent:'space-between',
-    flexDirection:'row',
-    alignContent:'center'
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignContent: 'center'
   },
   modelFooter: {
     flexDirection: 'row',

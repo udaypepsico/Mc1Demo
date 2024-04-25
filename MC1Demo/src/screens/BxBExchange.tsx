@@ -7,13 +7,13 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchProducts } from '../lib/api';
+import { fetchOpportunityLineItem } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import { Button as PaperButton } from 'react-native-paper';
 import ExpandableListItem from '../components/ExpandableListItem';
 import ProductExchangeDialog from '../components/ProductExchangeDialog';
+import { OpportunityLineItem } from '../data/Record';
 
 const BxBExchange = () => {
   const [showDialog, setShowDialog] = useState(false);
@@ -23,9 +23,9 @@ const BxBExchange = () => {
     error: productFetchError,
     data: productsData,
     isFetching,
-  } = useQuery<ProductsType[], Error>({
-    queryKey: ['products'],
-    queryFn: () => fetchProducts(),
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['selectedOpportunityLineItem'],
+    queryFn: () => fetchOpportunityLineItem(),
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -60,14 +60,19 @@ const BxBExchange = () => {
     productWeight: 10,
     productQuantity: 100,
     productSuggestedQuantity: 10,
-  }
+  };
+
+  const exchangeItems = productsData?.filter((item, index) => {
+    return index < 2;
+  })
+
   const productExchangeHandler = (id: any) => {
     setShowDialog(true);
   }
   const hideDialog = () => {
     setShowDialog(false);
   }
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <View>
       <ExpandableListItem
         clickedChildren={<Text style={styles.itemName}>{item.name}</Text>}
@@ -88,10 +93,8 @@ const BxBExchange = () => {
       <FlatList
         data={listData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
       />
-      <ProductExchangeDialog product={productItem} visible={showDialog} hideDialog={hideDialog} />
+      <ProductExchangeDialog products={exchangeItems} visible={showDialog} hideDialog={hideDialog} />
     </View>
   );
 };
