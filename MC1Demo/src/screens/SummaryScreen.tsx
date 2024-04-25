@@ -1,21 +1,17 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { memo } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView } from 'react-native';
-import { ProductsType } from '../data/Products';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchProducts, getSelectedOpportunityItems } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
 import { Button } from 'react-native-paper';
 import { OpportunityLineItem } from '../data/Record';
-import { useRoute } from '@react-navigation/native';
 
-
-const SummaryScreen = () => {
-  const { params } = useRoute();
-  const accountId = params?.accountId ? params.accountId : '01t3t000004gbw2AAA';
+const SummaryScreen = ({route}: Route) => {
+  const { accountId } = route.params;
   const { t } = useTranslation();
-
+  
   const {
     isPending: pending,
     error: productFetchError,

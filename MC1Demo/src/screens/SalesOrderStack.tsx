@@ -1,11 +1,16 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import i18n from '../locales/i18n';
 import MyDayScreen from './MyDayScreen';
 import ProductStack from './ProductStack';
 
 const Stack = createStackNavigator();
 
 const SalesOrderStack = () => {
+  useEffect(() => {
+    i18n.changeLanguage('en');
+  }, [])
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -14,7 +19,7 @@ const SalesOrderStack = () => {
         options={{ presentation: 'card', headerShown: false }}
       />
       <Stack.Screen
-        name="ProductsTab"
+        name="ProductStack"
         component={ProductStack}
         options={{
           presentation: 'card',

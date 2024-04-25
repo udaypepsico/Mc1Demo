@@ -77,8 +77,3 @@ export const generateDateTime = (
     return arrayValue;
   }
 };
-
-export interface RouteParams {
-  key: string;
-  params: { accountId: string };
-}

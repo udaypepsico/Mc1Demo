@@ -10,11 +10,11 @@ import {
   TextInput,
   Button,
   Pressable,
+  Route,
 } from 'react-native';
 
 import ProductItem from '../components/ProductItem';
 import { useTranslation } from 'react-i18next';
-import i18n from '../locales/i18n';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ProductsType } from '../data/Products';
 import { getSelectedOpportunityItems } from '../lib/api';
@@ -23,14 +23,12 @@ import SearchSection from '../components/SearchSection';
 import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Opportunity, OpportunityLineItem } from '../data/Record';
-import { useNavigation, useRoute } from '@react-navigation/native';
 
-const ProductScreen = () => {
-  const { params } = useRoute();
-  const accountId = params.accountId;
+const ProductScreen = ({ route }: Route) => {
+  const { accountId } = route.params;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  console.log(accountId);
+
   const {
     isPending: pending,
     error: productFetchError,

@@ -40,7 +40,7 @@ import DialogComponent from '../components/DialogComponent';
 import DateScrollContainer from '../components/DateScrollContainer';
 import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-control/segmented-control';
 import DateVisitComponent from '../components/DateVisitComponent';
-import { RouteParams, generateDateTime } from '../core/utils';
+import { generateDateTime } from '../core/utils';
 import { useTranslation } from 'react-i18next';
 
 const results = [
@@ -62,13 +62,9 @@ const MyDayScreen = () => {
 
   const [accountId, setAccountId] = useState();
   const [dialogVisible, setDialogVisible] = useState(false);
-
-  const [dateScrollVisible, setDateScrollVisible] = useState(false);
-
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const navigation = useNavigation();
-
   const queryClient = useQueryClient();
 
   const {
@@ -93,7 +89,7 @@ const MyDayScreen = () => {
     queryFn: () => getQueryVisitType(),
     staleTime: Infinity,
     gcTime: Infinity,
-    initialData:{visitType:'Today'}
+    initialData: { visitType: 'Today' }
   });
 
   const {
@@ -199,7 +195,7 @@ const MyDayScreen = () => {
             onCancelVisit={(index: number) => { }}
           >
             <View style={styles.topContainer}>
-              <HeaderSection updateVisitType={updateVisitType} selectedVisitType = {selectedVisitTypeData} />
+              <HeaderSection updateVisitType={updateVisitType} selectedVisitType={selectedVisitTypeData} />
               <SegmentedControlTab
                 segmentValueChanged={segmentValueChanged}
                 segmentedValues={[t("My Day"), t("My Route")]}
@@ -232,10 +228,7 @@ const MyDayScreen = () => {
               setDialogVisible(false);
             }}
             navigate={() => {
-              navigation.navigate('ProductsTab', {
-                screen: t("Products"),
-                params: { accountId: accountId },
-              });
+              navigation.navigate('ProductStack', { accountId: accountId });
               setDialogVisible(false);
             }}
           />
