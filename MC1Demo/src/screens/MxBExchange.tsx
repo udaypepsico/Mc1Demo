@@ -26,10 +26,11 @@ const MxBExchange = () => {
     data: productsData,
     isFetching,
   } = useQuery<OpportunityLineItem[], Error>({
-    queryKey: ['selectedOpportunityLineItem'],
+    queryKey: ['opportunityLineItem'],
     queryFn: () => fetchOpportunityLineItem(),
     staleTime: Infinity,
     gcTime: Infinity,
+    initialData:[]
   });
   const listData = [
     { id: 1, name: t('ProductsReceived'), action: t('AddReturn') },
@@ -65,6 +66,7 @@ const MxBExchange = () => {
       <FlatList
         data={listData}
         renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
       />
       <ProductExchangeDialog products={exchangeItems} visible={showDialog} hideDialog={hideDialog} />
     </View>

@@ -18,16 +18,18 @@ import { OpportunityLineItem } from '../data/Record';
 const BxBExchange = () => {
   const [showDialog, setShowDialog] = useState(false);
   const { t } = useTranslation();
+
   const {
     isPending: pending,
     error: productFetchError,
     data: productsData,
     isFetching,
   } = useQuery<OpportunityLineItem[], Error>({
-    queryKey: ['selectedOpportunityLineItem'],
+    queryKey: ['opportunitylineitem'],
     queryFn: () => fetchOpportunityLineItem(),
     staleTime: Infinity,
     gcTime: Infinity,
+    initialData:[]
   });
 
   const [listData, setListData] = useState([
@@ -93,6 +95,7 @@ const BxBExchange = () => {
       <FlatList
         data={listData}
         renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
       />
       <ProductExchangeDialog products={exchangeItems} visible={showDialog} hideDialog={hideDialog} />
     </View>
