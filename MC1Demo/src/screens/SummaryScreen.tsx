@@ -2,11 +2,13 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchProducts, getSelectedOpportunityItems } from '../lib/api';
+import { fetchOpportunity, fetchOpportunityLineItem} from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
 import { Button, IconButton } from 'react-native-paper';
-import { OpportunityLineItem } from '../data/Record';
+import { Opportunity, OpportunityLineItem } from '../data/Record';
+import { DotIndicator } from 'react-native-indicators';
+import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
 import { useNavigation } from '@react-navigation/native';
 
 const SummaryScreen = ({ route, navigate }: Route) => {
@@ -15,16 +17,36 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const navigation = useNavigation();
   
   const {
-    isPending: pending,
-    error: productFetchError,
-    data: productsData,
-    isFetching,
-  } = useQuery<OpportunityLineItem[], Error>({
-    queryKey: ['selectedOpportunityLineItem'],
-    queryFn: () => getSelectedOpportunityItems(accountId),
+    isPending: opportunityPending,
+    error: opportunityFetchError,
+    data: OpportunityData,
+    isFetching: isOpportunityFetching,
+  } = useQuery<Opportunity[], Error>({
+    queryKey: ['opportunity'],
+    queryFn: () => fetchOpportunity(),
     staleTime: Infinity,
     gcTime: Infinity,
+    initialData: [],
   });
+
+  const {
+    isPending: opportunityLineItemPending,
+    error: opportunityLineItemFetchError,
+    data: OpportunityLineItemData,
+    isFetching: isOpportunityLineItemFetching,
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['opportunityLineItem'],
+    queryFn: () => fetchOpportunityLineItem(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: [],
+  });
+
+  if (opportunityPending || opportunityLineItemPending) {
+    return <DotIndicator color="red" />;
+  }
+
+  const selectedOpportunityData = useSelectedOpportunityFetch(accountId,OpportunityData,OpportunityLineItemData);
 
 
   let totalPrice = 0;
@@ -37,7 +59,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const ieps = 0;
   const iva = 0;
 
-  productsData?.forEach((p: OpportunityLineItem) => {
+  selectedOpportunityData?.forEach((p: OpportunityLineItem) => {
     totalPrice += p.UnitPrice * p.Quantity;
     totalPieces += p.Quantity;
   })
@@ -97,7 +119,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const ProductList = () => (
     <View style={styles.table}>
       {
-        productsData?.map((p:OpportunityLineItem) => {
+        selectedOpportunityData?.map((p: any) => {
           return (
             <View style={styles.row}><Text style={styles.cell}>{p.Name}</Text>
               <Text style={[styles.cell, styles.rightAlign]}>${p.UnitPrice}</Text>

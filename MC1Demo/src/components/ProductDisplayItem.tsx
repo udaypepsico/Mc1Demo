@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { ProductsType } from '../data/Products';
+import { Opportunity, OpportunityLineItem } from '../data/Record';
 
 const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType;closeSearchList:any }) => {
   const queryClient = useQueryClient();
@@ -11,24 +12,36 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
   const updateProducts = useMutation({
     mutationKey: ['addproducts'],
     onMutate: async (payload: ProductsType) => {
-      await queryClient.cancelQueries({ queryKey: ['products'] });
+      await queryClient.cancelQueries({ queryKey: ['opportunityLineItem'] });
 
-      queryClient.setQueryData<ProductsType[]>(['products'], (old) => {
-        
-        if(old && old.some(e => e.Id === payload.Id))
-        {
-          return (old)
-        }
+      const accountId = queryClient.getQueryData(['accountId']) as string;
+
+      const OpportunityData = queryClient.getQueryData(['opportunity']) as Opportunity[];
+
+      const selectedOpportunityId = queryClient.getQueryData(['opportunityId',{accountId,OpportunityData}]) as string;
+
+      queryClient.setQueryData<OpportunityLineItem[]>(['opportunityLineItem'], (old) => {
         return (
-          old && [
+          old && payload && [
             ...old,
             {
-              ...payload,
+              Quantity: 10,
+              ListPrice: 10,
+              Id: 'string',
+              Product2Id: payload.Id,
+              ProductCode: payload.productCode,
+              TotalPrice: 10,
+              Name: 'Test Opportunity Line Item',
+              Product2: {Name:payload.Name,Attributes:payload.attributes},
+              OpportunityId: selectedOpportunityId,
+              UnitPrice: 10,
+              Description: 'string'
             },
           ]
         );
       });
-      const newproducts = queryClient.getQueryData(['products']);
+
+      const newproducts = queryClient.getQueryData(['opportunityLineItem']);
 
       return { newproducts };
     }

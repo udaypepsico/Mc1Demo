@@ -1,6 +1,17 @@
 import { oauth, net } from 'react-native-force';
-import { OpportunityLineItemResponse, OpportunityResponse, ProductsResponse, Response, VisitResponse } from '../data/Response';
-import { Opportunity, OpportunityLineItem, Record, Visits } from '../data/Record';
+import {
+  OpportunityLineItemResponse,
+  OpportunityResponse,
+  ProductsResponse,
+  Response,
+  VisitResponse,
+} from '../data/Response';
+import {
+  Opportunity,
+  OpportunityLineItem,
+  Record,
+  Visits,
+} from '../data/Record';
 import ReactNativeBlobUtil, { FetchBlobResponse } from 'react-native-blob-util';
 import products from '../data/products.json';
 import { ProductsType, imageArrays } from '../data/Products';
@@ -127,6 +138,7 @@ const queryFetchProducts = () => {
   });
 };
 export const fetchOpportunity = async () => {
+  console.log('opportunity');
   return new Promise<Opportunity[]>((resolve, reject) => {
     net.query(
       'SELECT Id, AccountId, Account.Name, Name, Description, StageName, Amount, Probability, ExpectedRevenue, TotalOpportunityQuantity, CloseDate, Type, NextStep, LeadSource FROM Opportunity',
@@ -140,6 +152,7 @@ export const fetchOpportunity = async () => {
   });
 };
 export const fetchOpportunityLineItem = async () => {
+  console.log('opportunitylineitem');
   return new Promise<OpportunityLineItem[]>((resolve, reject) => {
     net.query(
       'SELECT Id, OpportunityId, Product2Id, Product2.Name, ProductCode, Name, Quantity, TotalPrice, UnitPrice, ListPrice, Description FROM OpportunityLineItem',
@@ -153,20 +166,6 @@ export const fetchOpportunityLineItem = async () => {
   });
 };
 
-export async function getSelectedOpportunityItems(accountId: any) {
-  const opportunityData = await fetchOpportunity();
-  const opportunityLineItemData = await fetchOpportunityLineItem();
-  const selectedOpportunity = opportunityData?.filter(item => item.AccountId == accountId);
-  let filterredLineItems: OpportunityLineItem[] = [];
-  selectedOpportunity?.map((item: any) => {
-    opportunityLineItemData?.map((item2) => {
-      if(item2.OpportunityId == item.Id){
-        filterredLineItems.push(item2);
-      }
-    });
-  });
-  return filterredLineItems;
-}
 export async function fetchProducts() {
   return products
     .slice(0, 5)
@@ -230,4 +229,15 @@ export const getQueryVisitType = async (): Promise<selectedVisitType> => {
 
 export const getSelectedDate = async (): Promise<selectedDate> => {
   return { selectedDate: new Date() };
+};
+
+export const getSelectedOpportunityData = async (
+  accountId: string,
+  opportunityData: Opportunity[]
+): Promise<string> => {
+  console.log('selectedOpportunityId');
+  const selectedOpportunity = opportunityData?.filter(
+    (item) => item.AccountId == accountId
+  );
+  return selectedOpportunity[0] ? selectedOpportunity[0].Id : '';
 };

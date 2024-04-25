@@ -17,12 +17,17 @@ import ProductItem from '../components/ProductItem';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ProductsType } from '../data/Products';
-import { getSelectedOpportunityItems } from '../lib/api';
+import {
+  fetchOpportunity,
+  fetchOpportunityLineItem,
+  getSelectedOpportunityData
+} from '../lib/api';
 import { DotIndicator } from 'react-native-indicators';
 import SearchSection from '../components/SearchSection';
 import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Opportunity, OpportunityLineItem } from '../data/Record';
+import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
 
 const ProductScreen = ({ route }: Route) => {
   const { accountId } = route.params;
@@ -30,32 +35,87 @@ const ProductScreen = ({ route }: Route) => {
   const queryClient = useQueryClient();
 
   const {
-    isPending: pending,
-    error: productFetchError,
-    data: selectedOpportunityData,
-    isFetching,
-  } = useQuery<OpportunityLineItem[], Error>({
-    queryKey: ['selectedOpportunityLineItem'],
-    queryFn: () => getSelectedOpportunityItems(accountId),
+    isPending: opportunityPending,
+    error: opportunityFetchError,
+    data: OpportunityData,
+    isFetching: isOpportunityFetching,
+  } = useQuery<Opportunity[], Error>({
+    queryKey: ['opportunity'],
+    queryFn: () => fetchOpportunity(),
     staleTime: Infinity,
     gcTime: Infinity,
+    initialData: [],
   });
 
-  useEffect(() => {
-    //console.log('accountId=', accountId);
-  }, []);
+  const {
+    isPending: opportunityLineItemPending,
+    error: opportunityLineItemFetchError,
+    data: OpportunityLineItemData,
+    isFetching: isOpportunityLineItemFetching,
+  } = useQuery<OpportunityLineItem[], Error>({
+    queryKey: ['opportunityLineItem'],
+    queryFn: () => fetchOpportunityLineItem(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: [],
+  });
+
+  if (opportunityPending || opportunityLineItemPending) {
+    return <DotIndicator color="red" />;
+  }
+
+  const {
+    isPending: accountIdPending,
+    error: accountIdFetchError,
+    data: AccountId,
+    isFetching: accountIdFetching,
+  } = useQuery<string, Error>({
+    queryKey: ['accountId'],
+    queryFn: () => accountId,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: '',
+  });
+
+
+  const {
+    isPending: opportunityIdPending,
+    error: opportunityIdFetchError,
+    data: OpportunityId,
+    isFetching: isOpportunityIdFetching,
+  } = useQuery<string, Error>({
+    queryKey: ['opportunityId',{accountId,OpportunityData}],
+    queryFn: () => getSelectedOpportunityData(accountId,OpportunityData),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: '',
+  });
+
+  const selectedOpportunityData = useSelectedOpportunityFetch(accountId,OpportunityData,OpportunityLineItemData);
+
+  console.log(selectedOpportunityData.length);
 
   const deleteProducts = useMutation({
     mutationKey: ['deleteproducts'],
-    onMutate: async (payload: ProductsType) => {
-      await queryClient.cancelQueries({ queryKey: ['selectedOpportunityLineItem'] });
-
-      queryClient.setQueryData<ProductsType[]>(['selectedOpportunityLineItem'], (old) => {
-        return old && old.filter(obj => obj.Id !== payload.Id);
+    onMutate: async (payload: OpportunityLineItem) => {
+      await queryClient.cancelQueries({
+        queryKey: ['opportunityLineItem'],
       });
 
-      const newproducts = queryClient.getQueryData(['selectedOpportunityLineItem']);
+      queryClient.setQueryData<OpportunityLineItem[]>(
+        ['opportunityLineItem'],
+        (old) => {
+          return old && old.filter((obj) => obj.Id !== payload.Id);
+        }
+      );
+      const newproducts = queryClient.getQueryData<OpportunityLineItem[]>([
+        'opportunityLineItem',
+      ]);
+
       return { newproducts };
+    },
+    onError: (error, variables, context) => {
+      console.log('Error' + error);
     },
   });
 
@@ -99,7 +159,7 @@ const ProductScreen = ({ route }: Route) => {
         <ProductItem
           Id={item.Id}
           productId={item.Product2Id}
-          productName={item.Name}
+          productName={item.Product2.Name}
           productCode={item.ProductCode}
           imageSource={1}
           productWeight={1}
@@ -112,8 +172,6 @@ const ProductScreen = ({ route }: Route) => {
     ),
     []
   );
-
-  if (pending || isFetching) return <DotIndicator color="red" />;
 
   return (
     <View style={styles.container}>
@@ -144,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     margin: 10,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   centerItem: {
     alignItems: 'center',

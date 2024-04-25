@@ -9,6 +9,7 @@ import { OpportunityLineItem } from '../data/Record';
 
 const ProductItem = (props: any) => {
   const {
+    Id,
     productName,
     productId,
     productCode,
@@ -24,17 +25,17 @@ const ProductItem = (props: any) => {
   const updateProducts = useMutation({
     mutationKey: ['updateproducts'],
     onMutate: async (payload: number) => {
-      await queryClient.cancelQueries({ queryKey: ['selectedOpportunityLineItem'] });
-      queryClient.setQueryData<OpportunityLineItem[]>(['selectedOpportunityLineItem'], (old) => {
+      await queryClient.cancelQueries({ queryKey: ['opportunityLineItem'] });
+      queryClient.setQueryData<OpportunityLineItem[]>(['opportunityLineItem'], (old) => {
         return (
           old &&
           old.map((obj) =>
-            obj.Product2Id === productId ? { ...obj, Quantity: payload } : obj
+            obj.Id === Id ? { ...obj, Quantity: payload } : obj
           )
         );
       });
 
-      const newproducts = queryClient.getQueryData(['selectedOpportunityLineItem']);
+      const newproducts = queryClient.getQueryData(['opportunityLineItem']);
 
       return { newproducts };
     },

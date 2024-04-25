@@ -64,12 +64,35 @@ export interface OpportunityLineItem {
   ListPrice: any;
   Id: string;
   Product2Id: string;
-  attributes: Attribute;
+  attributes?: Attribute;
   ProductCode: string;
   TotalPrice: any;
   Name: string;
-  Product2: Attribute;
+  Product2: Product2Type;
   OpportunityId: string;
   UnitPrice: any;
   Description: string;
+}
+
+export interface Product2Type {
+  Name:string;
+  Id: string;
+  imageSource?: any;
+  productWeight?: string;
+  productName?: string;
+  productCode?: string;
+  productId?: string;
+  productPrice?: number;
+  productSuggestedQuantity?: number;
+  productQuantity?: number;
+  ProductCode?:string;
+  Pack__c?:string;
+  Description?:string;
+  Family?:string;
+  DisplayUrl?:string;
+  StockKeepingUnit?:string;
+  Brand_Group__c?:string;
+  Brand_Value__c?:string;
+  Brand__c?:string;
+  attributes?:Attribute;
 }
