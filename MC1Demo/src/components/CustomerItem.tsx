@@ -70,6 +70,9 @@ const CustomerItem = ({
       ]}
     >
       <View style={styles.cellContentStyle}>
+        <View style= {{backgroundColor:index === 0 ? '#3FD571': '#F1F5F6',paddingVertical:10,paddingLeft:10}}>
+          <Text>{index === 0 ? 'Current Visit' : 'Upcoming Visit'}</Text>
+        </View>
         <View style={styles.itemContainer}>
           <View style={styles.iconContainer}>
             {fileUrl && fileUrl.length > 0 ? (
@@ -199,7 +202,7 @@ const CustomerItem = ({
       </View>
       {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
         (queryClient.getQueryData(['visitType']) as selectedVisitType)
-          .visitType === 'Today' && (
+          .visitType === 'Today' && index === 0 && (
           <Card.Actions>
             <Button
               icon="account-box-outline"
@@ -294,6 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 0,
     borderRadius: 10,
+    overflow:'hidden'
   },
 });
 

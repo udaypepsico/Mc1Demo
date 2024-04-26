@@ -50,3 +50,4 @@ MC1Demo/mobile_sdk/SalesforceMobileSDK-Android
 MC1Demo/mobile_sdk/SalesforceMobileSDK-iOS
 /MC1Demo/mobile_sdk
 *.hprof
+MC1Demo/ios/Podfile.lock

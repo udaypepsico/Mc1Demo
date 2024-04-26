@@ -22,7 +22,7 @@ import {
   getQueryVisitType,
   getSelectedDate,
   selectedDate,
-  fetchVisitData
+  fetchVisitData,
 } from '../lib/api';
 import { Record, Visits } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
@@ -42,6 +42,7 @@ import { NativeSegmentedControlIOSChangeEvent } from '@react-native-segmented-co
 import DateVisitComponent from '../components/DateVisitComponent';
 import { generateDateTime } from '../core/utils';
 import { useTranslation } from 'react-i18next';
+import RouteComponent from '../components/RouteComponent';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -89,7 +90,7 @@ const MyDayScreen = () => {
     queryFn: () => getQueryVisitType(),
     staleTime: Infinity,
     gcTime: Infinity,
-    initialData: { visitType: 'Today' }
+    initialData: { visitType: 'Today' },
   });
 
   const {
@@ -135,7 +136,6 @@ const MyDayScreen = () => {
   const segmentValueChanged = (
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ): void => {
-
     setValue(value ^ 1);
   };
 
@@ -192,18 +192,26 @@ const MyDayScreen = () => {
               setDialogVisible(true);
               setAccountId(id);
             }}
-            onCancelVisit={(index: number) => { }}
+            onCancelVisit={(index: number) => {}}
           >
             <View style={styles.topContainer}>
-              <HeaderSection updateVisitType={updateVisitType} selectedVisitType={selectedVisitTypeData} />
+              <HeaderSection
+                updateVisitType={updateVisitType}
+                selectedVisitType={selectedVisitTypeData}
+              />
               <SegmentedControlTab
                 segmentValueChanged={segmentValueChanged}
-                segmentedValues={[t("My Day"), t("My Route")]}
+                segmentedValues={[t('My Day'), t('My Route')]}
                 selectedIndex={value}
               />
-              {selectedIndexVisit.visitType === 'Today' ? (
-                <VisitSection totalVisits={visitData?.length} completedVisits={0} />
-              ) : (
+              {value === 1 && <RouteComponent />}
+              {value === 0 && selectedIndexVisit.visitType === 'Today' && (
+                <VisitSection
+                  totalVisits={visitData?.length}
+                  completedVisits={0}
+                />
+              )}
+              {value === 0 && selectedIndexVisit.visitType !== 'Today' && (
                 <DateScrollContainer
                   type={selectedIndexVisit.visitType}
                   updateSelectedDate={(datetimestring: string) => {
@@ -211,7 +219,9 @@ const MyDayScreen = () => {
                   }}
                 />
               )}
-              {selectedIndexVisit.visitType !== 'Future' && <CasesSection />}
+              {value === 0 && selectedIndexVisit.visitType !== 'Future' && (
+                <CasesSection />
+              )}
             </View>
             <View style={styles.bottomContainer}>
               {selectedIndexVisit.visitType === 'Past' ? (
