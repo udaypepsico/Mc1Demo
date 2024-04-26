@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchOpportunity, fetchOpportunityLineItem} from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
-import { Button, IconButton } from 'react-native-paper';
+import { Button as PaperButton } from 'react-native-paper';
 import { Opportunity, OpportunityLineItem } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
 import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
@@ -121,7 +121,8 @@ const SummaryScreen = ({ route, navigate }: Route) => {
       {
         selectedOpportunityData?.map((p: any) => {
           return (
-            <View style={styles.row}><Text style={styles.cell}>{p.Name}</Text>
+            <View style={styles.row} key={p.Id}>
+              <Text style={styles.cell}>{p.Name}</Text>
               <Text style={[styles.cell, styles.rightAlign]}>${p.UnitPrice}</Text>
             </View>
           )
@@ -184,11 +185,11 @@ const SummaryScreen = ({ route, navigate }: Route) => {
         <ExpandableListItem
           clickedChildren={<Text style={styles.itemName}>{t('Print')} {t('Ticket')}</Text>}
           expandedChildren={
-            <Button>PRINT</Button>
+            <PaperButton>PRINT</PaperButton>
           }
         />
       </ScrollView>
-      <Button style={styles.stickyBtn} mode='contained' onPress={checkhoutHander}>CHECKOUT</Button>
+      <PaperButton style={styles.stickyBtn} mode='contained' onPress={checkhoutHander}>CHECKOUT</PaperButton>
     </SafeAreaView>
   );
 };

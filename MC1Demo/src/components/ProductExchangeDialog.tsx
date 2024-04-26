@@ -106,8 +106,8 @@ const ProductExchangeDialog = (props: any) => {
           <View>
             <Text>{t('CheckInAskMessage')}</Text>
             {
-              products.map((item: any) => {
-                return <Product data={item} />
+              products.map((item: any, index: any) => {
+                return <Product key={'item_'+index} data={item} />
               })
             }
           </View>
