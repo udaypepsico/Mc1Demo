@@ -247,15 +247,21 @@ PODS:
   - React-jsinspector (0.70.14)
   - React-logger (0.70.14):
     - glog
-  - react-native-blob-util (0.19.8):
+  - react-native-blob-util (0.19.9):
+    - React-Core
+  - react-native-html-to-pdf (0.12.0):
+    - React-Core
+  - react-native-mail (6.1.1):
     - React-Core
   - react-native-netinfo (11.3.1):
     - React-Core
   - react-native-pager-view (6.2.3):
     - React-Core
+  - react-native-pdf (6.7.5):
+    - React-Core
   - react-native-safe-area-context (4.9.0):
     - React-Core
-  - react-native-segmented-control (2.5.0):
+  - react-native-segmented-control (2.5.2):
     - React-Core
   - React-perflogger (0.70.14)
   - React-RCTActionSheet (0.70.14):
@@ -327,7 +333,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.9):
     - React-Core
-  - RNGestureHandler (2.16.0):
+  - RNGestureHandler (2.16.1):
     - React-Core
   - RNScreens (3.29.0):
     - React-Core
@@ -396,8 +402,11 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
+  - react-native-mail (from `../node_modules/react-native-mail`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -481,10 +490,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-html-to-pdf:
+    :path: "../node_modules/react-native-html-to-pdf"
+  react-native-mail:
+    :path: "../node_modules/react-native-mail"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
+  react-native-pdf:
+    :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
@@ -565,11 +580,14 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 03144eeee729e6a6cb8d7ff2d5653b67315f8f31
   React-jsinspector: 6538dfb58970d1fb9d89c9c34e87713ece6c3cf0
   React-logger: 4e9c3f888b4b5bb72a3ac7f1be7929e776181016
-  react-native-blob-util: 26f1fb0c91f2b437380d4f3875769a7c3e06080e
+  react-native-blob-util: 18b510205c080a453574a7d2344d64673d0ad9af
+  react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
+  react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
   react-native-pager-view: c29d484f19c49ff19525a94105e4ab2c4d4ae273
+  react-native-pdf: 103940c90d62adfd259f63cca99c7c0c306b514c
   react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
-  react-native-segmented-control: 712749e75728a736a2b8a7d7dbc8c2a3344b73e8
+  react-native-segmented-control: b92809e9111013dfa266e1168ba366d62898d9a4
   React-perflogger: 74b2d33200b8c26440c2c39b87a4177d8404655f
   React-RCTActionSheet: 3fdf6b3a85f2ea4b365b267efd9c82aaeb20fe33
   React-RCTAnimation: 9659d5ed57ccbd129516486b2cce38e536841337
@@ -584,7 +602,7 @@ SPEC CHECKSUMS:
   ReactCommon: dce64235f8548b6e4758647310145f5356c8d0cb
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
-  RNGestureHandler: 998887f1b2c6098ffa2506402087c0e8ef5d69a1
+  RNGestureHandler: 2ff93da76329c4b320910745001975b96f887a32
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
   RNSVG: 6d07f8f8f246c85e3e16e0bcfc0d047db0c48496
   RNVectorIcons: bc7ee28cadf39c77a49232a14738dfce690f66cd

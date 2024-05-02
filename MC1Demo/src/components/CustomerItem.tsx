@@ -70,9 +70,19 @@ const CustomerItem = ({
       ]}
     >
       <View style={styles.cellContentStyle}>
-        <View style= {{backgroundColor:index === 0 ? '#3FD571': '#F1F5F6',paddingVertical:10,paddingLeft:10}}>
-          <Text>{index === 0 ? 'Current Visit' : 'Upcoming Visit'}</Text>
-        </View>
+        {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
+          (queryClient.getQueryData(['visitType']) as selectedVisitType)
+            .visitType === 'Today' && (
+            <View
+              style={{
+                backgroundColor: index === 0 ? '#3FD571' : '#F1F5F6',
+                paddingVertical: 10,
+                paddingLeft: 10,
+              }}
+            >
+              <Text>{index === 0 ? 'Current Visit' : 'Upcoming Visit'}</Text>
+            </View>
+          )}
         <View style={styles.itemContainer}>
           <View style={styles.iconContainer}>
             {fileUrl && fileUrl.length > 0 ? (
@@ -106,7 +116,9 @@ const CustomerItem = ({
               {customerRecord.Account!.Name}
             </Text>
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
-              {customerRecord.Account!.Phone?'#'+customerRecord.Account?.Phone:''}
+              {customerRecord.Account!.Phone
+                ? '#' + customerRecord.Account?.Phone
+                : ''}
             </Text>
             <Text lineBreakMode="middle" style={{ color: '#878787' }}>
               {customerRecord.Account!.Description}
@@ -141,7 +153,7 @@ const CustomerItem = ({
                     marginTop: 5,
                   }}
                 >
-                  {t("ORDER TAKEN")}
+                  {t('ORDER TAKEN')}
                 </Button>
               )}
           </View>
@@ -184,17 +196,15 @@ const CustomerItem = ({
                   color="grey"
                 />
                 <Text style={{ paddingLeft: 5, color: '#535659' }}>
-                  {t("Upcoming Delivery")}
+                  {t('Upcoming Delivery')}
                 </Text>
               </View>
               <View style={styles.workOrdersContianer}>
                 <Text style={{ paddingRight: 5, color: '#535659' }}>
-                  {t("Work Orders")}
+                  {t('Work Orders')}
                 </Text>
                 <View style={styles.circleOutline}>
-                  <Text style={{ fontWeight: 'bold' }}>
-                    {0}
-                  </Text>
+                  <Text style={{ fontWeight: 'bold' }}>{0}</Text>
                 </View>
               </View>
             </View>
@@ -202,7 +212,8 @@ const CustomerItem = ({
       </View>
       {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
         (queryClient.getQueryData(['visitType']) as selectedVisitType)
-          .visitType === 'Today' && index === 0 && (
+          .visitType === 'Today' &&
+        index === 0 && (
           <Card.Actions>
             <Button
               icon="account-box-outline"
@@ -210,7 +221,7 @@ const CustomerItem = ({
                 onCheckInPressed(index, customerRecord.AccountId);
               }}
             >
-              {t("CheckIn")}
+              {t('CheckIn')}
             </Button>
             <Button
               icon="cancel"
@@ -218,7 +229,7 @@ const CustomerItem = ({
                 onCancelVisit(index);
               }}
             >
-              {t("Cancel")}
+              {t('Cancel')}
             </Button>
           </Card.Actions>
         )}
@@ -297,7 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 0,
     borderRadius: 10,
-    overflow:'hidden'
+    overflow: 'hidden',
   },
 });
 
