@@ -4,13 +4,15 @@
     "private": true,
     "scripts": {
         "start": "node node_modules/react-native/local-cli/cli.js start",
-        "test": "jest"
+        "test": "jest",
+        "android": "react-native run-android"
     },
     "sdkDependencies": {
         "SalesforceMobileSDK-Android": "https://github.com/forcedotcom/SalesforceMobileSDK-Android.git#v11.1.0",
         "SalesforceMobileSDK-iOS": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git#v11.1.0"
     },
     "dependencies": {
+        "@babel/plugin-proposal-decorators": "^7.24.1",
         "@csstools/postcss-bundler": "^1.0.11",
         "@csstools/postcss-minify": "^1.1.1",
         "@react-native-async-storage/async-storage": "^1.23.1",
@@ -20,9 +22,11 @@
         "@react-navigation/material-top-tabs": "^6.6.13",
         "@react-navigation/native": "^6.0.2",
         "@react-navigation/stack": "^6.0.7",
+        "@tailwindcss/ui": "^0.7.2",
         "@tanstack/query-async-storage-persister": "^5.28.6",
         "@tanstack/react-query": "^5.28.6",
         "@tanstack/react-query-persist-client": "^5.28.6",
+        "autoprefixer": "^10.4.19",
         "axios": "^1.6.8",
         "babel-plugin-react-native-classname-to-style": "^1.2.2",
         "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
@@ -31,17 +35,21 @@
         "bootstrap-sass": "^3.4.3",
         "create-react-class": "^15.7.0",
         "css-loader": "^7.1.1",
+        "cssnano": "^7.0.1",
         "csstools": "^0.1.5",
         "exports-loader": "^5.0.0",
         "i18next": "^23.10.1",
         "imports-loader": "^5.0.0",
         "line-height": "^0.3.1",
+        "metro-config": "^0.80.9",
         "metro-react-native-babel-transformer": "^0.77.0",
         "node-sass": "^9.0.0",
         "postcss": "^8.4.38",
+        "postcss-cli": "^11.0.0",
         "postcss-css-variables": "^0.19.0",
         "postcss-custom-media": "^10.0.4",
         "postcss-extract-media-query": "^3.0.0",
+        "postcss-font-family": "^2.0.0",
         "postcss-font-magician": "^4.0.0",
         "postcss-import": "^16.1.0",
         "postcss-line-height": "^0.1.0",
@@ -73,6 +81,8 @@
         "resolve-url-loader": "^5.0.0",
         "sass-loader": "^14.2.1",
         "style-loader": "^4.0.0",
+        "sugarss": "^4.0.1",
+        "tailwindcss": "^3.4.3",
         "url-loader": "^4.1.1"
     },
     "devDependencies": {
@@ -113,5 +123,50 @@
             "node_modules/"
         ],
         "cacheDirectory": ".jest/cache"
+    },
+    "postcss": {
+        "map": false,
+        "plugins": {
+            "postcss-plugin": {},
+            "cssnano": {},
+            "postcss-font-family": {}
+        },
+        "rules": [
+            {
+                "test": "^.+\\.(css)$",
+                "use": [
+                    "style-loader",
+                    {
+                        "loader": "css-loader",
+                        "options": {
+                            "importLoaders": "1",
+                            "sourceMap": true
+                        }
+                    },
+                    {
+                        "loader": "resolve-url-loader",
+                        "options": {
+                            "sourceMap": true,
+                            "ident": "postcss"
+                        }
+                    }
+                ]
+            },
+            {
+                "test": "^.+\\.(js)$",
+                "use": [
+                    "babel-loader",
+                    "astroturf/loader"
+                ]
+            },
+            {
+                "test": "^.+\\.(png|woff|woff2|eot|ttf|svg|otf)$",
+                "use": [
+                    {
+                        "loader": "file-loader"
+                    }
+                ]
+            }
+        ]
     }
 }

@@ -1,0 +1,5 @@
+@tailwind utilities; /* For RN make sure to include Tailwind utilities only */
+
+.my-custom-css {
+  background-color: blue;
+}

@@ -1,7 +1,43 @@
 {
-    "parser": "sugarss",
     "map": false,
     "plugins": {
-        "postcss-plugin": {}
-    }
+        "postcss-plugin": {},
+        "cssnano":{},
+        "postcss-font-family":{},
+        "tailwindcss":{}
+    },
+    "rules": [
+        {
+          "test": "^.+\\.(css)$",
+          "use": [
+            "style-loader",
+            {
+              "loader": "css-loader",
+              "options": {
+                "importLoaders": "1",
+                "sourceMap": true
+              }
+            },
+            {
+              "loader": "resolve-url-loader",
+              "options": {
+                "sourceMap": true,
+                "ident": "postcss"
+              }
+            }
+          ]
+        },
+        {
+          "test": "^.+\\.(js)$",
+          "use": ["babel-loader", "astroturf/loader"]
+        },
+        {
+          "test": "^.+\\.(png|woff|woff2|eot|ttf|svg|otf)$",
+          "use": [
+            {
+              "loader": "file-loader"
+            }
+          ]
+        }
+      ]
 }

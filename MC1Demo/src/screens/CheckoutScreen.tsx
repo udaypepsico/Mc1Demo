@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { memo } from 'react';
-import { StyleSheet, View, Text, FlatList, Touchable, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Touchable,
+  Dimensions,
+} from 'react-native';
 import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchOpportunity, fetchOpportunityLineItem } from '../lib/api';
+import {
+  fetchOpportunity,
+  fetchOpportunityLineItem,
+  fetchVisitData,
+} from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import { Button as PaperButton } from 'react-native-paper';
-import { Opportunity, OpportunityLineItem } from '../data/Record';
+import { Opportunity, OpportunityLineItem, Visits } from '../data/Record';
 import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -50,6 +61,18 @@ const CheckoutScreen = () => {
     initialData: [],
   });
 
+  const {
+    isPending,
+    error,
+    data:visitData,
+    isFetching: isFethingVisit,
+  } = useQuery<Visits[], Error>({
+    queryKey: ['visits'],
+    queryFn: () => fetchVisitData(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
   const accountId = queryClient.getQueryData(['accountId']) as string;
 
   const selectedOpportunityData = useSelectedOpportunityFetch(
@@ -58,15 +81,18 @@ const CheckoutScreen = () => {
     OpportunityLineItemData
   );
 
+  const selectedVisit = visitData?.find((value)=>value.AccountId === accountId)!;
+  
+
   const createPDF = async () => {
     let options = {
       //Content to print
-      html: HTMlInvoice({example:'valu2'}),
+      html: HTMlInvoice({ example: 'valu2', selectedOpportunityData,selectedVisit }),
       fileName: 'Invoice',
       //File directory
       directory: 'Documents',
-      height:1200,
-      width: Dimensions.get('window').width*2,
+      height: 1200,
+      width: Dimensions.get('window').width * 2,
     };
     let file = await RNHTMLtoPDF.convert(options);
     if (file && file.filePath) {
@@ -78,9 +104,9 @@ const CheckoutScreen = () => {
 
   const CheckoutItem = ({ item }: any) => (
     <View style={styles.itemContainer}>
-      <Text style={styles.itemName}>{item.Name}</Text>
+      <Text style={styles.itemName}>{item.Product2.Name}</Text>
       <View style={styles.itemRow}>
-        <Text style={styles.col1}>{item.Id}</Text>
+        <Text style={styles.col1}>{item.Product2Id}</Text>
         <Text style={styles.col2}>{t('Original')}</Text>
         <Text>{t('New')}</Text>
       </View>
@@ -96,6 +122,7 @@ const CheckoutScreen = () => {
       </View>
     </View>
   );
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
