@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchOpportunity, fetchOpportunityLineItem} from '../lib/api';
+import { fetchOpportunity, fetchOpportunityLineItem } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import ExpandableListItem from '../components/ExpandableListItem';
 import { Button as PaperButton } from 'react-native-paper';
@@ -15,7 +15,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const { accountId } = route.params;
   const { t } = useTranslation();
   const navigation = useNavigation();
-  
+
   const {
     isPending: opportunityPending,
     error: opportunityFetchError,
@@ -46,7 +46,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
     return <DotIndicator color="red" />;
   }
 
-  const selectedOpportunityData = useSelectedOpportunityFetch(accountId,OpportunityData,OpportunityLineItemData);
+  const selectedOpportunityData = useSelectedOpportunityFetch(accountId, OpportunityData, OpportunityLineItemData);
 
 
   let totalPrice = 0;
@@ -151,9 +151,15 @@ const SummaryScreen = ({ route, navigate }: Route) => {
     </View>
   );
 
-  const checkhoutHander = () =>{
-    console.log('checkhoutHander');
-    navigation.navigate("Checkout");
+  const checkoutConfirm = () => {
+    console.log('checkoutConfirm');
+  }
+  const checkoutCanceled = () => {
+    console.log('checkoutCanceled');
+  }
+
+  const checkhoutHander = () => {
+    navigation.navigate('Checkout' as never);
   }
   return (
     <SafeAreaView style={styles.container}>

@@ -104,7 +104,7 @@ const ProductItem = (props: any) => {
             ${(productQuantity * productPrice)}
           </Text>
         </View>
-        <Text style={styles.sugText}>Sug Cant.{productSuggestedQuantity}</Text>
+        <Text style={styles.sugText}>Sug Cant. {productSuggestedQuantity}</Text>
       </View>
     </View>
   );

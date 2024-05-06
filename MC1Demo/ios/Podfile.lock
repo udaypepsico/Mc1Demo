@@ -11,11 +11,11 @@ PODS:
     - React-Core (= 0.70.14)
     - React-jsi (= 0.70.14)
     - ReactCommon/turbomodule/core (= 0.70.14)
-  - FMDB/SQLCipher (2.7.5):
-    - SQLCipher
+  - FMDB/SQLCipher (2.7.10):
+    - SQLCipher (~> 4.0)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - hermes-engine (0.70.6)
+  - hermes-engine (0.70.14)
   - libevent (2.1.12)
   - MobileSync (11.1.0):
     - MobileSync/MobileSync (= 11.1.0)
@@ -255,11 +255,11 @@ PODS:
     - React-Core
   - react-native-netinfo (11.3.1):
     - React-Core
-  - react-native-pager-view (6.2.3):
+  - react-native-pager-view (6.3.1):
     - React-Core
   - react-native-pdf (6.7.5):
     - React-Core
-  - react-native-safe-area-context (4.9.0):
+  - react-native-safe-area-context (4.10.1):
     - React-Core
   - react-native-segmented-control (2.5.2):
     - React-Core
@@ -335,12 +335,12 @@ PODS:
     - React-Core
   - RNGestureHandler (2.16.1):
     - React-Core
-  - RNScreens (3.29.0):
+  - RNScreens (3.31.1):
     - React-Core
     - React-RCTImage
   - RNSVG (13.12.0):
     - React-Core
-  - RNVectorIcons (10.0.3):
+  - RNVectorIcons (10.1.0):
     - React-Core
   - SalesforceAnalytics (11.1.0):
     - SalesforceAnalytics/SalesforceAnalytics (= 11.1.0)
@@ -559,12 +559,12 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: efad4471d02263013cfcb7a2f75de6ac7565692f
   FBReactNativeSpec: 9cd9542bfdcc64e07bc649f809dd621876f78619
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  FMDB: eae540775bf7d0c87a5af926ae37af69effe5a19
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  hermes-engine: 9ddc050f64651f0ad4f998ea0f4d39075fd92649
+  hermes-engine: af3982923f6d1af884ece80592bd40be2c62e064
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  MobileSync: 3efc3981d2ecd48d9372192732327d0d6e869111
+  MobileSync: 5e1d4beed5d931ca89dd664045bb2dbb70098be6
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 6f42727926c2ef4836fc23169586f3d8d7f5a6e4
   RCTTypeSafety: de9b538a8f20ae8c780bf38935f37f303b083fc8
@@ -584,9 +584,9 @@ SPEC CHECKSUMS:
   react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
-  react-native-pager-view: c29d484f19c49ff19525a94105e4ab2c4d4ae273
+  react-native-pager-view: 08a419bd1acbca67de125a336ccf579118c5fe16
   react-native-pdf: 103940c90d62adfd259f63cca99c7c0c306b514c
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
+  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   react-native-segmented-control: b92809e9111013dfa266e1168ba366d62898d9a4
   React-perflogger: 74b2d33200b8c26440c2c39b87a4177d8404655f
   React-RCTActionSheet: 3fdf6b3a85f2ea4b365b267efd9c82aaeb20fe33
@@ -603,17 +603,17 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
   RNGestureHandler: 2ff93da76329c4b320910745001975b96f887a32
-  RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
+  RNScreens: b940b46ae5987e138c4fadb6b264d09177932b4d
   RNSVG: 6d07f8f8f246c85e3e16e0bcfc0d047db0c48496
-  RNVectorIcons: bc7ee28cadf39c77a49232a14738dfce690f66cd
-  SalesforceAnalytics: 2ffc39532f8251a9f995c38fff33ae058d0d04c2
+  RNVectorIcons: 2460708549c727a3f69de7d4f0b4c7d84b8e84f5
+  SalesforceAnalytics: 8b0339546d55605d976fde9d5419e6910a49830e
   SalesforceReact: e761f317772d718591c769b8f98be4129c66843b
-  SalesforceSDKCommon: cafb14b635aaaee4434db1e01742013c67d2573f
-  SalesforceSDKCore: facf41651af628d4451205df22d4303162fb6abe
-  SmartStore: cc9c1b6067a3dda0e71e665fcb03707ec8835373
+  SalesforceSDKCommon: f1fe99977a862927757141a1084245925026a142
+  SalesforceSDKCore: 8d142fd46b2a9f912e774f69e70b672b9be8aeea
+  SmartStore: 2473b23822b8722828e3a04a286dd610deca30f3
   SQLCipher: 838309284f29953a28ad2e81d87d55ea6b7c74fd
   Yoga: 56413d530d1808044600320ced5baa883acedc44
 
 PODFILE CHECKSUM: 91dbda99dcc53e21a5dd0d1b63f994fe64cc3644
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

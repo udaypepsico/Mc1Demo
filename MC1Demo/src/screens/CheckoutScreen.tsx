@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   Touchable,
+  Route,
   Dimensions,
 } from 'react-native';
 import { ProductsType } from '../data/Products';
@@ -26,7 +27,8 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import PdfComponent from '../components/PdfComponent';
 import InvoiceDialog from '../components/InvoiceDialog';
 
-const CheckoutScreen = () => {
+const CheckoutScreen = ({ route, navigation }: Route) => {
+  //console.log(route.params, navigation);
   const queryClient = useQueryClient();
   const [showInvoice, setShowInvoice] = useState(false);
   const [showSignature, setShowSignature] = useState(false);
@@ -64,7 +66,7 @@ const CheckoutScreen = () => {
   const {
     isPending,
     error,
-    data:visitData,
+    data: visitData,
     isFetching: isFethingVisit,
   } = useQuery<Visits[], Error>({
     queryKey: ['visits'],
@@ -80,14 +82,15 @@ const CheckoutScreen = () => {
     OpportunityData,
     OpportunityLineItemData
   );
-
-  const selectedVisit = visitData?.find((value)=>value.AccountId === accountId)!;
-  
-
+  const onCancel = () => {
+    if (navigation.canGoBack)
+      navigation.goBack();
+  }
+  const selectedVisit = visitData?.find((value) => value.AccountId === accountId)!;
   const createPDF = async () => {
     let options = {
       //Content to print
-      html: HTMlInvoice({ example: 'valu2', selectedOpportunityData,selectedVisit }),
+      html: HTMlInvoice({ example: 'valu2', selectedOpportunityData, selectedVisit }),
       fileName: 'Invoice',
       //File directory
       directory: 'Documents',
@@ -131,7 +134,9 @@ const CheckoutScreen = () => {
         ))}
       </ScrollView>
       <View style={styles.itemRow}>
-        <PaperButton mode="contained">{t('Cancel')}</PaperButton>
+        <PaperButton mode="contained" onPress={onCancel}>
+          {t('Cancel')}
+        </PaperButton>
         <PaperButton mode="contained" onPress={() => createPDF()}>
           {t('Confirm')}
         </PaperButton>
@@ -150,7 +155,7 @@ const CheckoutScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
   itemContainer: {
     borderBottomWidth: 1,
