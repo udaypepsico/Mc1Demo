@@ -12,15 +12,15 @@ import img12 from '../assets/img/img-12.png';
 import { OpportunityLineItem, Visits } from './Record';
 
 export const HTMlInvoice = ({
-  example,
-  selectedOpportunityData,
-  selectedVisit
+    example,
+    selectedOpportunityData,
+    selectedVisit
 }: {
-  example: string;
-  selectedOpportunityData: OpportunityLineItem[];
-  selectedVisit:Visits;
+    example: string;
+    selectedOpportunityData: OpportunityLineItem[];
+    selectedVisit: Visits;
 }) => {
-  return `
+    return `
   <style>
   .table {
     color: #535353;
@@ -2542,10 +2542,9 @@ table th{
                                               <!-- logo started -->
                                               <div class="logo">  
                                                 <img
-                                                src=${
-                                                  Image.resolveAssetSource(logo)
-                                                    .uri
-                                                }
+                                                src=${Image.resolveAssetSource(logo)
+            .uri
+        }
                                                 alt="logo"
                                                 />
                                               </div>
@@ -2613,14 +2612,14 @@ table th{
   
                                               <tbody>
                                               ${selectedOpportunityData
-                                                .map((item) => lineItems(item))
-                                                .join('')}
+            .map((item) => lineItems(item))
+            .join('')}
                                               <tr>
                                                   <td><strong>Total Price</strong></td>
                                                   <td></td>
                                                   <td></td>
                                                   <td><strong>${selectedOpportunityData
-                                                    .reduce((partialSum, a) => partialSum + Number(a.TotalPrice), 0)}</strong></td>
+            .reduce((partialSum, a) => partialSum + (Number(a.Quantity) * Number(a.UnitPrice)), 0)}</strong></td>
                                               </tr>
                                               </tbody>
                                           </table>
@@ -2667,10 +2666,10 @@ table th{
 };
 
 const lineItems = (value: OpportunityLineItem) => {
-  return `<tr>
+    return `<tr>
             <td>${value.Product2.Name}</td>
             <td>${value.Quantity}</td>
             <td>${value.UnitPrice}</td>
-            <td>${value.TotalPrice}</td>
+            <td>${value.Quantity * value.UnitPrice}</td>
         </tr>`;
 };

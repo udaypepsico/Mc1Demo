@@ -116,12 +116,12 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
       <View style={styles.itemRow}>
         <Text style={styles.col1}>{t('Amount')}</Text>
         <Text style={styles.col2}>{item.Quantity}</Text>
-        <Text>{item.Quantity * 2}</Text>
+        <Text>{item.Quantity}</Text>
       </View>
       <View style={styles.itemRow}>
         <Text style={styles.col1}>{t('TotalAmount')}</Text>
         <Text style={styles.col2}>{item.UnitPrice}</Text>
-        <Text>{item.UnitPrice * 2}</Text>
+        <Text>{item.UnitPrice}</Text>
       </View>
     </View>
   );

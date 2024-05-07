@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { memo } from 'react';
 import {
   Dimensions,
@@ -43,7 +43,7 @@ const SearchSection = () => {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const productDisplayResult = !(searchQuery.trim().length === 0)
       ? searchQuery.split(' ').length > 1
         ? productsData!.filter((obj) => {
@@ -93,14 +93,16 @@ const SearchSection = () => {
           />
         </View>
       </View>
-
-      <FlatList
-        data={productDisplayResult}
-        style={styles.listContainer}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.Id.toString()}
-      />
+      {productDisplayResult && productDisplayResult?.length >0 &&
+        <FlatList
+          data={productDisplayResult}
+          style={styles.listContainer}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.Id.toString()}
+        />
+      }
     </View>
+
   );
 };
 
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
   productSearchContainer: {
     flexDirection: 'row',
     marginTop: 10,
-    height: 40,
+    height: 42,
   },
   listContainer: {
     position: 'absolute',
