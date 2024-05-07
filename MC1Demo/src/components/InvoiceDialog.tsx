@@ -8,10 +8,12 @@ const InvoiceDialog = ({
   visible,
   invoiceFilePath,
   hideDialog,
+  mailDialog,
 }: {
   visible: boolean;
   invoiceFilePath: string;
   hideDialog: () => void;
+  mailDialog: () => void;
 }) => {
 
   const containerStyle = {
@@ -36,6 +38,9 @@ const InvoiceDialog = ({
           filePath={invoiceFilePath}
           closePdf={() => {
             hideDialog();
+          }}
+          mailPdf={() => {
+            mailDialog();
           }}
         />
       </Modal>

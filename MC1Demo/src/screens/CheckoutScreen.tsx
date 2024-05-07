@@ -26,6 +26,8 @@ import { HTMlInvoice } from '../data/HtmlInvoiceSource';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import PdfComponent from '../components/PdfComponent';
 import InvoiceDialog from '../components/InvoiceDialog';
+import MailDialog from '../components/MailDialog';
+import { useSendEmail } from '../hooks/useSendEmail';
 
 const CheckoutScreen = ({ route, navigation }: Route) => {
   //console.log(route.params, navigation);
@@ -34,6 +36,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   const [showSignature, setShowSignature] = useState(false);
   const [invoiceFilePath, setInvoiceFilePath] = useState('');
   const [showPdf, setShowPdf] = useState(false);
+  const [showMail, setShowMail] = useState(false);
 
   const { t } = useTranslation();
 
@@ -85,6 +88,17 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   const onCancel = () => {
     if (navigation.canGoBack)
       navigation.goBack();
+  }
+  const sendMail = (email: string) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(email) === false) {
+      console.log("Email is Not Valid");
+      return false;
+    }
+    setShowPdf(false);
+    setShowMail(false);
+    console.log(email);
+    useSendEmail(email, invoiceFilePath)
   }
   const selectedVisit = visitData?.find((value) => value.AccountId === accountId)!;
   const createPDF = async () => {
@@ -143,9 +157,19 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
       </View>
       <InvoiceDialog
         invoiceFilePath={invoiceFilePath}
-        visible={showPdf}
+        visible={showPdf && !showMail}
         hideDialog={() => {
           setShowPdf(false);
+        }}
+        mailDialog={() => {
+          setShowMail(true);
+        }}
+      />
+      <MailDialog
+        visible={showMail}
+        emailHandler={(e) => sendMail(e)}
+        hideDialog={() => {
+          setShowMail(false);
         }}
       />
     </SafeAreaView>
