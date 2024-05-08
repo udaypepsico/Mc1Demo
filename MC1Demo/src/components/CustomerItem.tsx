@@ -78,7 +78,7 @@ const CustomerItem = ({
                 paddingLeft: 10,
               }}
             >
-              <Text>{index === 0 ? 'Current Visit' : 'Upcoming Visit'}</Text>
+              <Text>{index === 0 ? t('Current Visit') : t('Upcoming Visit')}</Text>
             </View>
           )}
         <View style={styles.itemContainer}>

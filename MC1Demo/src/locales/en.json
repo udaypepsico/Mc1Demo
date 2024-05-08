@@ -8,6 +8,7 @@
     "Completed": "Completed",
     "Confirm": "Confirm",
     "Confirm_Checkout_Alert": "Are you sure to confirm this Order?",
+    "Current Visit": "Current Visit",
     "Delivery": "Delivery",
     "Discounts": "Discounts",
     "Exchange": "Exchange",
@@ -41,18 +42,12 @@
     "Search": "Search",
     "Subtotal": "Subtotal",
     "Summary": "Summary",
+    "Upcoming Visit": "Upcoming Visit",
     "Upcoming": "Upcoming",
     "Visit": "Visit",
     "Visits": "Visit",
     "Work": "Work",
     "Search Products": "Search Products",
-    "SUN": "SUN",
-    "TUE": "TUE",
-    "MON": "MON",
-    "WED": "WED",
-    "THU": "THU",
-    "FRI": "FRI",
-    "SAT": "SAT",
     "Cases Sold":"Cases Sold",
     "Planned Cases":"Planned Cases",
     "Total Visits":"Total Visits",
@@ -61,5 +56,43 @@
     "ORDER TAKEN":"ORDER TAKEN",
     "Day Started at":"Day Started at",
     "CheckInAskMessage":"Do you want to Check In ?",
-    "Team Meeting":"Team Meeting"
+    "Team Meeting":"Team Meeting",
+
+    "Days":{
+        "Sun": "Sun",
+        "Mon": "Mon",
+        "Tue": "Tue",        
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat"
+    },
+    "Months":{
+        "Jan": "Jan",
+        "Feb": "Feb",
+        "Mar": "Mar",        
+        "Apr": "Apr",
+        "May": "May",
+        "Jun": "Jun",
+        "Jul": "Jul",
+        "Aug": "Aug",
+        "Sep": "Sep",
+        "Oct": "Oct",
+        "Nov": "Nov",
+        "Dec": "Dec"
+    },
+    "RootName": {
+        "Liquidation": "Liquidation",
+        "Sequence": "Camp. of sequence",
+        "SalesObjective": "Sales objective",
+        "Visiting": "Cums. Visiting",
+        "Effectiveness": "Effectiveness",
+        "CustomersWithoutSale": "Customers without sale"
+    }
 }
+
+
+
+
+
+

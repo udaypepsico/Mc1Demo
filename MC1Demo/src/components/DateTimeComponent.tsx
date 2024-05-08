@@ -1,30 +1,35 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { selectedDate } from '../lib/api';
+import { t } from 'i18next';
 
 const DateTimeComponent = ({ selectedDate }: { selectedDate: Date }) => {
 
   const queryClient = useQueryClient();
 
-  const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate) && 
-                          (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
+  const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate) &&
+    (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
 
-  useEffect(() => {
-
-  }, [selectedDate]);
-
+  const localeDate = (d: any) => {
+    let dateString = d.toLocaleDateString('en-us', { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' });
+    dateString = dateString.replace(',', '');
+    const dateStrAr = dateString.split(' ');
+    return t('Days.' + dateStrAr[0]) + ', ' + t('Months.' + dateStrAr[1]) + ' ' + dateStrAr[2] + ' ' + dateStrAr[3];
+  }
   return (
     <View style={styles.dateContainer}>
       <Text style={styles.dateText}>
-        {dateOfDelivery && dateOfDelivery.toLocaleDateString('en-us', {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })}
+        {
+          /*dateOfDelivery && dateOfDelivery.toLocaleDateString('en-us', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })*/
+          dateOfDelivery && localeDate(dateOfDelivery)
+        }
       </Text>
     </View>
   );

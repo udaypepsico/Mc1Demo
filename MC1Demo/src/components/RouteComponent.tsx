@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { ListRenderItem, StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import DonutChartComponent from './DonutChartComponent';
+import { t } from 'i18next';
 
 interface ProgressIndicatorType {
   id: number;
@@ -12,17 +13,17 @@ interface ProgressIndicatorType {
 
 const RouteComponent = () => {
   const progressIndicators: ProgressIndicatorType[] = [
-    { id: 1, name: 'Sent vs Delivered', percentage: 50 },
-    { id: 2, name: 'Del', percentage: 10 },
-    { id: 3, name: 'Merch', percentage: 30 },
-    { id: 4, name: 'Work Order', percentage: 15 },
-    { id: 5, name: 'MEM', percentage: 20 },
-    { id: 6, name: 'POP', percentage: 40 },
+    { id: 1, name: 'Liquidation', percentage: 50 },
+    { id: 2, name: 'Sequence', percentage: 10 },
+    { id: 3, name: 'SalesObjective', percentage: 30 },
+    { id: 4, name: 'Visiting', percentage: 15 },
+    { id: 5, name: 'Effectiveness', percentage: 20 },
+    { id: 6, name: 'CustomersWithoutSale', percentage: 40 },
   ];
 
   const renderItem: ListRenderItem<ProgressIndicatorType> = useCallback(
     ({ item, index }: { item: ProgressIndicatorType; index: number }) => (
-      <DonutChartComponent name={item.name} percentage={item.percentage} />
+      <DonutChartComponent name={t('RootName.'+item.name)} percentage={item.percentage} />
     ),
     [progressIndicators]
   );

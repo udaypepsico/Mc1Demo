@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 export interface DateContainerType {
   WeekDay: string;
   DateString: string;
@@ -41,35 +43,35 @@ export const generateDateTime = (
   type: string,
   duration: number
 ): DateContainerType[] => {
-  const weekday = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-
+  const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const twoDigit = (n: number) => {
+    return n > 9 ? n : '0' + n;
+  }
+  let today = new Date();
+  let arrayValue: DateContainerType[] = [];
   if (type === 'Past') {
-    var today = new Date();
-
-    let arrayValue: DateContainerType[] = [];
-
     for (let i = 1; i < duration + 1; i++) {
-      var priorDate = new Date(new Date().setDate(today.getDate() - i));
+      let priorDate = new Date(new Date().setDate(today.getDate() - i));
+      let mm = twoDigit(priorDate.getMonth() + 1);
+      let dd = twoDigit(priorDate.getDate());
       let value: DateContainerType = {
         WeekDay: weekday[priorDate.getDay()],
-        DateString: priorDate.getMonth() + 1 + '/' + priorDate.getDate(),
-        DateFormatString: priorDate.getFullYear() + '/' + priorDate.getMonth() + 1 + '/' + priorDate.getDate()
+        DateString: mm + '/' + dd,
+        DateFormatString: priorDate.getFullYear() + '/' + mm + '/' + dd
       };
       arrayValue.push(value);
     }
 
     return arrayValue;
   } else {
-    var today = new Date();
-
-    let arrayValue: DateContainerType[] = [];
-
     for (let i = 1; i < duration + 1; i++) {
-      var priorDate = new Date(new Date().setDate(today.getDate() + i));
+      let priorDate = new Date(new Date().setDate(today.getDate() + i));
+      let mm = twoDigit(priorDate.getMonth() + 1);
+      let dd = twoDigit(priorDate.getDate());
       let value: DateContainerType = {
         WeekDay: weekday[priorDate.getDay()],
-        DateString: priorDate.getMonth() + 1 + '/' + priorDate.getDate(),
-        DateFormatString: priorDate.getFullYear() + '-' + (priorDate.getMonth() + 1) + '-' + priorDate.getDate()
+        DateString: mm + '/' + dd,
+        DateFormatString: priorDate.getFullYear() + '-' + mm + '-' + dd
       };
       arrayValue.push(value);
     }
