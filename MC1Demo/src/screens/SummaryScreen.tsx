@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React from 'react';
 import { memo } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';

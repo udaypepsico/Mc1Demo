@@ -12,10 +12,6 @@ const DateTimeComponent = ({ selectedDate }: { selectedDate: Date }) => {
   const dateOfDelivery = (queryClient.getQueryData(['selectedDate']) as selectedDate) && 
                           (queryClient.getQueryData(['selectedDate']) as selectedDate).selectedDate;
 
-  useEffect(() => {
-
-  }, [selectedDate]);
-
   return (
     <View style={styles.dateContainer}>
       <Text style={styles.dateText}>
