@@ -6,7 +6,6 @@ import { Button, Modal, Portal, Text } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { increamentalValue } from '../core/utils';
-import { OpportunityLineItem } from '../data/Record';
 
 const ProductExchangeDialog = (props: any) => {
   const { visible, hideDialog, navigate, products } = props;

@@ -195,7 +195,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
           }
         />
       </ScrollView>
-      <PaperButton style={styles.stickyBtn} mode='contained' onPress={checkhoutHander}>CHECKOUT</PaperButton>
+      <PaperButton style={styles.stickyBtn} mode='contained' onPress={checkhoutHander}>{t('CheckOut')}</PaperButton>
     </SafeAreaView>
   );
 };

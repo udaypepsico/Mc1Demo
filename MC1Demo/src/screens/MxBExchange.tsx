@@ -8,7 +8,7 @@ import {
   FlatList,
   Touchable,
 } from 'react-native';
-import { ProductsType } from '../data/Products';
+
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchOpportunityLineItem } from '../lib/api';
 import { useTranslation } from 'react-i18next';

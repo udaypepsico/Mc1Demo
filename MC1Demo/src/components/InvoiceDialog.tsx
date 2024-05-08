@@ -6,11 +6,13 @@ import PdfComponent from './PdfComponent';
 
 const InvoiceDialog = ({
   visible,
+  preview,
   invoiceFilePath,
   hideDialog,
   mailDialog,
 }: {
   visible: boolean;
+  preview: boolean;
   invoiceFilePath: string;
   hideDialog: () => void;
   mailDialog: () => void;
@@ -36,6 +38,7 @@ const InvoiceDialog = ({
       >
         <PdfComponent
           filePath={invoiceFilePath}
+          preview={preview}
           closePdf={() => {
             hideDialog();
           }}

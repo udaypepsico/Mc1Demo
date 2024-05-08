@@ -4,19 +4,13 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
-  SafeAreaView,
   ListRenderItem,
-  TextInput,
-  Button,
-  Pressable,
   Route,
 } from 'react-native';
 
 import ProductItem from '../components/ProductItem';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ProductsType } from '../data/Products';
 import {
   fetchOpportunity,
   fetchOpportunityLineItem,
@@ -186,7 +180,7 @@ const ProductScreen = ({ route }: Route) => {
         maxToRenderPerBatch={5}
         ListEmptyComponent={
           <View style={styles.emptyListView}>
-            <Text>No Customer Record Found</Text>
+            <Text>{t('NoRecordFound')}</Text>
           </View>
         }
       />

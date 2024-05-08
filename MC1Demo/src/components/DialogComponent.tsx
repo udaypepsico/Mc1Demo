@@ -6,24 +6,26 @@ import { Button, Dialog, Portal, Text } from 'react-native-paper';
 const DialogComponent = ({
   visible,
   hideDialog,
-  navigate
+  navigate,
+  message,
 }: {
   visible: boolean;
   hideDialog: any;
-  navigate:any;
+  navigate: any;
+  message: string;
 }) => {
   const confirmedAction = () => {
     navigate();
   };
 
-  const {t} = useTranslation();
-
+  const { t } = useTranslation();
+  const messageBody = message ? message : t("CheckInAskMessage");
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={hideDialog}>
         <Dialog.Title>{t("Confirm")}</Dialog.Title>
         <Dialog.Content>
-          <Text variant="bodyMedium">{t("CheckInAskMessage")}</Text>
+          <Text variant="bodyMedium">{messageBody}</Text>
         </Dialog.Content>
         <Dialog.Actions>
           <Button

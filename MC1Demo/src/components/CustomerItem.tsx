@@ -1,7 +1,6 @@
-import React, { Ref, memo, useRef, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import {
-  ActivityIndicator,
   Avatar,
   Button,
   Card,
@@ -12,11 +11,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { theme } from '../core/theme';
 import { Credentials, fetchImage, selectedVisitType } from '../lib/api';
-import { Record, Visits } from '../data/Record';
+import { Visits } from '../data/Record';
 
 import { Linking } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 const LeftImageContent = (props: any) => <Avatar.Image {...props} size={50} />;

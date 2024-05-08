@@ -234,6 +234,7 @@ const MyDayScreen = () => {
           </VirtualizedListComponent>
           <DialogComponent
             visible={dialogVisible}
+            message={t("CheckInAskMessage")}
             hideDialog={() => {
               setDialogVisible(false);
             }}

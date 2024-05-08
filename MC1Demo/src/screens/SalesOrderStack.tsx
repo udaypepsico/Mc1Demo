@@ -4,6 +4,7 @@ import i18n from '../locales/i18n';
 import MyDayScreen from './MyDayScreen';
 import ProductStack from './ProductStack';
 import CheckoutScreen from './CheckoutScreen';
+import { t } from 'i18next';
 
 const Stack = createStackNavigator();
 
@@ -31,7 +32,7 @@ const SalesOrderStack = () => {
           headerStyle: { height: 70 },
         }}
       />
-      <Stack.Screen name="Checkout" component={CheckoutScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: t('CheckOut') }}/>
     </Stack.Navigator>
   );
 };

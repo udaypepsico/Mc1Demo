@@ -7,10 +7,12 @@ import Pdf from 'react-native-pdf';
 
 const PdfComponent = ({
   filePath,
+  preview,
   closePdf,
   mailPdf,
 }: {
   filePath: string;
+  preview: boolean;
   closePdf: any;
   mailPdf: any;
 }) => {
@@ -24,25 +26,6 @@ const PdfComponent = ({
         width: Dimensions.get('window').width - 20,
       }}
     >
-      <View style={styles.itemRow}>
-        <Button
-          mode="outlined"
-          onPress={() => {
-            closePdf();
-          }}
-        >
-          {t('Close')}
-        </Button>
-        <Button
-          icon="mail"
-          mode="outlined"
-          onPress={() => {
-            mailPdf();
-          }}
-        >
-          {t('Mail')}
-        </Button>
-      </View>
       <Pdf
         source={{ uri: filePath }}
         onLoadComplete={(numberOfPages, filePath) => {
@@ -62,6 +45,27 @@ const PdfComponent = ({
         showsHorizontalScrollIndicator={true}
         style={styles.pdf}
       />
+      <View style={styles.itemRow}>
+        <Button
+          mode="outlined"
+          onPress={() => {
+            closePdf();
+          }}
+        >
+          {t('Close')}
+        </Button>
+        {preview &&
+          <Button
+            icon="mail"
+            mode="outlined"
+            onPress={() => {
+              mailPdf();
+            }}
+          >
+            {t('Mail')}
+          </Button>
+        }
+      </View>
     </View>
   );
 };

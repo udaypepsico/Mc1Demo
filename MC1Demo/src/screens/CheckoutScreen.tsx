@@ -4,12 +4,10 @@ import {
   StyleSheet,
   View,
   Text,
-  FlatList,
-  Touchable,
   Route,
   Dimensions,
+  Alert,
 } from 'react-native';
-import { ProductsType } from '../data/Products';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   fetchOpportunity,
@@ -27,19 +25,20 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import PdfComponent from '../components/PdfComponent';
 import InvoiceDialog from '../components/InvoiceDialog';
 import MailDialog from '../components/MailDialog';
+import DialogComponent from '../components/DialogComponent';
 import { useSendEmail } from '../hooks/useSendEmail';
+
 
 const CheckoutScreen = ({ route, navigation }: Route) => {
   //console.log(route.params, navigation);
   const queryClient = useQueryClient();
-  const [showInvoice, setShowInvoice] = useState(false);
-  const [showSignature, setShowSignature] = useState(false);
   const [invoiceFilePath, setInvoiceFilePath] = useState('');
   const [showPdf, setShowPdf] = useState(false);
   const [showMail, setShowMail] = useState(false);
+  const [confirmAlert, setConfirmAlert] = useState(false);
+  const [preview, setPreview] = useState(false);
 
   const { t } = useTranslation();
-
   const {
     isPending: opportunityPending,
     error: opportunityFetchError,
@@ -78,8 +77,8 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     gcTime: Infinity,
   });
 
-  const accountId = queryClient.getQueryData(['accountId']) as string;
 
+  const accountId = queryClient.getQueryData(['accountId']) as string;
   const selectedOpportunityData = useSelectedOpportunityFetch(
     accountId,
     OpportunityData,
@@ -89,16 +88,27 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     if (navigation.canGoBack)
       navigation.goBack();
   }
+  const hideConfirm = () => {
+    setConfirmAlert(false);
+  }
+  const showConfirmAlert = () => {
+    setConfirmAlert(true);
+  }
+  const onConfirmedInvoice = () => {
+    setConfirmAlert(false);
+    setPreview(true);
+    createPDF();
+  }
   const sendMail = (email: string) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(email) === false) {
-      console.log("Email is Not Valid");
+      Alert.alert(t('Invalid_Email_Alert'));
       return false;
     }
     setShowPdf(false);
     setShowMail(false);
-    console.log(email);
-    useSendEmail(email, invoiceFilePath)
+    useSendEmail(email, invoiceFilePath);
+    console.log('sending mail to', email);
   }
   const selectedVisit = visitData?.find((value) => value.AccountId === accountId)!;
   const createPDF = async () => {
@@ -113,7 +123,6 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     };
     let file = await RNHTMLtoPDF.convert(options);
     if (file && file.filePath) {
-      console.log(file.filePath);
       setInvoiceFilePath(file.filePath);
       setShowPdf(true);
     }
@@ -148,15 +157,24 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
         ))}
       </ScrollView>
       <View style={styles.itemRow}>
-        <PaperButton mode="contained" onPress={onCancel}>
-          {t('Cancel')}
+        <PaperButton mode="contained" onPress={createPDF}>
+          {t('Preview')} {t('Invoice')}
         </PaperButton>
-        <PaperButton mode="contained" onPress={() => createPDF()}>
-          {t('Confirm')}
-        </PaperButton>
+        {!preview &&
+          <PaperButton mode="contained" onPress={showConfirmAlert}>
+            {t('Confirm')}
+          </PaperButton>
+        }
       </View>
+      <DialogComponent
+        visible={confirmAlert}
+        hideDialog={hideConfirm}
+        message={t('Confirm_Checkout_Alert')}
+        navigate={onConfirmedInvoice}
+      />
       <InvoiceDialog
         invoiceFilePath={invoiceFilePath}
+        preview={preview}
         visible={showPdf && !showMail}
         hideDialog={() => {
           setShowPdf(false);
@@ -167,7 +185,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
       />
       <MailDialog
         visible={showMail}
-        emailHandler={(e) => sendMail(e)}
+        emailHandler={(e) => sendMail(e.toString())}
         hideDialog={() => {
           setShowMail(false);
         }}
