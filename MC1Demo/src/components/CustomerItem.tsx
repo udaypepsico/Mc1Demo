@@ -1,16 +1,17 @@
 import React, { memo, useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Card,
-  Text,
-} from 'react-native-paper';
+import { Avatar, Button, Card, Text } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { theme } from '../core/theme';
-import { Credentials, fetchImage, selectedVisitType } from '../lib/api';
+import {
+  Credentials,
+  fetchImage,
+  getCurrentVisit,
+  getQueryVisitType,
+  selectedVisitType,
+} from '../lib/api';
 import { Visits } from '../data/Record';
 
 import { Linking } from 'react-native';
@@ -55,6 +56,30 @@ const CustomerItem = ({
       ),
   });
 
+  const {
+    isPending: isVisitFetchPending,
+    error: isVisitFetchingError,
+    data: visitTypeData,
+  } = useQuery<selectedVisitType, Error>({
+    queryKey: ['visitType'],
+    queryFn: () => getQueryVisitType(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: { visitType: 'Today' },
+  });
+
+  const {
+    isPending: iscurrentVisitIndexFetchPending,
+    error: iscurrentVisitIndexFetchingError,
+    data: currentVisitIndexData,
+  } = useQuery<number, Error>({
+    queryKey: ['currentVisitIndex'],
+    queryFn: () => getCurrentVisit(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: 0,
+  });
+
   return (
     <Card
       onPress={() => itemPress(index)}
@@ -68,19 +93,24 @@ const CustomerItem = ({
       ]}
     >
       <View style={styles.cellContentStyle}>
-        {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
-          (queryClient.getQueryData(['visitType']) as selectedVisitType)
-            .visitType === 'Today' && (
-            <View
-              style={{
-                backgroundColor: index === 0 ? '#3FD571' : '#F1F5F6',
-                paddingVertical: 10,
-                paddingLeft: 10,
-              }}
-            >
-              <Text>{index === 0 ? t('Current Visit') : t('Upcoming Visit')}</Text>
-            </View>
-          )}
+        {visitTypeData.visitType === 'Today' && (
+          <View
+            style={{
+              backgroundColor:
+                index === currentVisitIndexData ? '#3FD571' : '#F1F5F6',
+              paddingVertical: 10,
+              paddingLeft: 10,
+            }}
+          >
+            <Text>
+              {index === currentVisitIndexData
+                ? 'Current Visit'
+                : customerRecord.isVisited
+                ? 'Visited'
+                : 'Upcoming Visit'}
+            </Text>
+          </View>
+        )}
         <View style={styles.itemContainer}>
           <View style={styles.iconContainer}>
             {fileUrl && fileUrl.length > 0 ? (
@@ -93,21 +123,19 @@ const CustomerItem = ({
               //   uri: customerRecord.PhotoUrl,
               // }} />
             )}
-            {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
-              (queryClient.getQueryData(['visitType']) as selectedVisitType)
-                .visitType === 'Past' && (
-                <Avatar.Icon
-                  icon="check"
-                  size={30}
-                  color="white"
-                  style={{
-                    marginTop: -12.5,
-                    zIndex: 2,
-                    alignSelf: 'flex-end',
-                    backgroundColor: '#3FD571',
-                  }}
-                />
-              )}
+            {visitTypeData.visitType === 'Past' && (
+              <Avatar.Icon
+                icon="check"
+                size={30}
+                color="white"
+                style={{
+                  marginTop: -12.5,
+                  zIndex: 2,
+                  alignSelf: 'flex-end',
+                  backgroundColor: '#3FD571',
+                }}
+              />
+            )}
           </View>
           <View style={styles.descriptionContainer}>
             <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
@@ -140,20 +168,18 @@ const CustomerItem = ({
                     : '')}
               </Text>
             </View>
-            {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
-              (queryClient.getQueryData(['visitType']) as selectedVisitType)
-                .visitType === 'Past' && (
-                <Button
-                  mode="contained"
-                  style={{
-                    backgroundColor: '#3FD571',
-                    alignSelf: 'flex-start',
-                    marginTop: 5,
-                  }}
-                >
-                  {t('ORDER TAKEN')}
-                </Button>
-              )}
+            {visitTypeData.visitType === 'Past' && (
+              <Button
+                mode="contained"
+                style={{
+                  backgroundColor: '#3FD571',
+                  alignSelf: 'flex-start',
+                  marginTop: 5,
+                }}
+              >
+                {t('ORDER TAKEN')}
+              </Button>
+            )}
           </View>
           <View style={styles.phoneLocationContainer}>
             <View
@@ -183,35 +209,31 @@ const CustomerItem = ({
             </View>
           </View>
         </View>
-        {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
-          (queryClient.getQueryData(['visitType']) as selectedVisitType)
-            .visitType !== 'Past' && (
-            <View style={styles.deliveryWorkOrdersContainer}>
-              <View style={styles.deliveryContainer}>
-                <MaterialCommunityIcons
-                  name="truck-outline"
-                  size={20}
-                  color="grey"
-                />
-                <Text style={{ paddingLeft: 5, color: '#535659' }}>
-                  {t('Upcoming Delivery')}
-                </Text>
-              </View>
-              <View style={styles.workOrdersContianer}>
-                <Text style={{ paddingRight: 5, color: '#535659' }}>
-                  {t('Work Orders')}
-                </Text>
-                <View style={styles.circleOutline}>
-                  <Text style={{ fontWeight: 'bold' }}>{0}</Text>
-                </View>
+        {visitTypeData.visitType !== 'Past' && (
+          <View style={styles.deliveryWorkOrdersContainer}>
+            <View style={styles.deliveryContainer}>
+              <MaterialCommunityIcons
+                name="truck-outline"
+                size={20}
+                color="grey"
+              />
+              <Text style={{ paddingLeft: 5, color: '#535659' }}>
+                {t('Upcoming Delivery')}
+              </Text>
+            </View>
+            <View style={styles.workOrdersContianer}>
+              <Text style={{ paddingRight: 5, color: '#535659' }}>
+                {t('Work Orders')}
+              </Text>
+              <View style={styles.circleOutline}>
+                <Text style={{ fontWeight: 'bold' }}>{0}</Text>
               </View>
             </View>
-          )}
+          </View>
+        )}
       </View>
-      {(queryClient.getQueryData(['visitType']) as selectedVisitType) &&
-        (queryClient.getQueryData(['visitType']) as selectedVisitType)
-          .visitType === 'Today' &&
-        index === 0 && (
+      {visitTypeData.visitType === 'Today' &&
+        index === currentVisitIndexData && (
           <Card.Actions>
             <Button
               icon="account-box-outline"

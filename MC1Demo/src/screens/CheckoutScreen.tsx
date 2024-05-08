@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { memo } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Route,
-  Dimensions,
-  Alert,
-} from 'react-native';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { StyleSheet, View, Text, Route, Dimensions, Alert } from 'react-native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   fetchOpportunity,
   fetchOpportunityLineItem,
   fetchVisitData,
+  getCurrentVisit,
 } from '../lib/api';
 import { useTranslation } from 'react-i18next';
 import { Button as PaperButton } from 'react-native-paper';
@@ -28,7 +22,6 @@ import MailDialog from '../components/MailDialog';
 import DialogComponent from '../components/DialogComponent';
 import { useSendEmail } from '../hooks/useSendEmail';
 
-
 const CheckoutScreen = ({ route, navigation }: Route) => {
   //console.log(route.params, navigation);
   const queryClient = useQueryClient();
@@ -36,7 +29,6 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   const [showPdf, setShowPdf] = useState(false);
   const [showMail, setShowMail] = useState(false);
   const [confirmAlert, setConfirmAlert] = useState(false);
-  const [preview, setPreview] = useState(false);
 
   const { t } = useTranslation();
   const {
@@ -77,28 +69,73 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     gcTime: Infinity,
   });
 
-
   const accountId = queryClient.getQueryData(['accountId']) as string;
+
   const selectedOpportunityData = useSelectedOpportunityFetch(
     accountId,
     OpportunityData,
     OpportunityLineItemData
   );
+
+  const {
+    isPending: iscurrentVisitIndexFetchPending,
+    error: iscurrentVisitIndexFetchingError,
+    data: currentVisitIndexData,
+  } = useQuery<number, Error>({
+    queryKey: ['currentVisitIndex'],
+    queryFn: () => getCurrentVisit(),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    initialData: 0,
+  });
+  
   const onCancel = () => {
-    if (navigation.canGoBack)
-      navigation.goBack();
-  }
+    if (navigation.canGoBack) navigation.goBack();
+  };
   const hideConfirm = () => {
     setConfirmAlert(false);
-  }
+  };
   const showConfirmAlert = () => {
     setConfirmAlert(true);
-  }
+  };
+
+  const updateVisit = useMutation({
+    mutationKey: ['updateVisit'],
+    onMutate: async (payload: boolean) => {
+      await queryClient.cancelQueries({
+        queryKey: ['visits'],
+      });
+
+      const previousVisits = queryClient.getQueryData<Visits[]>(['visits']);
+
+      if (previousVisits) {
+        queryClient.setQueryData<Visits[]>(['visits'], (old) => {
+          return (
+            old &&
+            old.map((obj) =>
+              obj.AccountId === accountId ? { ...obj, isVisited: payload } : obj
+            )
+          );
+        });
+      }
+
+      const newVisitData =  queryClient.getQueryData<Visits[]>(['visits']);
+
+      console.log(newVisitData);
+
+      return { previousVisits };
+    },
+    onError: (error, variables, context) => {
+      console.log('Error' + error);
+    },
+  });
+
   const onConfirmedInvoice = () => {
     setConfirmAlert(false);
-    setPreview(true);
+    updateVisit.mutate(true);
+    queryClient.setQueryData(['currentVisitIndex'],currentVisitIndexData+1 );
     createPDF();
-  }
+  };
   const sendMail = (email: string) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(email) === false) {
@@ -109,12 +146,18 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     setShowMail(false);
     useSendEmail(email, invoiceFilePath);
     console.log('sending mail to', email);
-  }
-  const selectedVisit = visitData?.find((value) => value.AccountId === accountId)!;
+  };
+  const selectedVisit = visitData?.find(
+    (value) => value.AccountId === accountId
+  )!;
   const createPDF = async () => {
     let options = {
       //Content to print
-      html: HTMlInvoice({ example: 'valu2', selectedOpportunityData, selectedVisit }),
+      html: HTMlInvoice({
+        example: 'valu2',
+        selectedOpportunityData,
+        selectedVisit,
+      }),
       fileName: 'Invoice',
       //File directory
       directory: 'Documents',
@@ -160,11 +203,12 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
         <PaperButton mode="contained" onPress={createPDF}>
           {t('Preview')} {t('Invoice')}
         </PaperButton>
-        {!preview &&
+        {!visitData?.find((value) => value.AccountId === accountId)!
+          .isVisited && (
           <PaperButton mode="contained" onPress={showConfirmAlert}>
             {t('Confirm')}
           </PaperButton>
-        }
+        )}
       </View>
       <DialogComponent
         visible={confirmAlert}
@@ -174,7 +218,9 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
       />
       <InvoiceDialog
         invoiceFilePath={invoiceFilePath}
-        preview={preview}
+        preview={
+          visitData?.find((value) => value.AccountId === accountId)!.isVisited!
+        }
         visible={showPdf && !showMail}
         hideDialog={() => {
           setShowPdf(false);

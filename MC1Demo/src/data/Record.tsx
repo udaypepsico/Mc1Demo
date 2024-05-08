@@ -39,6 +39,7 @@ export interface Visits {
   ActualVisitStartTime?: string;
   ActualVisitEndTime?: string;
   attributes?: Attribute;
+  isVisited?:boolean
 }
 
 export interface Opportunity {

@@ -96,17 +96,20 @@ const ProductScreen = ({ route }: Route) => {
         queryKey: ['opportunityLineItem'],
       });
 
-      queryClient.setQueryData<OpportunityLineItem[]>(
-        ['opportunityLineItem'],
-        (old) => {
-          return old && old.filter((obj) => obj.Id !== payload.Id);
-        }
-      );
-      const newproducts = queryClient.getQueryData<OpportunityLineItem[]>([
+      const previousProducts = queryClient.getQueryData<OpportunityLineItem[]>([
         'opportunityLineItem',
       ]);
 
-      return { newproducts };
+      if(previousProducts){
+        queryClient.setQueryData<OpportunityLineItem[]>(
+          ['opportunityLineItem'],
+          (old) => {
+            return old && old.filter((obj) => obj.Id !== payload.Id);
+          }
+        );
+      }
+
+      return { previousProducts };
     },
     onError: (error, variables, context) => {
       console.log('Error' + error);

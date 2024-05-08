@@ -85,7 +85,12 @@ export const fetchVisitData = async () => {
       'SELECT Id, AccountId, Account.Name, Account.PhotoUrl, Account.Phone, Account.Description, \
       Account.ShippingCity, Account.ShippingCountry, Account.ShippingPostalCode, Account.ShippingState, Account.ShippingStreet, ActualVisitStartTime, ActualVisitEndTime FROM Visit',
       (response: VisitResponse) => {
-        resolve(response.records!);
+        resolve(
+          response.records!.map((record) => ({
+            ...record,
+            isVisited: false,
+          }))!
+        );
       },
       (error) => {
         reject(error);
@@ -229,6 +234,10 @@ export const getQueryVisitType = async (): Promise<selectedVisitType> => {
 
 export const getSelectedDate = async (): Promise<selectedDate> => {
   return { selectedDate: new Date() };
+};
+
+export const getCurrentVisit = async (): Promise<number> => {
+  return 0;
 };
 
 export const getSelectedOpportunityData = async (
