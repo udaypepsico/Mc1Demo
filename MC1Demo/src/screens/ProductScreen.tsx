@@ -172,7 +172,7 @@ const ProductScreen = ({ route }: Route) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.h4}>{t('ProductInfo')}</Text>
+      <Text style={styles.heading}>{t('Planograms')}</Text>
       <SearchSection />
       <FlatList
         style={styles.listContainer}
@@ -195,11 +195,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  h4: {
+  heading: {
     fontSize: 16,
     fontWeight: '700',
-    margin: 10,
+    color: '#FFF',
+    textAlign: 'center',
+    marginTop: 10,
+    padding: 5,
     alignSelf: 'center',
+    backgroundColor: 'green',
+    width: '80%',
   },
   centerItem: {
     alignItems: 'center',

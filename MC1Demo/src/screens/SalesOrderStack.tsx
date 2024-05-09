@@ -4,14 +4,16 @@ import i18n from '../locales/i18n';
 import MyDayScreen from './MyDayScreen';
 import ProductStack from './ProductStack';
 import CheckoutScreen from './CheckoutScreen';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
 const SalesOrderStack = () => {
   useEffect(() => {
     i18n.changeLanguage('es');
+
   }, [])
+  const { t } = useTranslation();
 
   return (
     <Stack.Navigator>
@@ -32,7 +34,7 @@ const SalesOrderStack = () => {
           headerStyle: { height: 70 },
         }}
       />
-      <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: t('CheckOut') }}/>
+      <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: t('CheckOut') }} />
     </Stack.Navigator>
   );
 };

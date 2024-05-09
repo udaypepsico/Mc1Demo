@@ -55,12 +55,8 @@ const ProductItem = (props: any) => {
         <Image style={styles.photo} source={imageArrays[imageSource]} />
         <View style={styles.textContainer}>
           <Text style={styles.itemName}>{productName}</Text>
-          <Text style={styles.itemDetail}>
-            {productCode} | {productId}
-          </Text>
-          <Text>
-            ${productPrice} | {productWeight}
-          </Text>
+          <Text style={styles.itemCode}>{productCode || productId}</Text>
+          <Text style={styles.itemPrice}>${productPrice}</Text>
         </View>
       </View>
       <View style={styles.itemQuantityContainer}>
@@ -111,33 +107,18 @@ const ProductItem = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-  h4: {
-    fontSize: 16,
-    fontWeight: '700',
-    margin: 10,
-  },
-  centerItem: {
-    alignItems: 'center',
-  },
   item: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 5,
     backgroundColor: '#FFF',
     borderBottomColor: '#ccc',
     borderBottomWidth: 0.5,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     flex: 1,
   },
   itemContainer: {
     flex: 1,
     flexDirection: 'row',
-  },
-  header: {
-    padding: 8,
-    fontSize: 24,
-    color: 'white',
-    lineHeight: 48,
-    backgroundColor: '#ff0000',
   },
   photo: {
     width: 30,
@@ -148,20 +129,28 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#17A1D9',
   },
-  itemDetail: {
-    fontSize: 16,
+  itemCode: {
+    fontSize: 12,
+    color: '#333',
+    marginTop: 5,
+  },
+  itemPrice: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#666',
+    marginTop: 5,
   },
   itemQuantityContainer: {
     flex: 1,
     justifyContent: 'center',
-    paddingLeft: 5,
   },
   quantityCotainer: {
     flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   inputQuantity: {
     borderWidth: 1,
@@ -171,20 +160,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 5,
   },
-  increamentBtn: {
-    padding: 10,
-  },
   sugText: {
     textAlign: 'left',
-    paddingTop: 10,
+    paddingTop: 5,
+    marginLeft: 20,
   },
   totalText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#000',
-    flex: 1,
-    textAlign: 'right',
+    paddingLeft: 5,
     alignSelf: 'center',
+    minWidth: 50,
   },
 });
 

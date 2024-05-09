@@ -21,7 +21,6 @@ const HeaderSection = ({ updateVisitType,selectedVisitType }: { updateVisitType:
             <Pressable
               key={'_key ' + itemType}
               onPress={() => {
-                //setSelectedItem(itemType);
                 updateVisitType(itemType);
               }}
             >

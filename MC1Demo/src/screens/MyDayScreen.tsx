@@ -122,15 +122,8 @@ const MyDayScreen = () => {
     return <ErrorMessage message={credentialError.message}></ErrorMessage>;
 
   if (!credentialsData) return null;
-
-  function startMyDayButtonPressed(event: GestureResponderEvent): void {
-    event.preventDefault();
-    console.log('My days2 clicked');
-  }
-
   function itemSelected(id: number) {
     setSelectedIndexVisit({ ...selectedIndexVisit, selectedIndex: id });
-    // navigation.navigate('ProductListScreen');
   }
 
   const segmentValueChanged = (

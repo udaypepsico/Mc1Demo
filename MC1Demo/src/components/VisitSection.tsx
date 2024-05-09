@@ -11,15 +11,15 @@ const VisitSection = (props: any) => {
   
   return (
     <View style={styles.visitContainer}>
-      <View style={styles.totalVisitContainer}>
+      <View style={styles.textContainer}>
         <Text style={styles.textHeader}>{t("Total Visits")}</Text>
         <Text style={styles.textValue}>{totalVisits}</Text>
       </View>
-      <View style={styles.completedVisitContainer}>
+      <View style={styles.textContainer}>
         <Text style={styles.textHeader}>{t("Completed")}</Text>
         <Text style={styles.textValue}>{completedVisits}</Text>
       </View>
-      <View style={styles.remainingVisitContainer}>
+      <View style={styles.textContainer}>
         <Text style={styles.textHeader}>{t("Remaining")}</Text>
         <Text style={styles.textValue}>{remainingVisits}</Text>
       </View>
@@ -32,14 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  totalVisitContainer: {
-    alignItems: 'flex-start',
-  },
-  completedVisitContainer: {
+  textContainer: {
     alignItems: 'center',
-  },
-  remainingVisitContainer: {
-    alignItems: 'flex-end',
   },
   textHeader: {
     color: 'white',

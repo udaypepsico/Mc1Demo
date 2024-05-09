@@ -13,15 +13,15 @@ const CasesSection = () => {
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.plannedCasesContainer}>
           <Text style={styles.textHeader}>{t('Planned Cases')}</Text>
-          <Text style={styles.textSmallValue}>821 cs</Text>
+          <Text style={styles.textValue}>821 cs</Text>
         </View>
         <View style={styles.casesSoldContainer}>
           <Text style={styles.textHeader}>{t('Cases Sold')}</Text>
-          <Text style={styles.textSmallValue}>100 cs</Text>
+          <Text style={styles.textValue}>100 cs</Text>
         </View>
         <View style={styles.returnsContainer}>
           <Text style={styles.textHeader}>{t('Returns')}</Text>
-          <Text style={styles.textSmallValue}>0</Text>
+          <Text style={styles.textValue}>0</Text>
         </View>
       </ScrollView>
     </View>
@@ -31,20 +31,18 @@ const CasesSection = () => {
 const styles = StyleSheet.create({
   casesContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     margin: 20,
-    marginBottom: 30,
-    overflow: 'scroll',
   },
   plannedCasesContainer: {
     height: '100%',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     borderRightWidth: 1,
     borderRightColor: 'white',
     paddingRight: 20,
   },
   casesSoldContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     borderRightWidth: 1,
     borderRightColor: 'white',
     paddingLeft: 20,
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
   },
   returnsContainer: {
     paddingLeft: 20,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   textHeader: {
     color: 'white',
@@ -60,14 +58,8 @@ const styles = StyleSheet.create({
   },
   textValue: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: 'bold',
-  },
-  textSmallValue: {
-    color: 'white',
-    // fontSize: 16,
-    // fontWeight: 'bold',
-    // fontFamily:'Raleway-Bold'
   },
 });
 
