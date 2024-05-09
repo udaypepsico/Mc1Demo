@@ -1,5 +1,5 @@
 import { Image } from 'react-native';
-import logo from '../assets/img/logos/logo.png';
+import logo from '../assets/img/logos/PepsiCo_logo.svg.png';
 //import bootstrap from '../assets/css/bootstrap.min.css';
 // import bootstrap from '../../build/output';
 import styles from '../assets/css/style.css';
@@ -627,7 +627,7 @@ table th{
                               <div class="invoice-headar">
                                     <div class="row">
                                         <div class = "col-sm-12 flex-container justify-content-center">
-                                           ${!visitConfirmed ? `<h1>Not For Sale</h1>`: ``}
+                                           ${visitConfirmed && !visitConfirmed ? `<h1>Not For Sale</h1>`: ``}
                                         </div>
                                     </div>
                                   <div class="row">
