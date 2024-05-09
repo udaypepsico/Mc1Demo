@@ -88,7 +88,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     gcTime: Infinity,
     initialData: 0,
   });
-  
+
   const onCancel = () => {
     if (navigation.canGoBack) navigation.goBack();
   };
@@ -119,7 +119,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
         });
       }
 
-      const newVisitData =  queryClient.getQueryData<Visits[]>(['visits']);
+      const newVisitData = queryClient.getQueryData<Visits[]>(['visits']);
 
       console.log(newVisitData);
 
@@ -133,7 +133,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   const onConfirmedInvoice = () => {
     setConfirmAlert(false);
     updateVisit.mutate(true);
-    queryClient.setQueryData(['currentVisitIndex'],currentVisitIndexData+1 );
+    queryClient.setQueryData(['currentVisitIndex'], currentVisitIndexData + 1);
     createPDF();
   };
   const sendMail = (email: string) => {
@@ -151,10 +151,12 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     (value) => value.AccountId === accountId
   )!;
   const createPDF = async () => {
-    let options = {
+    let options: RNHTMLtoPDF.Options = {
       //Content to print
       html: HTMlInvoice({
-        example: 'valu2',
+        visitConfirmed: visitData?.find(
+          (value) => value.AccountId === accountId
+        )!.isVisited!,
         selectedOpportunityData,
         selectedVisit,
       }),
@@ -163,6 +165,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
       directory: 'Documents',
       height: 1200,
       width: Dimensions.get('window').width * 2,
+      base64: true,
     };
     let file = await RNHTMLtoPDF.convert(options);
     if (file && file.filePath) {
