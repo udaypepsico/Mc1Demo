@@ -22,6 +22,7 @@ import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Opportunity, OpportunityLineItem } from '../data/Record';
 import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
+import { imageArrays } from '../data/Products';
 
 const ProductScreen = ({ route }: Route) => {
   const { accountId } = route.params;
@@ -87,8 +88,6 @@ const ProductScreen = ({ route }: Route) => {
 
   const selectedOpportunityData = useSelectedOpportunityFetch(accountId,OpportunityData,OpportunityLineItemData);
 
-  console.log(selectedOpportunityData.length);
-
   const deleteProducts = useMutation({
     mutationKey: ['deleteproducts'],
     onMutate: async (payload: OpportunityLineItem) => {
@@ -138,7 +137,7 @@ const ProductScreen = ({ route }: Route) => {
   };
 
   const onProductSelectionChange = (item: any) => {
-    console.log(item);
+    console.log('selecteItem', item);
   };
   const renderItem: ListRenderItem<OpportunityLineItem> = useCallback(
     ({ item, index }) => (
@@ -154,15 +153,15 @@ const ProductScreen = ({ route }: Route) => {
         }}
       >
         <ProductItem
-          Id={item.Id}
+          id={item.Id}
           productId={item.Product2Id}
           productName={item.Product2.Name}
           productCode={item.ProductCode}
-          imageSource={1}
+          imageSource={imageArrays[index]}
           productWeight={1}
           productPrice={item.UnitPrice}
           productSuggestedQuantity={item.ListPrice}
-          productQuantity={item.Quantity}
+          productQuantity={item.Quantity || 0}
           onProductSelectionChange={onProductSelectionChange}
         />
       </Swipeable>

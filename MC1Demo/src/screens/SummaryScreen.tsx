@@ -10,11 +10,22 @@ import { Opportunity, OpportunityLineItem } from '../data/Record';
 import { DotIndicator } from 'react-native-indicators';
 import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
 import { useNavigation } from '@react-navigation/native';
+import ProductItem from '../components/ProductItem';
 
 const SummaryScreen = ({ route, navigate }: Route) => {
   const { accountId } = route.params;
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  let totalPrice = 0;
+  let totalPieces = 0;
+  const bxbChange = 0;
+  const mxbChange = 0;
+  const exchange = 0;
+  const gifts = 0;
+  const discount = 0;
+  const ieps = 0;
+  const iva = 0;
 
   const {
     isPending: opportunityPending,
@@ -47,18 +58,6 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   }
 
   const selectedOpportunityData = useSelectedOpportunityFetch(accountId, OpportunityData, OpportunityLineItemData);
-
-
-  let totalPrice = 0;
-  let totalPieces = 0;
-  const bxbChange = 0;
-  const mxbChange = 0;
-  const exchange = 0;
-  const gifts = 0;
-  const discount = 0;
-  const ieps = 0;
-  const iva = 0;
-
   selectedOpportunityData?.forEach((p: OpportunityLineItem) => {
     totalPrice += p.UnitPrice * p.Quantity;
     totalPieces += p.Quantity;
@@ -85,9 +84,9 @@ const SummaryScreen = ({ route, navigate }: Route) => {
         <Text style={styles.cell}>{t('Exchange')}</Text>
         <Text style={[styles.cell, styles.rightAlign]}>${exchange}</Text>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.cell}>{t('Total')}</Text>
-        <Text style={[styles.cell, styles.rightAlign]}>${total.toFixed(2)}</Text>
+      <View style={[styles.row, styles.greyBg]}>
+        <Text style={[styles.cell, styles.bold]}>{t('Total')}</Text>
+        <Text style={[styles.cell, styles.rightAlign, styles.bold]}>${total.toFixed(2)}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.cell}>{t('GiftProducts')}</Text>
@@ -105,13 +104,13 @@ const SummaryScreen = ({ route, navigate }: Route) => {
         <Text style={styles.cell}>IVA</Text>
         <Text style={[styles.cell, styles.rightAlign]}>${iva}</Text>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.cell}>{t('Subtotal')}</Text>
-        <Text style={[styles.cell, styles.rightAlign]}>${subTotal.toFixed(2)}</Text>
+      <View style={[styles.row, styles.greyBg]}>
+        <Text style={[styles.cell, styles.bold]}>{t('Subtotal')}</Text>
+        <Text style={[styles.cell, styles.rightAlign, , styles.bold]}>${subTotal.toFixed(2)}</Text>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.greyBg]}>
         <Text style={styles.cell}>{t('Pieces')}</Text>
-        <Text style={[styles.cell, styles.rightAlign]}>${totalPieces}</Text>
+        <Text style={[styles.cell, styles.rightAlign]}>{totalPieces}</Text>
       </View>
     </View>
   );
@@ -119,14 +118,17 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const ProductList = () => (
     <View style={styles.table}>
       {
-        selectedOpportunityData?.map((p: OpportunityLineItem) => {
-          return (
-            <View style={styles.row} key={p.Id}>
-              <Text style={styles.cell}>{p.Product2.Name}</Text>
-              <Text style={[styles.cell, styles.rightAlign]}>${p.UnitPrice}</Text>
-            </View>
-          )
-
+        selectedOpportunityData?.map((p: OpportunityLineItem, index) => {
+          return <ProductItem key={'itm_' + index}
+            id={p.Id}
+            productId={p.Product2Id}
+            productName={p.Product2.Name}
+            productCode={p.ProductCode}
+            productWeight={1}
+            productPrice={p.UnitPrice}
+            productSuggestedQuantity={p.ListPrice}
+            productQuantity={p.Quantity || 0}
+          />
         })
 
       }
@@ -150,13 +152,6 @@ const SummaryScreen = ({ route, navigate }: Route) => {
 
     </View>
   );
-
-  const checkoutConfirm = () => {
-    console.log('checkoutConfirm');
-  }
-  const checkoutCanceled = () => {
-    console.log('checkoutCanceled');
-  }
 
   const checkhoutHander = () => {
     navigation.navigate('Checkout' as never);
@@ -209,14 +204,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "#fff",
   },
+  bold: {
+    fontWeight: 'bold'
+  },
   row: {
     flexDirection: "row",
+    padding: 5,
+    borderColor: '#EEE',
+    borderWidth: 0.2,
+  },
+  greyBg: {
+    backgroundColor: '#DDD',
+  },
+  liteGreyBg: {
+    backgroundColor: '#EEE',
   },
   cell: {
     flex: 1,
     padding: 5,
     textAlign: "left",
-    fontSize: 18,
+    fontSize: 16,
   },
   rightAlign: {
     textAlign: "right"
@@ -242,6 +249,9 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 10,
     borderRadius: 10,
+  },
+  w80: {
+    maxWidth: '80%',
   }
 });
 

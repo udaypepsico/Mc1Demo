@@ -1,5 +1,4 @@
 import { memo, useState } from 'react';
-import { ProductsType, imageArrays } from '../data/Products';
 import React from 'react';
 import { StyleSheet, View, Text, Image, TextInput, Button } from 'react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -7,16 +6,29 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { increamentalValue } from '../core/utils';
 import { OpportunityLineItem } from '../data/Record';
 
-const ProductItem = (props: any) => {
+export interface ProductInterface {
+  id?: string;
+  productName?: string;
+  productId?: string;
+  productCode?: string;
+  productPrice?: number;
+  productQuantity?: number;
+  productWeight?: any;
+  productSuggestedQuantity?: number;
+  imageSource?: any;
+  onProductSelectionChange?: any;
+}
+
+const ProductItem = (props: ProductInterface) => {
   const {
-    Id,
+    id,
     productName,
     productId,
     productCode,
-    productPrice,
-    productQuantity,
-    productWeight,
-    productSuggestedQuantity,
+    productPrice = 0,
+    productQuantity = 0,
+    productWeight = 0,
+    productSuggestedQuantity = 0,
     imageSource,
   } = props;
 
@@ -30,7 +42,7 @@ const ProductItem = (props: any) => {
         return (
           old &&
           old.map((obj) =>
-            obj.Id === Id ? { ...obj, Quantity: payload } : obj
+            obj.Id === id ? { ...obj, Quantity: payload } : obj
           )
         );
       });
@@ -52,7 +64,9 @@ const ProductItem = (props: any) => {
   return (
     <View style={styles.item}>
       <View style={styles.itemContainer}>
-        <Image style={styles.photo} source={imageArrays[imageSource]} />
+        {imageSource &&
+          <Image style={styles.photo} source={imageSource} />
+        }
         <View style={styles.textContainer}>
           <Text style={styles.itemName}>{productName}</Text>
           <Text style={styles.itemCode}>{productCode || productId}</Text>
@@ -100,7 +114,9 @@ const ProductItem = (props: any) => {
             ${(productQuantity * productPrice)}
           </Text>
         </View>
-        <Text style={styles.sugText}>Sug Cant. {productSuggestedQuantity}</Text>
+        {productSuggestedQuantity > 0 &&
+          <Text style={styles.sugText}>Sug Cant. {productSuggestedQuantity}</Text>
+        }
       </View>
     </View>
   );
