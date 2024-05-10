@@ -1,6 +1,6 @@
 import React from 'react';
 import { memo } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView, Route, Alert } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchOpportunity, fetchOpportunityLineItem } from '../lib/api';
 import { useTranslation } from 'react-i18next';
@@ -156,6 +156,9 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const checkhoutHander = () => {
     navigation.navigate('Checkout' as never);
   }
+  const printHandler = () =>{
+    Alert.alert('Printer is not configured');
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -186,7 +189,7 @@ const SummaryScreen = ({ route, navigate }: Route) => {
         <ExpandableListItem
           clickedChildren={<Text style={styles.itemName}>{t('Print')} {t('Ticket')}</Text>}
           expandedChildren={
-            <PaperButton>PRINT</PaperButton>
+            <PaperButton icon={'printer'} style={styles.printBtn} mode='outlined' onPress={printHandler}>{t('Print').toUpperCase()}</PaperButton>
           }
         />
       </ScrollView>
@@ -250,8 +253,10 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
   },
-  w80: {
-    maxWidth: '80%',
+  printBtn: {
+    width: '50%',
+    alignSelf: 'center',
+    margin: 10,
   }
 });
 

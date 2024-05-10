@@ -10,7 +10,7 @@ const ExpandableListItem = ({
   clickedChildren: React.ReactNode;
   expandedChildren: React.ReactNode;
 }) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const [spinValue] = useState(new Animated.Value(0));
 
