@@ -121,8 +121,6 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
 
       const newVisitData = queryClient.getQueryData<Visits[]>(['visits']);
 
-      console.log(newVisitData);
-
       return { previousVisits };
     },
     onError: (error, variables, context) => {

@@ -119,10 +119,10 @@ const SummaryScreen = ({ route, navigate }: Route) => {
   const ProductList = () => (
     <View style={styles.table}>
       {
-        selectedOpportunityData?.map((p: any) => {
+        selectedOpportunityData?.map((p: OpportunityLineItem) => {
           return (
             <View style={styles.row} key={p.Id}>
-              <Text style={styles.cell}>{p.Name}</Text>
+              <Text style={styles.cell}>{p.Product2.Name}</Text>
               <Text style={[styles.cell, styles.rightAlign]}>${p.UnitPrice}</Text>
             </View>
           )
