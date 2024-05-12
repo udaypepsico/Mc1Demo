@@ -35,7 +35,7 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
               Product2: {Name:payload.Name,Attributes:payload.attributes},
               OpportunityId: selectedOpportunityId,
               UnitPrice: 10,
-              Description: 'string'
+              Description: `Test Opportunity Line Item added on ${Date.now()}`
             },
           ]
         );
@@ -43,8 +43,13 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
 
       const newproducts = queryClient.getQueryData(['opportunityLineItem']);
 
+      console.log(newproducts);
+
       return { newproducts };
-    }
+    },
+    onError: (error, variables, context) => {
+      console.log('Error' + error);
+    },
   });
   const productIcon = product.DisplayUrl ? product.DisplayUrl : 'https://cdn.iconscout.com/icon/free/png-256/free-pepsi-3442215-2875978.png';
 

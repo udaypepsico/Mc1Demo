@@ -1,12 +1,6 @@
 import React, { useCallback } from 'react';
 import { memo } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ListRenderItem,
-  Route,
-} from 'react-native';
+import { StyleSheet, View, Text, ListRenderItem, Route } from 'react-native';
 
 import ProductItem from '../components/ProductItem';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   fetchOpportunity,
   fetchOpportunityLineItem,
-  getSelectedOpportunityData
+  getSelectedOpportunityData,
 } from '../lib/api';
 import { DotIndicator } from 'react-native-indicators';
 import SearchSection from '../components/SearchSection';
@@ -23,6 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Opportunity, OpportunityLineItem } from '../data/Record';
 import { useSelectedOpportunityFetch } from '../hooks/useSelectedOpportunityFetch';
 import { imageArrays } from '../data/Products';
+import BottomSheetComponent from '../components/BottomSheetComponent';
 
 const ProductScreen = ({ route }: Route) => {
   const { accountId } = route.params;
@@ -72,21 +67,24 @@ const ProductScreen = ({ route }: Route) => {
     initialData: '',
   });
 
-
   const {
     isPending: opportunityIdPending,
     error: opportunityIdFetchError,
     data: OpportunityId,
     isFetching: isOpportunityIdFetching,
   } = useQuery<string, Error>({
-    queryKey: ['opportunityId',{accountId,OpportunityData}],
-    queryFn: () => getSelectedOpportunityData(accountId,OpportunityData),
+    queryKey: ['opportunityId', { accountId, OpportunityData }],
+    queryFn: () => getSelectedOpportunityData(accountId, OpportunityData),
     staleTime: Infinity,
     gcTime: Infinity,
     initialData: '',
   });
 
-  const selectedOpportunityData = useSelectedOpportunityFetch(accountId,OpportunityData,OpportunityLineItemData);
+  const selectedOpportunityData = useSelectedOpportunityFetch(
+    accountId,
+    OpportunityData,
+    OpportunityLineItemData
+  );
 
   const deleteProducts = useMutation({
     mutationKey: ['deleteproducts'],
@@ -99,7 +97,7 @@ const ProductScreen = ({ route }: Route) => {
         'opportunityLineItem',
       ]);
 
-      if(previousProducts){
+      if (previousProducts) {
         queryClient.setQueryData<OpportunityLineItem[]>(
           ['opportunityLineItem'],
           (old) => {
@@ -172,7 +170,7 @@ const ProductScreen = ({ route }: Route) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{t('Planograms')}</Text>
-      <SearchSection />
+      <SearchSection/>
       <FlatList
         style={styles.listContainer}
         data={selectedOpportunityData}
@@ -185,7 +183,11 @@ const ProductScreen = ({ route }: Route) => {
             <Text>{t('NoRecordFound')}</Text>
           </View>
         }
+        ListFooterComponent={
+          <View style={{ height: 200, backgroundColor: 'white' }}></View>
+        }
       />
+      <BottomSheetComponent />
     </View>
   );
 };

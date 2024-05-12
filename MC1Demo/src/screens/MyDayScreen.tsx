@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import {
   GestureResponderEvent,
   NativeSyntheticEvent,
@@ -43,6 +43,8 @@ import DateVisitComponent from '../components/DateVisitComponent';
 import { generateDateTime } from '../core/utils';
 import { useTranslation } from 'react-i18next';
 import RouteComponent from '../components/RouteComponent';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheetComponent from '../components/BottomSheetComponent';
 
 const results = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -227,7 +229,7 @@ const MyDayScreen = () => {
           </VirtualizedListComponent>
           <DialogComponent
             visible={dialogVisible}
-            message={t("CheckInAskMessage")}
+            message={t('CheckInAskMessage')}
             hideDialog={() => {
               setDialogVisible(false);
             }}
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-  },
+  }
 });
 
 export default memo(MyDayScreen);
