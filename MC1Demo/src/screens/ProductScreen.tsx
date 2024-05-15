@@ -170,7 +170,6 @@ const ProductScreen = ({ route }: Route) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{t('Planograms')}</Text>
-      <SearchSection/>
       <FlatList
         style={styles.listContainer}
         data={selectedOpportunityData}
