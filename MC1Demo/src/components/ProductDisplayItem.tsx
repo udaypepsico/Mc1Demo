@@ -15,19 +15,16 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
       await queryClient.cancelQueries({ queryKey: ['opportunityLineItem'] });
 
       const accountId = queryClient.getQueryData(['accountId']) as string;
-
       const OpportunityData = queryClient.getQueryData(['opportunity']) as Opportunity[];
-
       const selectedOpportunityId = queryClient.getQueryData(['opportunityId',{accountId,OpportunityData}]) as string;
 
       queryClient.setQueryData<OpportunityLineItem[]>(['opportunityLineItem'], (old) => {
         return (
           old && payload && [
-            ...old,
             {
-              Quantity: 10,
+              Quantity: 1,
               ListPrice: 10,
-              Id: 'string',
+              Id: `id_${payload.Id}`,
               Product2Id: payload.Id,
               ProductCode: payload.productCode,
               TotalPrice: 10,
@@ -37,14 +34,12 @@ const ProductDisplayItem = ({ product,closeSearchList }: { product: ProductsType
               UnitPrice: 10,
               Description: `Test Opportunity Line Item added on ${Date.now()}`
             },
+            ...old
           ]
         );
       });
 
       const newproducts = queryClient.getQueryData(['opportunityLineItem']);
-
-      console.log(newproducts);
-
       return { newproducts };
     },
     onError: (error, variables, context) => {

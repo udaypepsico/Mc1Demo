@@ -104,10 +104,10 @@ const CustomerItem = ({
           >
             <Text>
               {index === currentVisitIndexData
-                ? 'Current Visit'
+                ? t('Current Visit')
                 : customerRecord.isVisited
-                ? 'Visited'
-                : 'Upcoming Visit'}
+                ? t('Visited')
+                : t('Upcoming Visit')}
             </Text>
           </View>
         )}
@@ -153,19 +153,19 @@ const CustomerItem = ({
               <Text lineBreakMode="middle" style={{ color: '#878787' }}>
                 {(customerRecord.Account!.ShippingStreet
                   ? customerRecord.Account!.ShippingStreet + ' '
-                  : '') +
+                  : 'H 2342') +
                   (customerRecord.Account!.ShippingCity
                     ? customerRecord.Account!.ShippingCity + ' '
-                    : '') +
+                    : 'Maxico City') +
                   (customerRecord.Account!.ShippingState
                     ? customerRecord.Account!.ShippingState + ' '
-                    : '') +
+                    : 'ITL') +
                   (customerRecord.Account!.ShippingCountry
                     ? customerRecord.Account!.ShippingCountry + ' '
-                    : '') +
+                    : 'SP') +
                   (customerRecord.Account!.ShippingPostalCode
                     ? customerRecord.Account!.ShippingPostalCode + ' '
-                    : '')}
+                    : '32424')}
               </Text>
             </View>
             {visitTypeData.visitType === 'Past' && (

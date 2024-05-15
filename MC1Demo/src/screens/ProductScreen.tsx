@@ -11,7 +11,6 @@ import {
   getSelectedOpportunityData,
 } from '../lib/api';
 import { DotIndicator } from 'react-native-indicators';
-import SearchSection from '../components/SearchSection';
 import { FlatList, Swipeable } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Opportunity, OpportunityLineItem } from '../data/Record';

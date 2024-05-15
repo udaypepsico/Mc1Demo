@@ -28,19 +28,12 @@ import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import SalesOrderStack from './src/screens/SalesOrderStack';
-import {
-  QueryClient,
-  QueryClientProvider,
-  focusManager,
-} from '@tanstack/react-query';
+import { QueryClient, focusManager } from '@tanstack/react-query';
 import { useOnlineManager } from './src/hooks/useOnlineManager';
 import { useAppState } from './src/hooks/useAppState';
 import { AppStateStatus, Platform } from 'react-native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import {
-  PersistQueryClientProvider,
-  PersistedClient,
-} from '@tanstack/react-query-persist-client';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider } from 'react-native-paper';
 import { theme } from './src/core/theme';
@@ -91,13 +84,6 @@ export const App = () => {
             <SalesOrderStack />
           </Provider>
         </GestureHandlerRootView>
-        {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="ContactList"
-            component={ContactListScreen}
-            options={{ presentation: 'card' }}
-          />
-        </Stack.Navigator> */}
       </PersistQueryClientProvider>
     </NavigationContainer>
   );

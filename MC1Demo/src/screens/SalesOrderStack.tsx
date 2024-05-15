@@ -27,7 +27,7 @@ const SalesOrderStack = () => {
         component={ProductStack}
         options={{
           presentation: 'card',
-          headerShown: true,
+          headerShown: false,
           title: '',
           headerBackTitleVisible: false,
           headerTintColor: "#6A00C2",

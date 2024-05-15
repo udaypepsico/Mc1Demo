@@ -30,7 +30,6 @@ export interface Account {
   PhotoUrl: string;
   ShippingCountry: string;
   Description: string;
-
 }
 export interface Visits {
   Id: string;

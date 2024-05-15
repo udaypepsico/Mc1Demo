@@ -47,7 +47,7 @@ const VirtualizedListComponent = ({
       queryClient.invalidateQueries({ queryKey: ['visits'] });
     }
   };
-
+  
   const renderItem: ListRenderItem<Visits> = useCallback(
     ({ item, index }: { item: Visits; index: number }) => (
       <View

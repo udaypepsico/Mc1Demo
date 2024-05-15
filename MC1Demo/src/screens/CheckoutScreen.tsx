@@ -21,6 +21,7 @@ import InvoiceDialog from '../components/InvoiceDialog';
 import MailDialog from '../components/MailDialog';
 import DialogComponent from '../components/DialogComponent';
 import { useSendEmail } from '../hooks/useSendEmail';
+import BottomSearchComponent from '../components/BottomSearchComponent';
 
 const CheckoutScreen = ({ route, navigation }: Route) => {
   //console.log(route.params, navigation);
@@ -29,6 +30,7 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   const [showPdf, setShowPdf] = useState(false);
   const [showMail, setShowMail] = useState(false);
   const [confirmAlert, setConfirmAlert] = useState(false);
+  const [searchKey, setSearchKey] = useState('');
 
   const { t } = useTranslation();
   const {
@@ -99,6 +101,9 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
     setConfirmAlert(true);
   };
 
+  const searchHandler = (key: string) => {
+    setSearchKey(key.toLocaleLowerCase());
+  }
   const updateVisit = useMutation({
     mutationKey: ['updateVisit'],
     onMutate: async (payload: boolean) => {
@@ -196,21 +201,24 @@ const CheckoutScreen = ({ route, navigation }: Route) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {selectedOpportunityData?.map((item, index) => (
-          <CheckoutItem key={'itme_' + index} item={item} />
-        ))}
+        {selectedOpportunityData?.map((item, index) => {
+          if (item.Product2?.Name.toLocaleLowerCase().indexOf(searchKey) !== -1)
+            return (
+              <CheckoutItem key={'itme_' + index} item={item} />
+            )
+        })}
       </ScrollView>
       <View style={styles.itemRow}>
         <PaperButton mode="contained" onPress={createPDF}>
           {t('Preview')} {t('Invoice')}
         </PaperButton>
-        {!visitData?.find((value) => value.AccountId === accountId)!
-          .isVisited && (
+        {!visitData?.find((value) => value.AccountId === accountId)?.isVisited && (
           <PaperButton mode="contained" onPress={showConfirmAlert}>
             {t('Confirm')}
           </PaperButton>
         )}
       </View>
+      <BottomSearchComponent searchHandler={searchHandler} />
       <DialogComponent
         visible={confirmAlert}
         hideDialog={hideConfirm}
@@ -245,6 +253,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
+    marginTop: -50,
   },
   itemContainer: {
     borderBottomWidth: 1,
