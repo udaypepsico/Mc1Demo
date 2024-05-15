@@ -81,6 +81,7 @@
         "react-native-tab-view": "^3.5.2",
         "react-native-vector-icons": "^10.0.3",
         "resolve-url-loader": "^5.0.0",
+        "run": "^1.5.0",
         "sass-loader": "^14.2.1",
         "style-loader": "^4.0.0",
         "sugarss": "^4.0.1",
